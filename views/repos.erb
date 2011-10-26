@@ -1,0 +1,16 @@
+<h1>All Addon Repos <%= @repos.count %></h1>
+
+<% for repo in @repos %>
+<div style="border:1px solid #000; margin: 5px; padding: 5px">
+  <h2><a href="/repos/<%= repo.id %>"><%= repo.name %></a></h2> 
+  <p><a href="<%= repo.github_url %>">view on Github</a></p>
+  <form action="/repos/<%= repo.id %>" method="post">
+    <input type="hidden" name="_method" value="delete" />
+    <input type="submit" value="destroy" />
+  </form>
+  <h3>by <%= repo.owner %></h3>
+  <p>
+    <%= repo.description %>
+  </p>
+</div>
+<% end %>

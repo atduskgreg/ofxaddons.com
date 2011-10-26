@@ -1,0 +1,12 @@
+<h1><%= @repo.name %></h1> 
+<h2>by <%= @repo.owner %></h2>
+
+ <p><a href="<%= @repo.github_url %>">view on Github</a></p>
+
+<p>
+  <%= @repo.description %>
+</p>
+<form action="/repos/<%= @repo.id %>" method="post">
+  <input type="hidden" name="_method" value="delete" />
+  <input type="submit" value="destroy" />
+</form>
