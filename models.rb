@@ -1,8 +1,10 @@
 require 'rubygems'
+require "bundler/setup"
 require 'dm-core'
 require 'httparty'
+require 'dm-migrations'
 
-DataMapper.setup(:default, 'mysql://localhost/ofxaddons')
+DataMapper.setup(:default, ENV['DATABASE_URL'] || 'mysql://localhost/ofxaddons')
 
 class Repo
   include DataMapper::Resource

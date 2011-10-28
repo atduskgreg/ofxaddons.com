@@ -1,0 +1,6 @@
+source "http://rubygems.org"
+gem "sinatra"
+gem "dm-mysql-adapter"
+gem "dm-core"
+gem "httparty"
+gem "dm-migrations"
