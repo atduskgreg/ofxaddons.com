@@ -14,7 +14,12 @@ GEM
     dm-mysql-adapter (1.2.0)
       dm-do-adapter (~> 1.2.0)
       do_mysql (~> 0.10.6)
+    dm-postgres-adapter (1.2.0)
+      dm-do-adapter (~> 1.2.0)
+      do_postgres (~> 0.10.6)
     do_mysql (0.10.7)
+      data_objects (= 0.10.7)
+    do_postgres (0.10.7)
       data_objects (= 0.10.7)
     httparty (0.8.1)
       multi_json
@@ -37,5 +42,6 @@ DEPENDENCIES
   dm-core
   dm-migrations
   dm-mysql-adapter
+  dm-postgres-adapter
   httparty
   sinatra
