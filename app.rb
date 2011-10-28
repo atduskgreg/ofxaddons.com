@@ -1,6 +1,6 @@
 require 'rubygems'
 require 'sinatra'
-require 'models'
+require './models'
 
 get "/" do
   @repos = Repo.all(:order => :name.asc)
