@@ -5,5 +5,25 @@
   </head>
   <body>
     <h1>This will include James' instructions for how to make a new addon.</h1>
+  <pre>
+What makes a good addon?
+
+- the Readme:
+=> lists dependencies w/gh urls
+=> explains any installation gotchas
+=> has example usage
+
+- folder layout MUST be:
+=> repo is named ofxMyAddon
+=> src/ is required. Addon code goes here
+=> optionally libs/ for non-OF code
+=> example_* has example project(s)
+=> each of those has (ideally) XCode, code-blocks (for win and linux)
+=> examples should compile successfully from within OF/addons/ofxMyAddon/example_*
+
+- start by downloading and modifying: http://github.com/obviousjim/ofxExampleAddon
+=> run renaming script
+  </pre>
+  
   </body>
 </html>
