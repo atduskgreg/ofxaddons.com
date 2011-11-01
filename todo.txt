@@ -1,0 +1,44 @@
+- sort by most recently updated
+- script to update pushed_at
+- rss feed of changes chronologically threaded for all apps
+- tweet new repos
+- get forks: show any that have more recent pushed_at
+- view by person
+
+- admin interface
+- users can flag repos
+- categories:
+=> GUI
+=> iOS
+=> Physics
+=> Hardware Interface
+=> Sound
+=> Web/Networking
+=> Animation
+=> Graphics
+=> Utilities
+=> Computer Vision
+=>
+
+- flag repos as dont-ever-include
+- rerunnable import process
+
+- what makes a good addon?
+
+- the Readme:
+=> lists dependencies w/gh urls
+=> explains any installation gotchas
+=> has example usage
+
+- folder layout MUST be:
+=> repo is named ofxMyAddon
+=> src/ is required. Addon code goes here
+=> optionally libs/ for non-OF code
+=> example_* has example project(s)
+=> each of those has (ideally) XCode, code-blocks (for win and linux)
+=> examples should compile successfully from within OF/addons/ofxMyAddon/example_*
+
+- start by downloading and modifying: http://github.com/obviousjim/ofxExampleAddon
+=> run renaming script
+
+- shame
