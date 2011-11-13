@@ -1,12 +1,20 @@
 <h1>All <%= @repo_count %> Repos</h1>
 
+<ul>
+<% for category in @categories %>
+  <li><a href="#<%= category.slug %>"><%= category.name  %></a> (<%= category.repos.count %>)</li>
+<% end %>
+<% unless @uncategorized.empty? %>
+<li><a href="#uncategorized">Uncategorized</a> (<%= @uncategorized.length %>)</li>
+<% end %>
+</ul>
 
 <% for category in @categories %>
 
-<h2><%= category.name %></h2>
+<h2><a name="<%= category.slug %>"><%= category.name %></a></h2>
   <ul>
     
-  <% for repo in category.repos %>
+  <% for repo in category.repos.sort_by{|r| r.name } %>
     <li>
       <p><a href="/repos/<%= repo.id %>"><%= repo.name %></a> by <%= repo.owner %>
       <p>
@@ -20,9 +28,9 @@
 
 
 <% end %>
+<% unless @uncategorized.empty? %>
 
 <h2>Uncategorized</h2>
-
  <ul>
     
   <% for repo in @uncategorized %>
@@ -36,3 +44,4 @@
 
   <% end %>
   </ul>
+  <% end %>

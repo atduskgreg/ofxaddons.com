@@ -3,6 +3,7 @@ require "bundler/setup"
 require 'dm-core'
 require 'httparty'
 require 'dm-migrations'
+require 'dm-aggregates'
 
 DataMapper.setup(:default, ENV['DATABASE_URL'] || 'mysql://localhost/ofxaddons')
 
@@ -13,6 +14,10 @@ class Category
   property :name, String
   
   has n, :repos
+  
+  def slug
+    name.downcase.gsub(/\W/, '')
+  end
 end
 
 class Repo

@@ -25,7 +25,7 @@ end
 get "/" do
   @categories = Category.all(:order => :name.asc)
   
-  @repo_count = Repo.count
+  @repo_count = Repo.count(:conditions => ['not_addon = ?', 'false'])
   
   @uncategorized = Repo.all(:not_addon => false, :category => nil, :order => :name.asc)
   erb :repos
