@@ -1,4 +1,10 @@
 <h1>Administer Repos</h1>
+<p><em>Total: <%= @uncategorized.length + @categorized.length + @not_addons.length %></em></p>
+
+<p><em>Uncategorized: <%= @uncategorized.length %></em></p>
+<p><em>Categorized: <%= @categorized.length %></em></p>
+<p><em>Blocked: <%= @not_addons.length %></em></p>
+
 
 <h2>Uncategorized</h2>
 
@@ -14,11 +20,59 @@
   
   <form action="/repos/<%= repo.id %>" method="post">
     <input type="hidden" name="_method" value="put" />
+    <select name="repo[category_id]">
+      <% for category in @categories %>
+      <option value="<%= category.id %>"><%= category.name %></option>
+      <% end %>
+    </select>
+      <input type="submit" value="Save" />
+
+  </form>
+  
+  <form action="/repos/<%= repo.id %>" method="post">
+    <input type="hidden" name="_method" value="put" />
     <input type="hidden" name="repo[not_addon]" value="true" />
 
     <input type="submit" value="NOT AN ADDON" />
   </form>
 </div>
+<% end %>
+
+<h2>Categorized</h2>
+
+<% for category in @categories %>
+
+  <h3><%= category.name %></h3>
+  <% for repo in category.repos %>
+    <div style="border:1px solid #000; margin: 5px; padding: 5px">
+  <h2><a href="/repos/<%= repo.id %>"><%= repo.name %></a></h2> 
+  <p><a href="<%= repo.github_url %>">view on Github</a></p>
+
+  <h3>by <%= repo.owner %></h3>
+  <p>
+    <%= repo.description %>
+  </p>
+  
+  <form action="/repos/<%= repo.id %>" method="post">
+    <input type="hidden" name="_method" value="put" />
+    <select name="repo[category_id]">
+      <% for category in @categories %>
+      <option value="<%= category.id %>"><%= category.name %></option>
+      <% end %>
+    </select>
+      <input type="submit" value="Save" />
+
+  </form>
+  
+  <form action="/repos/<%= repo.id %>" method="post">
+    <input type="hidden" name="_method" value="put" />
+    <input type="hidden" name="repo[not_addon]" value="true" />
+
+    <input type="submit" value="NOT AN ADDON" />
+  </form>
+</div>
+  <% end %>
+
 <% end %>
 
 <h2>Blocked as Not Addons</h2>

@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'sinatra'
 require './models'
+require 'yaml'
 
 helpers do
 
@@ -13,13 +14,20 @@ helpers do
 
   def authorized?
     @auth ||=  Rack::Auth::Basic::Request.new(request.env)
-    @auth.provided? && @auth.basic? && @auth.credentials && @auth.credentials == ['admin', 'admin']
+    
+    user = User.first(:username => "admin")
+    
+    @auth.provided? && @auth.basic? && @auth.credentials && @auth.credentials == [user.username, user.password]
   end
 
 end
 
 get "/" do
-  @repos = Repo.all(:not_addon => false, :order => :name.asc)
+  @categories = Category.all(:order => :name.asc)
+  
+  @repo_count = Repo.count
+  
+  @uncategorized = Repo.all(:not_addon => false, :category => nil, :order => :name.asc)
   erb :repos
 end
 
@@ -38,6 +46,8 @@ end
 
 get "/admin" do
   protected!
+  
+  @categories = Category.all
   
   @not_addons = Repo.all(:not_addon => true, :order => :name.asc)
   

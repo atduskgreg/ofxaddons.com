@@ -1,4 +1,4 @@
-- sort by most recently updated
+- make importer hip to not_addon repos
 - script to update pushed_at
 - rss feed of changes chronologically threaded for all apps
 - tweet new repos
@@ -41,3 +41,11 @@
 => run renaming script
 
 - shame
+
+People to Nag:
+
+- Memo / msalibs
+- saynono / ofxIsadora
+- ketchupok / ofxKetchupok (rename to ofxCsound)
+- fx-lange:  https://github.com/fx-lange/ofxSptaUtils
+- https://github.com/vtron/ofxVtron

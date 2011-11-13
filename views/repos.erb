@@ -1,13 +1,38 @@
-<h1>All Addon Repos <%= @repos.count %></h1>
+<h1>All <%= @repo_count %> Repos</h1>
 
-<% for repo in @repos %>
-<div style="border:1px solid #000; margin: 5px; padding: 5px">
-  <h2><a href="/repos/<%= repo.id %>"><%= repo.name %></a></h2> 
-  <p><a href="<%= repo.github_url %>">view on Github</a></p>
 
-  <h3>by <%= repo.owner %></h3>
-  <p>
-    <%= repo.description %>
-  </p>
-</div>
+<% for category in @categories %>
+
+<h2><%= category.name %></h2>
+  <ul>
+    
+  <% for repo in category.repos %>
+    <li>
+      <p><a href="/repos/<%= repo.id %>"><%= repo.name %></a> by <%= repo.owner %>
+      <p>
+        <em><%= repo.description %> [<a href="<%= repo.github_url %>">view on Github</a>]</em>
+      </p>
+      
+    </li>
+
+  <% end %>
+  </ul>
+
+
 <% end %>
+
+<h2>Uncategorized</h2>
+
+ <ul>
+    
+  <% for repo in @uncategorized %>
+    <li>
+      <p><a href="/repos/<%= repo.id %>"><%= repo.name %></a> by <%= repo.owner %>
+      <p>
+        <%= repo.description %> [<a href="<%= repo.github_url %>">view on Github</a>]
+      </p>
+      
+    </li>
+
+  <% end %>
+  </ul>

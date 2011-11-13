@@ -6,3 +6,21 @@
 <p>
   <%= @repo.description %>
 </p>
+
+ <form action="/repos/<%= @repo.id %>" method="post">
+    <input type="hidden" name="_method" value="put" />
+    <select name="repo[category_id]">
+      <% for category in Category.all %>
+      <option value="<%= category.id %>"><%= category.name %></option>
+      <% end %>
+    </select>
+      <input type="submit" value="Save" />
+
+  </form>
+
+  <form action="/repos/<%= @repo.id %>" method="post">
+    <input type="hidden" name="_method" value="put" />
+    <input type="hidden" name="repo[not_addon]" value="true" />
+
+    <input type="submit" value="NOT AN ADDON" />
+  </form>
