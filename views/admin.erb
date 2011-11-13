@@ -1,0 +1,34 @@
+<h1>Administer Repos</h1>
+
+<h2>Uncategorized</h2>
+
+<% for repo in @uncategorized %>
+<div style="border:1px solid #000; margin: 5px; padding: 5px">
+  <h2><a href="/repos/<%= repo.id %>"><%= repo.name %></a></h2> 
+  <p><a href="<%= repo.github_url %>">view on Github</a></p>
+
+  <h3>by <%= repo.owner %></h3>
+  <p>
+    <%= repo.description %>
+  </p>
+  
+  <form action="/repos/<%= repo.id %>" method="post">
+    <input type="hidden" name="_method" value="put" />
+    <input type="hidden" name="repo[not_addon]" value="true" />
+
+    <input type="submit" value="NOT AN ADDON" />
+  </form>
+</div>
+<% end %>
+
+<h2>Blocked as Not Addons</h2>
+
+<% for repo in @not_addons %>
+  <ul>
+    <li><a href="<%= repo.github_url %>"><%= repo.owner  %>/<%= repo.name %></a>
+      <em><%= repo.description %></em>
+      </li>
+    
+  </ul>
+
+<% end %>

@@ -6,6 +6,15 @@ require 'dm-migrations'
 
 DataMapper.setup(:default, ENV['DATABASE_URL'] || 'mysql://localhost/ofxaddons')
 
+class Category
+  include DataMapper::Resource
+
+  property :id, Serial
+  property :name, String
+  
+  has n, :repos
+end
+
 class Repo
   include DataMapper::Resource
   
@@ -23,6 +32,11 @@ class Repo
 
   # to uniquely specify a repo
   property :github_slug, String
+  
+  property :not_addon, Boolean, :default => false
+  property :incomplete, Boolean, :default => false
+  
+  belongs_to :category, :required => false
   
   def self.exists?(params={})
     Repo.first(:github_slug => "#{params['owner']}/#{params['name']}")
@@ -59,7 +73,4 @@ class Repo
   end
 end
 
-# class Addon
-#   include DataMapper::Resource
-#   property :id, Serial
-# end
+DataMapper.finalize
