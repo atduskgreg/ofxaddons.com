@@ -6,7 +6,3 @@
 <p>
   <%= @repo.description %>
 </p>
-<form action="/repos/<%= @repo.id %>" method="post">
-  <input type="hidden" name="_method" value="delete" />
-  <input type="submit" value="destroy" />
-</form>
