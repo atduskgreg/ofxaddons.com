@@ -40,6 +40,9 @@ put "/repos/:repo_id" do
 end
 
 get "/repos/:repo_id" do
+    @categories = Category.all(:order => :name.asc)
+  @uncategorized = Repo.all(:not_addon => false, :category => nil, :order => :name.asc)
+
   @repo = Repo.get(params[:repo_id])
   erb :repo
 end

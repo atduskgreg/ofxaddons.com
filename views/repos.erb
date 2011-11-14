@@ -1,9 +1,9 @@
 <div id="nav" class="span-23 last">
 <% for category in @categories %>
-  <a href="#<%= category.slug %>"><%= category.name  %></a> / 
+  <a href="/#<%= category.slug %>"><%= category.name  %></a> / 
 <% end %>
 <% unless @uncategorized.empty? %>
-<a href="#uncategorized">Uncategorized</a> (<%= @uncategorized.length %>)
+<a href="/#uncategorized">Uncategorized</a> (<%= @uncategorized.length %>)
 <% end %>
 </div>
 
