@@ -112,6 +112,10 @@
         background: none;
       }
       
+      #header p a:hover{
+          color: #fff;
+      }
+      
       .repo_page h2 {
         border-bottom: 14px solid #B9BBBD;
       }
