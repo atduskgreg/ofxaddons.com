@@ -1,80 +1,211 @@
-ofxIsadoraKinect
-http://l:3000/repos/334
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+	ofxIsadoraKinect
+	http://l:3000/repos/334
+	
+	JG: can't run this b/c i don't have isadora, but we should comment because its' interesting
 
-ofxGST
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-ofxCVPosit
-https://github.com/pach/ofxCvPosit
-http://www.youtube.com/watch?v=S4Kg6MDl-no
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	ofxCVPosit
+	https://github.com/pach/ofxCvPosit
+	http://www.youtube.com/watch?v=S4Kg6MDl-no
+
+	JG: Couldnt get this to work but is cool since it shows an example of pre-kinect world-sensing and the video is just bonkers
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 ofxBlackmagic
 http://l:3000/repos/378
 http://l:3000/repos/97
 
-ofxFakam
-http://l:3000/repos/158
 
-ofxGrabCam
-http://l:3000/repos/247
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-ofxGifEncoder/decoder
-http://l:3000/repos/39
+	ofxFakam
+	http://l:3000/repos/158
 
-ofxILDAmotu
-http://l:3000/repos/199
+	JG: too lazy to do this one... lots of set up required. would be worth a try though
 
-Beat Trackers
-http://l:3000/repos/63
-ofxBTrackAnalyser
-http://l:3000/repos/371
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-ofxChromagramPlayer
-http://github.com/Venetian/ofxChromagramPlayer
-http://l:3000/repos/176
++++++++++++++++++++++++++++++++++++++++++
 
-ofxGSTT
-Google speech to text
-http://l:3000/repos/395
+	ofxGrabCam
+	http://l:3000/repos/247
 
-ofxGts
-http://github.com/karldd/ofxGts
-http://l:3000/repos/343
+	JG: This is the best. make sure to reference elliots video, and word on the street is it'll be put into core OF
+	http://www.kimchiandchips.com/blog/?p=764
 
-ofxKetchupok
-http://github.com/ketchupok/ofxKetchupok
++++++++++++++++++++++++++++++++++++++++++
 
-Kinect breast enlarger
-http://kn.2ngen.jp/
-https://github.com/novogrammer/ofxKyonyu
++++++++++++++++++++++++++++++++++++++++++
 
-ofxMarsyas
-http://l:3000/repos/145
-http://github.com/paulreimer/ofxMarsyasApps
+	ofxGifEncoder/decoder
+	http://l:3000/repos/39
 
-http://github.com/ArtemTitoulenko/ofxMorphingText
-http://l:3000/repos/144
+	JG: Greg should comment on this one
 
-http://github.com/amzuko/ofxODE
-http://l:3000/repos/215
++++++++++++++++++++++++++++++++++++++++++
 
-OMCSNetCPP
-http://github.com/martinbabbels/ofxOMCS
-http://www.eturner.net/omcsnetcpp/lookup-example1.html
 
-http://github.com/benben/ofxPhoto
-http://l:3000/repos/87
-http://www.gphoto.org/proj/libgphoto2/
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+	ofxILDAmotu
+	http://l:3000/repos/199
 
-onscreen keyboard
-http://github.com/Lensley/ofxSoftKeyboard
-http://l:3000/repos/281
+	JG: no code =(
 
-http://l:3000/repos/239
-https://github.com/TeehanLax/ofxTVI
-http://www.teehanlax.com/labs/tvi/
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-http://www.ids-imaging.com/frontend/products.php?interface=GIGE&family=SE
-http://l:3000/repos/362
 
-http://github.com/paulreimer/ofxWebUI
-http://l:3000/repos/228
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	Beat Trackers
+	http://l:3000/repos/63
+
+	ofxBTrackAnalyser
+	http://l:3000/repos/371
+
+	JG: not robust enough IMO, tried with lots of music and didn't track that accurately
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	ofxChromagramPlayer
+	http://github.com/Venetian/ofxChromagramPlayer
+	http://l:3000/repos/176
+
+	JG: required snd files and media assets I don't have 
+	
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	ofxGSTT
+	Google speech to text
+	http://l:3000/repos/395
+	
+	JG: currently actively developed. good candidate for later release
+	
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+++++++++++++++++++++++++++++++++++++
+	ofxGts
+	http://github.com/karldd/ofxGts
+	http://l:3000/repos/343
+	
+	JG: WORKS! really well put together. should point to https://github.com/obviousjim/ofxGts for 007 version
+
+++++++++++++++++++++++++++++++++++++
+
+
+********************************************
+
+	ofxKetchupok
+	http://github.com/ketchupok/ofxKetchupok
+
+	JG: didnt' look at this one
+	
+********************************************
+
++++++++++++++++++++++++++++++++++++++++++
+
+	Kinect breast enlarger
+	http://kn.2ngen.jp/
+	https://github.com/novogrammer/ofxKyonyu
+
+	JG: gotta do this one just because of the video!
+	
++++++++++++++++++++++++++++++++++++++++++
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	ofxMarsyas
+	http://l:3000/repos/145
+	http://github.com/paulreimer/ofxMarsyasApps
+
+	JG: too lazy to get examples working here, lots of dependencies
+	
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	http://github.com/ArtemTitoulenko/ofxMorphingText
+	http://l:3000/repos/144
+
+	JG: incomplete 
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	http://github.com/amzuko/ofxODE
+	http://l:3000/repos/215
+
+	JG: seems rad, but broke. posted about it: http://forum.openframeworks.cc/index.php/topic,5521.new.html#new
+
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	OMCSNetCPP
+	http://github.com/martinbabbels/ofxOMCS
+	http://www.eturner.net/omcsnetcpp/lookup-example1.html
+	
+	JG: probably not worth talking about unless there is substantial of relationship
+	
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+	http://github.com/benben/ofxPhoto
+	http://l:3000/repos/87
+	http://www.gphoto.org/proj/libgphoto2/
+
+	JG: useful camera alternative, but
+	
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
++++++++++++++++++++++++++++
+	onscreen keyboard
+	http://github.com/Lensley/ofxSoftKeyboard
+	http://l:3000/repos/281
+	
+	JG: Worked! and is nice. They already accepted my pull request to update it to 007!
+	
++++++++++++++++++++++++++++
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	http://l:3000/repos/239
+	https://github.com/TeehanLax/ofxTVI
+	http://www.teehanlax.com/labs/tvi/
+	
+	JG: Probably not worth mentioning since it's just a silly little receiver and doesn't do anything interesting
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+++++++++++++++++++++++++++++++++
+
+	https://github.com/paulobarcelos/ofxUeye
+	http://www.ids-imaging.com/frontend/products.php?interface=GIGE&family=SE
+	http://l:3000/repos/362
+
+	JG: Can't run at the moment since it's windows only. but looks really well put together. I think we should mention it
+	
+++++++++++++++++++++++++++++++++
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	http://github.com/paulreimer/ofxWebUI
+	http://l:3000/repos/228
+	
+	JG: I can't get this stuff working he has so many random dependencies
+	
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
