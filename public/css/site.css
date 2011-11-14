@@ -30,6 +30,11 @@
         text-decoration: none;
       }
       
+      #nav a:hover {
+         color: #D05399;
+         background: none;
+      }
+      
       #nav {
         font-weight: bold;
 
