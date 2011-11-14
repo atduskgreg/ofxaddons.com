@@ -22,8 +22,11 @@ helpers do
 
 end
 
+before do
+    @categories = Category.all(:order => :name.asc)
+end
+
 get "/" do
-  @categories = Category.all(:order => :name.asc)
   
   @repo_count = Repo.count(:conditions => ['not_addon = ?', 'false'])
   
@@ -40,7 +43,6 @@ put "/repos/:repo_id" do
 end
 
 get "/repos/:repo_id" do
-    @categories = Category.all(:order => :name.asc)
   @uncategorized = Repo.all(:not_addon => false, :category => nil, :order => :name.asc)
 
   @repo = Repo.get(params[:repo_id])
@@ -50,7 +52,6 @@ end
 get "/admin" do
   protected!
   
-  @categories = Category.all
   
   @not_addons = Repo.all(:not_addon => true, :order => :name.asc)
   
@@ -58,4 +59,8 @@ get "/admin" do
   @uncategorized, @categorized = repos.partition{|r| r.category.nil?}
   
   erb :admin
+end
+
+get "/howto" do
+  erb :howto
 end

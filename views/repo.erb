@@ -1,12 +1,3 @@
-
-<div id="nav" class="span-23 last">
-<% for category in @categories %>
-  <a href="/#<%= category.slug %>"><%= category.name  %></a> / 
-<% end %>
-<% unless @uncategorized.empty? %>
-<a href="/#uncategorized">Uncategorized</a> (<%= @uncategorized.length %>)
-<% end %>
-</div>
 <div class="repo_page span-20 push-2 last">
   <h2><%= @repo.name %> <span class="repo_category"><a href="/#<%= @repo.category.slug %>"><%= @repo.category.name %></a></span></h2> 
   <h3>by <a href="http://github.com/<%= @repo.owner %>"><%= @repo.owner %></a></h3>

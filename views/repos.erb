@@ -1,12 +1,3 @@
-<div id="nav" class="span-23 last">
-<% for category in @categories %>
-  <a href="/#<%= category.slug %>"><%= category.name  %></a> / 
-<% end %>
-<% unless @uncategorized.empty? %>
-<a href="/#uncategorized">Uncategorized</a> (<%= @uncategorized.length %>)
-<% end %>
-</div>
-
 <div id="body" class="span-24 last">
 <% @categories.each_with_index do |category, index| %>
 <div class="category span-22 push-2 last">
