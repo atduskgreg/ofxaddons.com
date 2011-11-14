@@ -1,0 +1,86 @@
+
+
+<div id="howto" class="span-20 push-2 last">
+  <h2>What are openFrameworks addons?</h2>
+		
+			<p>An addon is code that extends openFrameworks in some way.  There are usually two main reasons to make an addon
+			  </p>
+			<ol>
+			  <li>Bring in an external library or framework and allow it to easily be integrated into openFrameworks projects, eg: ofxKinect for using the kinect in openFrameworks, or ofxMidi for sending midi commands
+</li>				
+				
+		<li>Make some complicated task simple and reusable for other openFrameworks programmers, eg: ofxQuadWarp by julapy or ofxSimpleGuiToo for user interfaces</li>
+				</ol>
+
+		<h2>Should I turn my thing into an addon?</h2>
+			<ol><li>Make sure your addon doesn't already exist by looking at <a href="/">ofxaddons.com</a>.</li>
+			<li>If something does already exist but you think it should be done better, consider starting by forking the existing addon into your account and modifying it.</li>
+			<li>Does your addon do something that you think other people would like to do too?</li></ol>
+				
+		<h2>How do I make an openFrameworks addon?</h2>
+			<h3>Folder structure for an addon</h3>
+<pre>
+ofxMyAddon/
+  src/
+    ofxMyAddon.h
+    ofxMyAddon.cpp
+  libs/
+  example-anExample/
+    MyAddonExample.xcodeproj
+    ... //other project files for other platforms
+    src/main.cpp
+    src/testApp.h
+    src/testApp.cpp
+    ...
+    bin/data
+</pre>
+      
+			<h3>What goes where?</h3>
+
+			<ul style="padding:0">
+			 
+			<li>The top level folder should be the same name as the addon
+				<pre>    ofxMyAddon/</pre>
+			</li>
+			
+			<li>Beneath it there should be at least two sub folders
+				<pre>
+    ofxMyAddon/src
+    ofxMyAddon/example</pre>
+			</li>
+			<li>If you have multiple examples for your addon, make sure they are prefixed with example-
+				<pre>
+    ofxMyAddon/example-simpleExample
+    ofxMyAddon/example-moreComplicatedExample		</pre>
+			</li>
+			<li>If the addon is for interfacing with external libraries include the source for these in a libs folder
+				<pre>     ofxMyAddons/libs</pre>
+				</li>
+			<li>The src folder should contain your addon source
+			  <pre>
+    ofxMyAddon/src/ofxMyAddon.h
+    ofxMyAddon/src/ofxMyAddon.cpp
+    ...</pre>
+				</li>
+		 <li>	The example folder should contain the example source and project files (the same style that you would normally find in apps/examples/someExample
+				<pre>
+    ofxMyAddon/example/MyAddonExample.xcodeproj
+    ... //other project files for other platforms
+    ofxMyAddon/example/src/main.cpp
+    ofxMyAddon/example/src/testApp.h
+    ofxMyAddon/example/src/testApp.cpp
+    ...
+    ofxMyAddon/example/bin/data</pre></li>
+			</ul>
+			
+		<h2>What makes a good addon?</h2>
+		<ul style="list-style-type:disc">
+			<li>Do you describe what your project does in your description and README including</li>
+			<li>Do you list what libraries you support?</li>
+			<li>Do you have example projects?</li>
+			<li>Do your examples compile against the latest openFrameworks distribution downloaded from the of website?</li>
+			<li>Did you give credit and links to whoever wrote the original code your addon includes?</li>
+			<li>Are you clear about how your addon is licensed? Be clear if you don't want people to use it commercially. Also make sure that your dependent libraries have licenses that you are respecting.</li>
+		</ul>			
+		
+</div>

@@ -1,0 +1,135 @@
+      body {
+        font-family: Arial, sans-serif;
+      }
+    
+    
+      #slogan {
+        margin-bottom:0;
+        margin-top: 18px;
+        color: #FDBB1C;
+      }
+      
+      #slogan a {
+        color: #EE3987;
+      }
+      
+      ul{
+        list-style-type: none;
+      }
+      
+      #nav {
+        padding-left: 0;
+        background: #3A3839;
+        padding: 2px;
+        padding-left: 40px;
+        color: #B9BBBD;
+        font-weight: bold;
+
+        font-size:12px;
+        margin-right: 0;
+      }
+      
+      #nav a {
+        color: #fff;
+        text-decoration: none;
+      }
+      
+      #nav a:hover {
+         color: #D05399;
+         background: none;
+      }
+      
+      #howto-nav a {
+                   color: #D05399;
+
+        text-decoration: none;
+        font-weight: bold;
+      }
+      
+      #howto-nav a:hover {
+                 color: #fff;
+
+         background: none;
+      }
+      
+      #howto-nav{
+        background: #565455;
+        padding-left: 42px;
+        margin-bottom: 18px;
+      }
+      
+      a {
+        color: #EE3987;
+      }
+      
+      a:hover {
+        color: #fff;
+        background: #EE3987;
+        text-decoration: none;
+
+      }
+      
+      #body h2 a {
+        color: #000;
+        text-decoration: none;
+      }
+      
+      #body h2 a:hover {
+          background: none;
+      }
+      
+      .repo p{
+        margin: 0;
+      }
+      
+      .repo .name {
+        font-weight: bold;
+      }
+      
+      .repo .author {
+        font-weight: bold;
+      }
+      
+      .repo {
+        margin-bottom: 18px;
+      }
+      
+      .category h2 {
+       border-bottom: 14px solid #B9BBBD;
+      }
+      
+      #howto h2 {
+       border-bottom: 14px solid #B9BBBD;
+      }
+      
+      h1 a {
+        color: #000;
+        text-decoration: none;
+      }
+      
+      h1 a:hover{
+        color: #000;
+        background: none;
+      }
+      
+      .repo_page h2 {
+        border-bottom: 14px solid #B9BBBD;
+      }
+      
+      .repo_page .repo_category {
+        float: right;
+        background: #3A3839;
+        font-size: 14px;
+        margin-top: 4px;
+        padding: 4px;
+      }
+
+      .repo_page .repo_category a {
+        color: #fff;
+        text-decoration: none;
+      }
+      
+      .repo_details  p {
+        margin: 0;
+      }
+     

@@ -1,26 +1,21 @@
-<h1><%= @repo.name %></h1> 
-<h2>by <%= @repo.owner %></h2>
+<div class="repo_page span-20 push-2 last">
+  <h2><%= @repo.name %> <span class="repo_category"><a href="/#<%= @repo.category.slug %>"><%= @repo.category.name %></a></span></h2> 
+  <h3>by <a href="http://github.com/<%= @repo.owner %>"><%= @repo.owner %></a></h3>
+  
+  <p><a href="<%= @repo.github_url %>">view on Github</a></p>
+  
+   <p>
+    <em><%= @repo.description %></em>
+  </p>
 
- <p><a href="<%= @repo.github_url %>">view on Github</a></p>
-
-<p>
-  <%= @repo.description %>
-</p>
-
- <form action="/repos/<%= @repo.id %>" method="post">
-    <input type="hidden" name="_method" value="put" />
-    <select name="repo[category_id]">
-      <% for category in Category.all %>
-      <option value="<%= category.id %>"><%= category.name %></option>
-      <% end %>
-    </select>
-      <input type="submit" value="Save" />
-
-  </form>
-
-  <form action="/repos/<%= @repo.id %>" method="post">
-    <input type="hidden" name="_method" value="put" />
-    <input type="hidden" name="repo[not_addon]" value="true" />
-
-    <input type="submit" value="NOT AN ADDON" />
-  </form>
+  
+  <div class="repo_details"><p>
+    <b>Originally created:</b> <%= @repo.github_created_at.strftime("%e %B, %Y") %>
+  </p>
+  <p>
+    <b>Last updated:</b> <%= @repo.last_pushed_at.strftime("%e %B, %Y") %>
+  </p>
+  </div>
+  
+ 
+</div>

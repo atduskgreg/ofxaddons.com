@@ -1,28 +1,26 @@
-<h1>All <%= @repo_count %> Repos</h1>
-
-
-<% for category in @categories %>
-
-<h2><%= category.name %></h2>
-  <ul>
+<div id="body" class="span-24 last">
+<% @categories.each_with_index do |category, index| %>
+<div class="category span-22 push-2 last">
+<h2 class="span-21 pull-1"><a name="<%= category.slug %>"><%= category.name %></a> (<%= category.repos.count %>)</h2>
     
-  <% for repo in category.repos %>
-    <li>
-      <p><a href="/repos/<%= repo.id %>"><%= repo.name %></a> by <%= repo.owner %>
-      <p>
-        <em><%= repo.description %> [<a href="<%= repo.github_url %>">view on Github</a>]</em>
+  <% category.repos.sort_by{|r| r.name }.each_with_index do |repo, index| %>
+   <div class="repo span-6 append-1 <% if (index+1).divmod(3)[1] == 0 %> last <% end %>">
+      <p class="name"><a href="/repos/<%= repo.id %>"><%= repo.name %></a></p>
+      <p class="author">by <%= repo.owner %></p>
+      <p class="description">
+        <em><%= repo.description %> [<a class="github_link" href="<%= repo.github_url %>">view on Github</a>]</em>
       </p>
       
-    </li>
-
+    </div>
+    <% if (index+1).divmod(3)[1] == 0 %><br style="clear:both;" /><% end %>
   <% end %>
-  </ul>
 
-
+</div>
 <% end %>
 
-<h2>Uncategorized</h2>
+<% unless @uncategorized.empty? %>
 
+<h2>Uncategorized</h2>
  <ul>
     
   <% for repo in @uncategorized %>
@@ -36,3 +34,5 @@
 
   <% end %>
   </ul>
+  <% end %>
+  </div>

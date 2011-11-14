@@ -3,6 +3,7 @@ gem "sinatra"
 gem "dm-core"
 gem "httparty"
 gem "dm-migrations"
+gem "dm-aggregates"
 
 group :development do
   gem "dm-mysql-adapter"
