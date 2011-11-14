@@ -133,3 +133,16 @@
         margin: 0;
       }
      
+     #footer {
+         border-top: 14px #565455 solid;
+         padding-top: 18px;
+         margin-bottom:18px;
+         color: #565455;
+         font-style: italic;
+     }
+     
+     #footer p {
+                  padding-left: 40px;
+
+         margin: 0;
+     }

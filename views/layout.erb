@@ -8,7 +8,7 @@
   </head>
   <body>
     <div class="container">
-    <div id="header" class="span-24">
+    <div id="header" class="span-24 last">
       
       <h1 class="span-5">
         <a href="/">ofxAddons</a>
@@ -26,6 +26,11 @@
   <a href="/howto">Contribute your own!</a>
 </div>
 
-    <%= yield %></div>
+    <%= yield %>
+    <div id="footer" class="span-24 last">
+      <p>Created by <a href="http://www.jamesgeorge.org/">James George</a> and <a href="http://gregborenstein.com">Greg Borenstein</a>.</p>
+      <p>Have questions? Don't see your addon? <a href="mailto:james@jamesgeorge.org">Email us</a>.</p>
+    </div>
+    </div>
   </body>
 </html>
