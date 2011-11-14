@@ -4,7 +4,7 @@
   <h2>What are openFrameworks addons?</h2>
 	<p>An addon is code that extends openFrameworks in some way.  There are usually two main reasons to make an addon</p>
 	<ol>
-		<li>Bring in an external library or framework and allow it to easily be integrated into openFrameworks projects, eg: ofxKinect for using the kinect in openFrameworks, or ofxMidi for sending midi commands</li>					<li>Make some complicated task simple and reusable for other openFrameworks programmers, eg: ofxQuadWarp by julapy or ofxSimpleGuiToo for user interfaces</li>
+		<li>Bring in an external library or framework and allow it to easily be integrated into openFrameworks projects, eg: ofxKinect for using the kinect in openFrameworks, or ofxMidi for sending midi commands</li>					<li>Make some complicated task simple and reusable for yourself and other openFrameworks programmers, eg: ofxQuadWarp by julapy or ofxControlPanel by Theo for user interfaces</li>
 	</ol>
 				
 	<h2>How do I install an addon I found on this page?</h2>
@@ -17,7 +17,7 @@
 			After that you should be able to open up the project files in the examples folders of the addons and build->go to see them work.  To start your own project, just copy the example folder into a new apps/ folder and modify it from there.  If the addon doesn't build right away, it may required dependent addons or libraries. Those should be described by the addon developer in their README file.  If there are no project files or the addon is structured in a way that makes openFrameworks show up missing when you open them, please email the addon developer pointing them to this page so they can change the structure to make it easier for people to use.
 		</p>
 		<p>
-			Being included on the site is no guarentuee that the code works or is useful. We couldn't possibly test and run them all ourselves, so it's between you and the developer to sort out issues if they don't work.
+			Being included on the site is no guarantee that the code works or is useful. We couldn't possibly test and run them all ourselves, so it's between you and the developer to sort out issues if they don't work.
 		</p>
 		
 	  	<h2>How do you find all these addons?</h2>
@@ -71,9 +71,7 @@ of_preRelease/
 </pre>
       
 			<h3>Wait can you explain that more?</h3>
-
 			<ul style="padding:0">
-
 			<li>
 <pre>
     ofxMyAddon/
@@ -97,7 +95,7 @@ of_preRelease/
     ofxMyAddon/example-simpleExample
     ofxMyAddon/example-moreComplicatedExample		</pre>
 			</li>
-			<li>If the addon is for interfacing with external libraries include the source and any static libs for these in a libs folder
+			<li>If the addon is for interfacing with external libraries include the source or any static libs for these in a libs folder
 				<pre>     ofxMyAddons/libs</pre>
 				</li>
 			<li>The src folder should contain your addon source
