@@ -1,3 +1,4 @@
 .bundle/
 credentials.yml
 *.dat
+.DS_Store
