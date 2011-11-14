@@ -2,6 +2,7 @@
         font-family: Arial, sans-serif;
       }
     
+    
       #slogan {
         margin-bottom:0;
         margin-top: 18px;
@@ -21,8 +22,11 @@
         background: #3A3839;
         padding: 2px;
         padding-left: 40px;
-        border-bottom: 18px solid #565455;
         color: #B9BBBD;
+        font-weight: bold;
+
+        font-size:12px;
+        margin-right: 0;
       }
       
       #nav a {
@@ -35,12 +39,22 @@
          background: none;
       }
       
-      #nav {
+      #howto-nav a {
+                   color: #D05399;
+
+        text-decoration: none;
         font-weight: bold;
+      }
+      
+      #howto-nav a:hover {
+                 color: #fff;
 
-        font-size:12px;
-        margin-right: 0;
-
+         background: none;
+      }
+      
+      #howto-nav{
+        background: #565455;
+        padding-left: 42px;
         margin-bottom: 18px;
       }
       
@@ -58,6 +72,10 @@
       #body h2 a {
         color: #000;
         text-decoration: none;
+      }
+      
+      #body h2 a:hover {
+          background: none;
       }
       
       .repo p{
@@ -91,6 +109,7 @@
       
       h1 a:hover{
         color: #000;
+        background: none;
       }
       
       .repo_page h2 {
