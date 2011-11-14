@@ -8,13 +8,13 @@
   </head>
   <body>
     <div class="container">
-    <div id="header" class="span-24">
+    <div id="header" class="span-24 last">
       
       <h1 class="span-5">
         <a href="/">ofxAddons</a>
       </h1>
       <p id="slogan" class="span-19 last">
-        <em>A directory of extensions and libraries for the <a href="http://openframeworks.cc">OpenFrameworks</a> creative coding toolkit.</em>
+        <em>A directory of extensions and libraries for the <a href="http://openframeworks.cc">OpenFrameworks</a> creative coding toolkit. Compiled fresh from <a href="http://github.com">Github</a> daily.</em>
       </p>
     </div>
     <div id="nav" class="span-23 last">
@@ -26,6 +26,11 @@
   <a href="/howto">Contribute your own!</a>
 </div>
 
-    <%= yield %></div>
+    <%= yield %>
+    <div id="footer" class="span-24 last">
+      <p>Created by <a href="http://www.jamesgeorge.org/">James George</a> and <a href="http://gregborenstein.com">Greg Borenstein</a>.</p>
+      <p>Have questions? Don't see your addon? <a href="mailto:james@jamesgeorge.org">Email us</a>.</p>
+    </div>
+    </div>
   </body>
 </html>
