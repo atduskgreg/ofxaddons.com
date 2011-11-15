@@ -150,3 +150,17 @@
 
          margin: 0;
      }
+     
+     .download a {
+         color: #fff;
+         padding: 2px;
+         padding-top: 0;
+         padding-bottom: 0;
+         text-decoration: none;
+         font-weight: bold;
+         background: #E07EAA;
+     }
+     
+     .download a:hover{
+         background: #EE3987;
+     }
