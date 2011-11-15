@@ -7,14 +7,18 @@
 		<li>Bring in an external library or framework and allow it to easily be integrated into openFrameworks projects, eg: ofxKinect for using the kinect in openFrameworks, or ofxMidi for sending midi commands</li>					<li>Make some complicated task simple and reusable for yourself and other openFrameworks programmers, eg: ofxQuadWarp by julapy or ofxControlPanel by Theo for user interfaces</li>
 	</ol>
 				
-	<h2>How do I install an addon I found on this page?</h2>
-	<p>If you browse to the addon on github and copy the URL bar, then open up a terminal and move to the addons directory and clone it like so:</p>		
+	<h2>How do I install an addon I found on this site?</h2>
+	<p>
+	 There are two easy ways to install any addon you find here. Anywhere you see this icon: <span class="download"><a href="#">⇣</a> you can click it to immediately downloaded the code.</span>
+	</p>
+
+	<p>Or you can checkout a copy of the code using git. If you browse to the addon on github and copy the URL bar, then open up a terminal and move to the addons directory and clone it like so:</p>		
 <pre>
   $cd of_preRelease/addons/
   $git clone https://github.com/obviousjim/ofxSomeAddon		
 </pre>
 		<p>
-			After that you should be able to open up the project files in the examples folders of the addons and build->go to see them work.  To start your own project, just copy the example folder into a new apps/ folder and modify it from there.  If the addon doesn't build right away, it may required dependent addons or libraries. Those should be described by the addon developer in their README file.  If there are no project files or the addon is structured in a way that makes openFrameworks show up missing when you open them, please email the addon developer pointing them to this page so they can change the structure to make it easier for people to use.
+			Once you've got the code using either of these methods you should be able to open up the project files in the examples folders of the addons and build->go to see them work.  To start your own project, just copy the example folder into a new apps/ folder and modify it from there.  If the addon doesn't build right away, it may required dependent addons or libraries. Those should be described by the addon developer in their README file.  If there are no project files or the addon is structured in a way that makes openFrameworks show up missing when you open them, please email the addon developer pointing them to this page so they can change the structure to make it easier for people to use.
 		</p>
 		<p>
 			Being included on the site is no guarantee that the code works or is useful. We couldn't possibly test and run them all ourselves, so it's between you and the developer to sort out issues if they don't work.
@@ -22,7 +26,7 @@
 		
 	  	<h2>How do you find all these addons?</h2>
 		<p>
-			We wrote scripts to discover addons on github.com. The scripts look at the repository name and description for things like 'openFrameworks' and 'ofx'. We have manual admin tools to discard the results that aren't openFrameworks related, empty, or blatantly incomplete. The ones we keep are dividing into categories after doing a bit of research about them.
+			We wrote scripts to discover addons on <a href="http://github.com">github.com</a>. The scripts look at the repository name and description for things like 'openFrameworks' and 'ofx'. We have manual admin tools to discard the results that aren't openFrameworks related, empty, or blatantly incomplete. The ones we keep are dividing into categories after doing a bit of research about them.
 		</p>
 		
 		<h2>Should I turn my openFrameworks thing into an addon?</h2>
@@ -135,7 +139,7 @@ of_preRelease/
 		<li>Are you clear about how your addon is licensed? Be straightforward if you don't want people to use it commercially. Also make sure that your dependent libraries have licenses that you are respecting.</li>
 	</ul>			
 
-	<h2>How do I submit my addon to this page</h2>
+	<h2>How do I submit my addon to this page?</h2>
 	<p>
 		You don't have to! Uploading it to github is enough, as long as you have the 'ofx' prefix in your repository name then we'll find it. Feel free to send us a note if you want to tell us about it and let us know what category it belongs in.
 	</p>
