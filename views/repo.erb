@@ -17,11 +17,14 @@
     <b>Last updated:</b> <%= @repo.last_pushed_at.strftime("%e %B, %Y") %>
   </p>
   </div>
-  
+  <br/>
+  <br/>
+  <% if ! @repo.fresher_forks.empty? %>
   <h3>Fresher Forks</h3>
-  <% for fork in @repo.fresher_forks %>
-    <h4>Fork by <%= fork["owner"]["login"] %></h4>
-    <p>last pushed: <%= DateTime.parse(fork["pushed_at"]).strftime("%e %B, %Y") %></p>
-  <% end %>
- 
+    <% for fork in @repo.fresher_forks %>
+      <h4>Fork by <a href="<%= fork["html_url"]%>" target="_blank"><%= fork["owner"]["login"] %></a></h4>
+      <p>last pushed: <%= DateTime.parse(fork["pushed_at"]).strftime("%e %B, %Y") %></p>
+    <% end %>
+  
+  <%end %>
 </div>
