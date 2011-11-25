@@ -17,5 +17,10 @@
   </p>
   </div>
   
+  <h3>Fresher Forks</h3>
+  <% fork in @repo.fresher_forks %>
+    <h4>Fork by <%= fork["owner"]["login"] %></h4>
+    <p>last pushed: <%= DateTime.parse(fork["pushed_at"]).strftime("%e %B, %Y") %></p>
+  <% end %>
  
 </div>

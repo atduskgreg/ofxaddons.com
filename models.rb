@@ -54,6 +54,20 @@ class Repo
     @most_recent_commit = result[0]
   end
   
+  def fresher_forks
+    forks.select do |f|
+      fork_last_pushed = DateTime.parse f["pushed_at"]
+      fork_last_pushed > self.last_pushed_at
+    end
+  end
+  
+  def forks
+    return @forks if @forks
+    url = "https://api.github.com/repos/#{self.github_slug}/forks"
+    result = HTTParty.get(url)
+    @forks = result.parsed_response
+  end
+  
   def self.create_from_json(json)
     puts json.inspect
     r = self.new 
