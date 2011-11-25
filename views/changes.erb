@@ -4,8 +4,6 @@
 
 <% for repo in @most_recent %>
 
-<% puts repo.github_slug %>
-
 <div style="border:1px solid #000; margin: 5px; padding: 5px">
   <h2><a href="/repos/<%= repo.id %>"><%= repo.name %></a></h2> 
   <p><a href="<%= repo.github_url %>">view on Github</a></p>
@@ -28,7 +26,11 @@
 <p>
  Message: 
     
-  <%= repo.most_recent_commit["commit"]["message"] %> by <%= repo.most_recent_commit["commit"]["author"]["name"] %> (realname) <%= repo.most_recent_commit["author"]["login"] %> (login) <img src="<%= repo.most_recent_commit["author"]["avatar_url"] %>" />
+  <%= repo.most_recent_commit["commit"]["message"] %> by <%= repo.most_recent_commit["commit"]["author"]["name"] %>  
+  <% if repo.most_recent_commit["author"]  %>
+  (realname) <%= repo.most_recent_commit["author"]["login"] %>
+  (login) <img src="<%= repo.most_recent_commit["author"]["avatar_url"] %>" />
+  <% end %>
 
 
   
