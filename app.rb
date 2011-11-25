@@ -27,7 +27,6 @@ before do
 end
 
 get "/" do
-
   @uncategorized = Repo.all(:not_addon => false, :category => nil, :order => :name.asc)
   @repo_count = Repo.count(:conditions => ['not_addon = ?', 'false'])
 
