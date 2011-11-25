@@ -7,7 +7,6 @@
    <p>
     <em><%= @repo.description %></em>
   </p>
-
   
   <div class="repo_details">
   <p>
@@ -18,13 +17,12 @@
   </p>
   </div>
   <br/>
-  <br/>
   <% if ! @repo.fresher_forks.empty? %>
-  <h3>Fresher Forks</h3>
+  <h2>Fresher Forks</h2>
     <% for fork in @repo.fresher_forks %>
-      <h4>Fork by <a href="<%= fork["html_url"]%>" target="_blank"><%= fork["owner"]["login"] %></a></h4>
+      	<p>by <a href="http://github.com/<%= fork["owner"]["login"] %>"><%= fork["owner"]["login"] %></a></p>
+ 		<p><a href="<%= fork["html_url"] %>">view on Github</a></p> 
       <p>last pushed: <%= DateTime.parse(fork["pushed_at"]).strftime("%e %B, %Y") %></p>
     <% end %>
-  
   <%end %>
 </div>
