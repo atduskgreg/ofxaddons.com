@@ -24,19 +24,19 @@ class Repo
   include DataMapper::Resource
   
   property :id, Serial
-  property :name, String
-  property :owner, String
+  property :name, Text
+  property :owner, Text
   property :description, Text
   
   property :last_pushed_at, DateTime
   property :github_created_at, DateTime
 
   # github source graph
-  property :source, String
-  property :parent, String
+  property :source, Text
+  property :parent, Text
 
   # to uniquely specify a repo
-  property :github_slug, String
+  property :github_slug, Text
   
   property :not_addon, Boolean, :default => false
   property :incomplete, Boolean, :default => false

@@ -5,7 +5,7 @@ def do_search(term, next_page=1)
   url = "http://github.com/api/v2/json/repos/search/#{term}?start_page=#{next_page}"
   json = HTTParty.get(url)
   json["repositories"].each do |r|
-    if !Repo.exists?(:owner => r["owner"], :name => r["name"])
+    if !Repo.first(:owner => r["owner"], :name => r["name"])
       Repo.create_from_json( r )
     end
   end

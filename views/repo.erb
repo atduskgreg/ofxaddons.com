@@ -1,5 +1,5 @@
 <div class="repo_page span-20 push-2 last">
-  <h2><%= @repo.name %> <span class="repo_category"><a href="/#<%= @repo.category.slug %>"><%= @repo.category.name %></a></span> <span class="download"><a href="<%= @repo.github_url %>/zipball/master">⇣</a></span></h2> 
+  <h2><%= @repo.name %> <% if @repo.category %><span class="repo_category"><a href="/#<%= @repo.category.slug %>"><%= @repo.category.name %></a></span><% end %> <span class="download"><a href="<%= @repo.github_url %>/zipball/master">⇣</a></span></h2> 
   <h3>by <a href="http://github.com/<%= @repo.owner %>"><%= @repo.owner %></a> </h3>
   
   <p><a href="<%= @repo.github_url %>">view on Github</a></p>
