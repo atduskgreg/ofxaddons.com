@@ -20,4 +20,13 @@
     <%= repo.description %>
   </p>
   
+  <h3>Most recent commit</h3>
+  
+  <p>
+   Message: 
+    
+    <%= repo.most_recent_commit["commit"]["message"] %> by <%= repo.most_recent_commit["commit"]["author"]["name"] %> (realname) <%= repo.most_recent_commit["author"]["login"] %> (login) <img src="<%= r.most_recent_commit["author"]["avatar_url"] %>" />
+
+  </p>
+  
 <% end %>
