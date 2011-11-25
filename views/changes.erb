@@ -3,30 +3,32 @@
 <h2>Most Recently Changed Addons</h2>
 
 <% for repo in @most_recent %>
+
 <div style="border:1px solid #000; margin: 5px; padding: 5px">
   <h2><a href="/repos/<%= repo.id %>"><%= repo.name %></a></h2> 
   <p><a href="<%= repo.github_url %>">view on Github</a></p>
 
   <h3>by <%= repo.owner %></h3>
   <p>
-    <b>Originally created:</b> <%= @repo.github_created_at.strftime("%e %B, %Y") %>
-  </p>
-  
-  <p>
-    <b>Last updated:</b> <%= @repo.last_pushed_at.strftime("%e %B, %Y") %>
+    <b>Last updated:</b> <%= repo.last_pushed_at.strftime("%e %B, %Y") %>
   </p>  
-  
-  <p>
-    <%= repo.description %>
-  </p>
-  
-  <h3>Most recent commit</h3>
-  
-  <p>
-   Message: 
-    
-    <%= repo.most_recent_commit["commit"]["message"] %> by <%= repo.most_recent_commit["commit"]["author"]["name"] %> (realname) <%= repo.most_recent_commit["author"]["login"] %> (login) <img src="<%= r.most_recent_commit["author"]["avatar_url"] %>" />
 
-  </p>
+<p>
+  <b>Originally created:</b> <%= repo.github_created_at.strftime("%e %B, %Y") %>
+</p>
+
+<p>
+  <%= repo.description %>
+</p>
+
+<h3>Most recent commit</h3>
+
+<p>
+ Message: 
+    
+  <%= repo.most_recent_commit["commit"]["message"] %> by <%= repo.most_recent_commit["commit"]["author"]["name"] %> (realname) <%= repo.most_recent_commit["author"]["login"] %> (login) <img src="<%= repo.most_recent_commit["author"]["avatar_url"] %>" />
+
+
   
+</div>  
 <% end %>
