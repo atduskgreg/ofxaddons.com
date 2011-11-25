@@ -34,8 +34,8 @@ get "/" do
 end
 
 get "/changes" do  
-  @repo_count = Repo.all(:conditions => ['not_addon = ?', 'false']).length
-  @most_recent = Repo.all(:not_addon => false, :order => :last_pushed_at.desc) 
+
+  @most_recent = Repo.all(:not_addon => false, :last_pushed_at.not => nil, :order => :last_pushed_at.desc) 
   
   erb :changes
 end
