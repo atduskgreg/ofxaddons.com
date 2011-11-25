@@ -27,11 +27,18 @@ before do
 end
 
 get "/" do
-  
-  @repo_count = Repo.count(:conditions => ['not_addon = ?', 'false'])
-  
+
   @uncategorized = Repo.all(:not_addon => false, :category => nil, :order => :name.asc)
+  @repo_count = Repo.count(:conditions => ['not_addon = ?', 'false'])
+
   erb :repos
+end
+
+get "/changes" do  
+  @repo_count = Repo.all(:conditions => ['not_addon = ?', 'false']).length
+  @most_recent = Repo.all(:not_addon => false, :order => :last_pushed_at.desc) 
+  
+  erb :changes
 end
 
 put "/repos/:repo_id" do
