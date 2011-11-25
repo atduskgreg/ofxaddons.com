@@ -4,7 +4,7 @@
 
 <% for repo in @most_recent %>
 
-<div style="border:1px solid #000; margin: 5px; padding: 5px">
+<div>
   <h2><a href="/repos/<%= repo.id %>"><%= repo.name %></a></h2> 
   <p><a href="<%= repo.github_url %>">view on Github</a></p>
 
