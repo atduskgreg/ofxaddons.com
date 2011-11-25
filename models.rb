@@ -47,6 +47,13 @@ class Repo
     Repo.first(:github_slug => "#{params['owner']}/#{params['name']}")
   end
   
+  def most_recent_commit
+    return @most_recent_commit if @most_recent_commit
+    url = "https://api.github.com/repos/#{self.github_slug}/commits"
+    result = HTTParty.get(url)
+    @most_recent_commit = result[0]
+  end
+  
   def self.create_from_json(json)
     puts json.inspect
     r = self.new 
