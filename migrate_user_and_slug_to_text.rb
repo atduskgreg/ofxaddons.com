@@ -1,4 +1,5 @@
 require 'rubygems'
+require "bundler/setup"
 require 'dm-migrations'
 require 'dm-migrations/migration_runner'
 
