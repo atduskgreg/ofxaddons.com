@@ -25,4 +25,9 @@
       <p>last pushed: <%= DateTime.parse(fork["pushed_at"]).strftime("%e %B, %Y") %></p>
     <% end %>
   <%end %>
+
+  <% if File.exists?(@repo.cached_readme_file) %>  
+  <h2>README</h2>
+  <%= open(@repo.cached_readme_file).read %>
+  <%end %>
 </div>
