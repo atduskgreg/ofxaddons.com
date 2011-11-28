@@ -1,4 +1,4 @@
-require 'models'
+require './models'
 require 'colorize'
 
 def do_search(term, next_page=1)

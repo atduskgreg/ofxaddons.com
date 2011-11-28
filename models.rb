@@ -10,6 +10,7 @@ require 'github/markup'
 require 'httparty'
 require 'nokogiri'
 
+#DataMapper::Logger.new($stdout, :debug)
 DataMapper.setup(:default, ENV['DATABASE_URL'] || 'mysql://localhost/ofxaddons')
 
 class Category
@@ -198,7 +199,17 @@ class Repo
     return nil if body.nil? || body.empty?
     
     # render the readme
-    return GitHub::Markup.render(github_readme_filename, body)
+    if plaintext?(github_readme_filename)
+      return "<pre>#{ body }</pre>"
+    else
+      return GitHub::Markup.render(github_readme_filename, body)
+    end
+  end
+
+  private
+
+  def plaintext?(filename)
+    (filename.downcase == "readme") ? true : false
   end
 
 end
