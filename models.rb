@@ -10,7 +10,7 @@ require 'github/markup'
 require 'httparty'
 require 'nokogiri'
 
-#DataMapper::Logger.new($stdout, :debug)
+# DataMapper::Logger.new(STDOUT, :debug)
 DataMapper.setup(:default, ENV['DATABASE_URL'] || 'mysql://localhost/ofxaddons')
 
 class Category
@@ -35,7 +35,7 @@ class Repo
   property :description, Text
   property :readme, Text
   
-  property :last_pushed_at, ZonedTime
+  property :last_pushed_at, ZonedTime, :required => true
   property :github_created_at, ZonedTime
 
   # github source graph

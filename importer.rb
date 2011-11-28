@@ -8,6 +8,13 @@ def do_search(term, next_page=1)
 
   json["repositories"].each do |r|
     puts r.inspect
+
+    # don't bother with repos that have never been pushed
+    unless r["pushed_at"]
+      puts "skipping:\t".red + "#{ r['owner'] }/#{ r['name'] }\n"
+      next
+    end
+
     repo = Repo.first(:owner => r["owner"], :name => r["name"])
 
     # don't bother with non-addons
@@ -19,11 +26,11 @@ def do_search(term, next_page=1)
     if !repo
       # create a new record
       puts "creating:\t".green + "#{ r['owner'] }/#{ r['name'] }"
-      repo = Repo.create_from_json(r)
+      Repo.create_from_json(r)
     elsif r["pushed_at"] && (DateTime.parse(r["pushed_at"]) > repo.last_pushed_at)
       # update this record
       puts "updating:\t".green + "#{ r['owner'] }/#{ r['name'] }"
-      puts repo.update_from_json(r).to_s
+      repo.update_from_json(r)
     end
     puts
   end

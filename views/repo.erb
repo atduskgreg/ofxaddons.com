@@ -28,6 +28,8 @@
 
   <% unless @repo.readme.nil? %>  
     <h2>README</h2>
-    <%= @repo.readme %>
+    <div class="repo_readme">
+      <%= @repo.readme %>
+    </div>
   <%end %>
 </div>
