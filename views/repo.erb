@@ -4,30 +4,30 @@
   
   <p><a href="<%= @repo.github_url %>">view on Github</a></p>
   
-   <p>
+  <p>
     <em><%= @repo.description %></em>
   </p>
   
   <div class="repo_details">
-  <p>
-    <b>Originally created:</b> <%= @repo.github_created_at.strftime("%e %B, %Y") %>
-  </p>
-  <p>
-    <b>Last updated:</b> <%= @repo.last_pushed_at.strftime("%e %B, %Y") %>
-  </p>
+    <p>
+      <b>Originally created:</b> <%= @repo.github_created_at.strftime("%e %B, %Y") %>
+    </p>
+    <p>
+      <b>Last updated:</b> <%= @repo.last_pushed_at.strftime("%e %B, %Y") %>
+    </p>
   </div>
   <br/>
-  <% if ! @repo.fresher_forks.empty? %>
-  <h2>Fresher Forks</h2>
+  <% unless @repo.fresher_forks.empty? %>
+    <h2>Fresher Forks</h2>
     <% for fork in @repo.fresher_forks %>
-      	<p>by <a href="http://github.com/<%= fork["owner"]["login"] %>"><%= fork["owner"]["login"] %></a></p>
- 		<p><a href="<%= fork["html_url"] %>">view on Github</a></p> 
+      <p>by <a href="http://github.com/<%= fork["owner"]["login"] %>"><%= fork["owner"]["login"] %></a></p>
+ 	  <p><a href="<%= fork["html_url"] %>">view on Github</a></p> 
       <p>last pushed: <%= DateTime.parse(fork["pushed_at"]).strftime("%e %B, %Y") %></p>
     <% end %>
   <%end %>
 
-  <% if File.exists?(@repo.cached_readme_file) %>  
-  <h2>README</h2>
-  <%= open(@repo.cached_readme_file).read %>
+  <% unless @repo.readme.nil? %>  
+    <h2>README</h2>
+    <%= @repo.readme %>
   <%end %>
 </div>

@@ -1,8 +1,11 @@
 require 'rubygems'
 require "bundler/setup"
+require "colorize"
 require 'dm-aggregates'
 require 'dm-core'
 require 'dm-migrations'
+require 'dm-validations'
+require 'dm-zone-types'
 require 'github/markup'
 require 'httparty'
 require 'nokogiri'
@@ -29,9 +32,10 @@ class Repo
   property :name, Text
   property :owner, Text
   property :description, Text
+  property :readme, Text
   
-  property :last_pushed_at, DateTime
-  property :github_created_at, DateTime
+  property :last_pushed_at, ZonedTime
+  property :github_created_at, ZonedTime
 
   # github source graph
   property :source, Text
@@ -45,26 +49,28 @@ class Repo
   
   belongs_to :category, :required => false
   
-  after :save, :cache_readme
-
   def self.exists?(params={})
     Repo.first(:github_slug => "#{params['owner']}/#{params['name']}")
   end
   
   def self.create_from_json(json)
-    puts json.inspect
     r                   = self.new 
     r.name              = json["name"]
     r.owner             = json["owner"]
     r.description       = json["description"]
-    r.last_pushed_at    = DateTime.parse(json["pushed_at"]) if json["pushed_at"]
-    r.github_created_at = DateTime.parse(json["created_at"]) if json["created_at"]
+    r.last_pushed_at    = Time.parse(json["pushed_at"]) if json["pushed_at"]
+    r.github_created_at = Time.parse(json["created_at"]) if json["created_at"]
     r.github_slug       = "#{json['owner']}/#{json['name']}"
+    r.readme            = r.render_readme
     if(json["fork"])
       r.source = json["source"]
       r.parent = json["parent"]
     end
-    r.save
+    unless r.save
+      r.errors.each {|e| puts e.red }
+      return false
+    end
+    return true
   end
   
   def self.search(term)
@@ -75,6 +81,22 @@ class Repo
         Repo.create_from_json( r )
       end
     end
+  end
+
+  def update_from_json(json)
+    self.description       = json["description"]
+    self.last_pushed_at    = Time.parse(json["pushed_at"]) if json["pushed_at"]
+    self.github_created_at = Time.parse(json["created_at"]) if json["created_at"]
+    self.readme            = render_readme
+    if(json["fork"])
+      self.source = json["source"]
+      self.parent = json["parent"]
+    end
+    unless self.save
+      errors.each {|e| puts e.red }
+      return false
+    end
+    return true
   end
 
   def most_recent_commit
@@ -144,40 +166,39 @@ class Repo
     end
   end
 
+  # fetches the actual readme from github
   def get_github_readme
-    result = HTTParty.get(github_readme_url)
-    return result.parsed_response    
+    return nil if github_readme_url.nil? || github_readme_url.empty?
+    puts "fetching readme: #{github_readme_url}\n"
+    begin
+      result = HTTParty.get(github_readme_url)
+
+      # github returns the readme as a binary file type, so we need to
+      # set it's encoding explicitly
+      body = result.parsed_response.force_encoding("ISO-8859-1")
+
+      unless body.valid_encoding?
+        puts "Skipping the readme... it's encoding is all jacked up"
+        return nil
+      end
+
+      # there are very likely unicode characters
+      body = body.encode("UTF-8")
+      
+      return body
+    rescue
+      return nil
+    end
   end
 
-  # absolute filesystem path to cached repo assets
-  def repo_cache_dir
-    File.expand_path(File.dirname(__FILE__)) + "/public/repos/#{github_slug}"
-  end
-
-  # absolute filesystem path to cached readme
-  def cached_readme_file
-    repo_cache_dir + '/readme'    
-  end
-
-  # relative path to cached readme
-  def cached_readme_url
-    '/repos/#{github_slug}/readme'
-  end
-
-  def cache_readme
-    return if cached_readme_file.nil? || cached_readme_file.empty?
-
-    # make sure the directories in the cache path exist
-    FileUtils.mkdir_p(repo_cache_dir)
-    
+  # renders the readme using the proper markup engine
+  def render_readme
     # from time to time we get an empty readme
     body = get_github_readme
-    return if body.nil? || body.empty?
-
-    # render the readme from github out to a file
-    File.open(cached_readme_file, "w") do |f|
-      f.puts(GitHub::Markup.render(github_readme_filename, body))
-    end
+    return nil if body.nil? || body.empty?
+    
+    # render the readme
+    return GitHub::Markup.render(github_readme_filename, body)
   end
 
 end
