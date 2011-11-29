@@ -27,6 +27,7 @@ def do_search(term, next_page=1)
       # create a new record
       puts "creating:\t".green + "#{ r['owner'] }/#{ r['name'] }"
       Repo.create_from_json(r)
+    #else # uncomment this line and comment the next to update all with the latest
     elsif r["pushed_at"] && (DateTime.parse(r["pushed_at"]) > repo.last_pushed_at)
       # update this record
       puts "updating:\t".green + "#{ r['owner'] }/#{ r['name'] }"

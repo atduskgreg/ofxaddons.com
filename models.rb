@@ -4,6 +4,7 @@ require "colorize"
 require 'dm-aggregates'
 require 'dm-core'
 require 'dm-migrations'
+require 'dm-types'
 require 'dm-validations'
 require 'dm-zone-types'
 require 'github/markup'
@@ -34,7 +35,9 @@ class Repo
   property :owner, Text
   property :description, Text
   property :readme, Text
-  
+  property :forks, Json
+  property :most_recent_commit, Json
+
   property :last_pushed_at, ZonedTime, :required => true
   property :github_created_at, ZonedTime
 
@@ -55,14 +58,16 @@ class Repo
   end
   
   def self.create_from_json(json)
-    r                   = self.new 
-    r.name              = json["name"]
-    r.owner             = json["owner"]
-    r.description       = json["description"]
-    r.last_pushed_at    = Time.parse(json["pushed_at"]) if json["pushed_at"]
-    r.github_created_at = Time.parse(json["created_at"]) if json["created_at"]
-    r.github_slug       = "#{json['owner']}/#{json['name']}"
-    r.readme            = r.render_readme
+    r                    = self.new 
+    r.name               = json["name"]
+    r.owner              = json["owner"]
+    r.description        = json["description"]
+    r.last_pushed_at     = Time.parse(json["pushed_at"]) if json["pushed_at"]
+    r.github_created_at  = Time.parse(json["created_at"]) if json["created_at"]
+    r.github_slug        = "#{json['owner']}/#{json['name']}"
+    r.readme             = r.render_readme
+    r.forks              = r.get_forks
+    r.most_recent_commit = r.get_most_recent_commit
     if(json["fork"])
       r.source = json["source"]
       r.parent = json["parent"]
@@ -85,14 +90,17 @@ class Repo
   end
 
   def update_from_json(json)
-    self.description       = json["description"]
-    self.last_pushed_at    = Time.parse(json["pushed_at"]) if json["pushed_at"]
-    self.github_created_at = Time.parse(json["created_at"]) if json["created_at"]
-    self.readme            = render_readme
+    self.description        = json["description"]
+    self.last_pushed_at     = Time.parse(json["pushed_at"]) if json["pushed_at"]
+    self.github_created_at  = Time.parse(json["created_at"]) if json["created_at"]
+    self.readme             = render_readme
+    self.forks              = get_forks
+    self.most_recent_commit = get_most_recent_commit
     if(json["fork"])
       self.source = json["source"]
       self.parent = json["parent"]
     end
+
     unless self.save
       errors.each {|e| puts e.red }
       return false
@@ -100,11 +108,15 @@ class Repo
     return true
   end
 
-  def most_recent_commit
-    return @most_recent_commit if @most_recent_commit
+  def get_most_recent_commit
     url = "https://api.github.com/repos/#{self.github_slug}/commits"
+    puts "fetching most recent commit: #{ url }"
     result = HTTParty.get(url)
-    @most_recent_commit = result[0]
+    if result.success?
+      return result[0]
+    else
+      return nil
+    end
   end
   
   def fresher_forks
@@ -113,12 +125,16 @@ class Repo
       fork_last_pushed > self.last_pushed_at
     end
   end
-  
-  def forks
-    return @forks if @forks
+
+  def get_forks
     url = "https://api.github.com/repos/#{self.github_slug}/forks"
+    puts "fetching forks: #{ url }"
     result = HTTParty.get(url)
-    @forks = result.parsed_response
+    if result.success?
+      return result.parsed_response
+    else
+      return nil
+    end
   end  
 
   def github_url
@@ -142,54 +158,36 @@ class Repo
 
   # gets the url to the raw readme file on github
   def scrape_github_readme_url
+    result = HTTParty.get(github_url)
+    return nil unless result.success?
+
     # fetch the main github page for this repo and parse it
-    doc = Nokogiri::HTML(HTTParty.get(github_url))
+    doc = Nokogiri::HTML(result)
 
     # grab the table of files in the repo
     files = doc.css('.js-rewrite-sha')
 
-    # filter out everthing except the readmes
-    readme_files = files.find_all {|file| file.text.downcase.include? "readme" }
+    # filter out everthing except the readmes. the "blob" bit needs
+    # to be in there to filter out directories named "readme"
+    files = files.select {|file| file["href"] =~ /\/.+\/blob\/.+\/readme.*/i }
 
-    if readme_files.empty?
-      # no readme
-      return nil
-    else
-      # if there are multiples, then grab the last one
-      readme = readme_files.last
-      begin
-        # munge the url to get the raw file url
-        url = readme["href"].sub("/blob/", "/raw/")
-        return "http://github.com#{url}"
-      rescue
-        return nil
-      end
-    end
+    # bail - no readme
+    return nil if files.empty?
+
+    # if there are multiples, then grab the last one
+    readme = files.last
+
+    # munge the url to get the raw file url
+    url = readme["href"].sub("/blob/", "/raw/")
+
+    return "http://github.com#{url}"
   end
 
   # fetches the actual readme from github
   def get_github_readme
     return nil if github_readme_url.nil? || github_readme_url.empty?
     puts "fetching readme: #{github_readme_url}\n"
-    begin
-      result = HTTParty.get(github_readme_url)
-
-      # github returns the readme as a binary file type, so we need to
-      # set it's encoding explicitly
-      body = result.parsed_response.force_encoding("ISO-8859-1")
-
-      unless body.valid_encoding?
-        puts "Skipping the readme... it's encoding is all jacked up"
-        return nil
-      end
-
-      # there are very likely unicode characters
-      body = body.encode("UTF-8")
-      
-      return body
-    rescue
-      return nil
-    end
+    return http_get_utf8(github_readme_url)
   end
 
   # renders the readme using the proper markup engine
@@ -207,6 +205,29 @@ class Repo
   end
 
   private
+
+  def http_get_utf8(url)
+    begin
+      result = HTTParty.get(github_readme_url)
+      return nil unless result.success?
+      
+      # github returns the readme as a binary file type, so we need to
+      # set it's encoding explicitly
+      body = result.parsed_response.force_encoding("ISO-8859-1")
+
+      unless body.valid_encoding?
+        puts "Skipping the readme... it's encoding is all jacked up"
+        return nil
+      end
+
+      # there are very likely unicode characters
+      body = body.encode("UTF-8")
+      
+      return body
+    rescue
+      return nil
+    end
+  end
 
   def plaintext?(filename)
     (filename.downcase == "readme") ? true : false
