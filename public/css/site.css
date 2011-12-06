@@ -161,7 +161,6 @@ h1 a:hover{
 
 #footer p {
   padding-left: 40px;
-
   margin: 0;
 }
 
@@ -177,4 +176,8 @@ h1 a:hover{
 
 .download a:hover{
   background: #EE3987;
+}
+
+.changedRepo img{
+	float: left;
 }

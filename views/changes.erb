@@ -1,37 +1,40 @@
 <h1>Changes</h1>
 
 <h2>Most Recently Changed Addons</h2>
-
+<% curWeek = "" %> 
 <% for repo in @most_recent %>
 
-<div>
-  <h2><a href="/repos/<%= repo.id %>"><%= repo.name %></a></h2> 
+<div class="changedRepo">
+  <% if curWeek != repo.github_created_at.strftime("%U") %>
+	  <% curWeek = repo.github_created_at.strftime("%U") %>
+	  <h4>week of <%= repo.github_created_at.strftime("%e %B, %Y") %> </h4>
+  <% end %>
+  <img src="<%= repo.most_recent_commit["author"]["avatar_url"] %>" />
+  <h2><a href="/repos/<%= repo.id %>"><%= repo.name %></a></h2>
+  <h3>by <%= repo.owner %></h3>  
   <p><a href="<%= repo.github_url %>">view on Github</a></p>
+  <div style="clear: both"></div>
+  
 
-  <h3>by <%= repo.owner %></h3>
   <p>
+    <%= repo.description %>
+    <br/>
     <b>Last updated:</b> <%= repo.last_pushed_at.strftime("%e %B, %Y") %>
-  </p>  
+    <br/>
+    <b>Originally created:</b> <%= repo.github_created_at.strftime("%e %B, %Y") %>
+    <br/>
+    <%= repo.most_recent_commit["commit"]["message"] %>
+    <br/>
+  </p>
 
-<p>
-  <b>Originally created:</b> <%= repo.github_created_at.strftime("%e %B, %Y") %>
-</p>
 
-<p>
-  <%= repo.description %>
-</p>
-
-<h3>Most recent commit</h3>
-
-<p>
- Message: 
-    
+<!--
   <%= repo.most_recent_commit["commit"]["message"] %> by <%= repo.most_recent_commit["commit"]["author"]["name"] %>  
   <% if repo.most_recent_commit["author"]  %>
   (realname) <%= repo.most_recent_commit["author"]["login"] %>
   (login) <img src="<%= repo.most_recent_commit["author"]["avatar_url"] %>" />
   <% end %>
-
+-->
 
   
 </div>  
