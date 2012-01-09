@@ -3,8 +3,8 @@
 <div class="category span-22 push-2 last">
 <h2 class="span-21 pull-1"><a name="<%= category.slug %>"><%= category.name %></a> (<%= category.repos.count %>)</h2>
     
-  <% category.repos.sort_by{|r| r.name }.each_with_index do |repo, index| %>
-  <% if !repo.not_addon %>
+  <% category.repos.reject{ |r| r.not_addon == true }.sort_by{|r| r.name }.each_with_index do |repo, index| %>
+
    <div class="repo span-6 append-1 <% if (index+1).divmod(3)[1] == 0 %> last <% end %>">
       <p class="name"><a href="/repos/<%= repo.id %>"><%= repo.name %></a> <span class="download"><a href="<%= repo.github_url %>/zipball/master">⇣</a></span></p>
       <p class="author">by <%= repo.owner %></p>
@@ -17,7 +17,6 @@
   <% end %>
 
 </div>
-<% end %>
 <% end %>
 
 <% unless @uncategorized.empty? %>
