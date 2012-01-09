@@ -32,7 +32,7 @@ get "/" do
 end
 
 get "/changes" do  
-  @most_recent = Repo.all(:not_addon => false, :order => [:last_pushed_at.desc]) 
+  @most_recent = Repo.all(:not_addon => false, :category.not => nil, :order => [:last_pushed_at.desc]) 
   erb :changes
 end
 
