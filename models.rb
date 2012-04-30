@@ -37,6 +37,7 @@ class Repo
   property :readme, Text
   property :forks, Json
   property :most_recent_commit, Json
+  property :issues, Json
 
   property :last_pushed_at, ZonedTime, :required => true
   property :github_created_at, ZonedTime
@@ -68,6 +69,7 @@ class Repo
     r.readme             = r.render_readme
     r.forks              = r.get_forks
     r.most_recent_commit = r.get_most_recent_commit
+    r.issues             = r.get_issues
     if(json["fork"])
       r.source = json["source"]
       r.parent = json["parent"]
@@ -96,6 +98,7 @@ class Repo
     self.readme             = render_readme
     self.forks              = get_forks
     self.most_recent_commit = get_most_recent_commit
+    self.issues             = get_issues
     if(json["fork"])
       self.source = json["source"]
       self.parent = json["parent"]
@@ -136,6 +139,34 @@ class Repo
       return nil
     end
   end  
+
+  # find currently open issues on the repo whose title
+  # matches one of our tags. Wish we could do this with labels
+  # but it looks like only repo owners can apply labels to issues
+  #
+  # Current labels: ofx-incomplete, ofx-osx, ofx-win, ofx-linux
+  #     (the OS-specific ones indicate a problem on that OS)
+  def warning_labels
+    our_labels = ["ofx-incomplete", "ofx-osx", "ofx-win", "ofx-linux"]
+    relevant_labels = []
+    issues.select{|issue| issue["state"] == "open"  }.each do |issue| 
+      our_labels.each do |l| 
+        if Regexp.new(l) =~ issue["title"]
+          relevant_labels << l
+        end
+      end
+    end
+    relevant_labels
+  end
+
+  def get_issues
+    result = HTTParty.get("https://api.github.com/repos/#{github_slug}/issues")
+    if result.success?
+      result.parsed_response
+    else
+      return nil
+    end
+  end
 
   def github_url
     "http://github.com/#{github_slug}"

@@ -6,6 +6,15 @@
   <% category.repos.sort_by{|r| r.name }.each_with_index do |repo, index| %>
    <div class="repo span-6 append-1 <% if (index+1).divmod(3)[1] == 0 %> last <% end %>">
       <p class="name"><a href="/repos/<%= repo.id %>"><%= repo.name %></a> <span class="download"><a href="<%= repo.github_url %>/zipball/master">⇣</a></span></p>
+      <% if !repo.warning_labels.blank? %>
+      <p class="warning-labels">
+        <% for warning in repo.warning_labels %>
+        <span class="warning <%= warning %>">
+          <%= warning.to_s.split("-").last %>
+        </span>
+        <% end %> 
+      </p>
+      <% end %>
       <p class="author">by <%= repo.owner %></p>
       <p class="description">
         <em><%= repo.description %> [<a class="github_link" href="<%= repo.github_url %>">view on Github</a>]</em>
