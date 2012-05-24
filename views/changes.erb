@@ -43,7 +43,7 @@
     Committed on <%= repo.last_pushed_at.strftime("%e %B, %Y") %>
   </p>
   <p class="commitMessage">
-    <% if repo.most_recent_commit["commit"] %>
+    <% if repo.most_recent_commit && repo.most_recent_commit["commit"] %>
         <%= repo.most_recent_commit["commit"]["message"] %>
     <% end %>
   </p>
