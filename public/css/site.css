@@ -21,11 +21,13 @@ ul{
   padding-left: 0;
   background: #3A3839;
   padding: 2px;
-  padding-left: 40px;
+  padding-left: 10px;
+  padding-right: 10px;
   color: #B9BBBD;
   font-weight: bold;
 
-  font-size:12px;
+  font-size:11px;
+  width:932px;
   margin-right: 0;
 }
 
