@@ -96,6 +96,14 @@ a:hover {
   margin-bottom: 18px;
 }
 
+.warning {
+  background-color: #f00;
+  padding: 2px;
+  margin: 2px;
+  color: #fff;
+  font-weight: bold;
+}
+
 h2 {
   border-bottom: 14px solid #B9BBBD;
 }

@@ -3,6 +3,13 @@ require 'colorize'
 
 class Importer
 
+  def self.update_issues_for_all_repos
+    Repo.all(:not_addon => false, :category.not => nil).each do |repo|
+      repo.issues = repo.get_issues
+      repo.save
+    end
+  end
+
   def self.do_search(term, next_page=1)
     puts "requesting page #{next_page}"
     url = "https://api.github.com/legacy/repos/search/#{term}?start_page=#{next_page}"
