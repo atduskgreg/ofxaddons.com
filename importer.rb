@@ -4,7 +4,9 @@ require 'colorize'
 class Importer
 
   def self.update_issues_for_all_repos
-    Repo.all(:not_addon => false, :category.not => nil).each do |repo|
+    count = Repo.count
+    Repo.all(:not_addon => false, :category.not => nil).each_with_index do |repo, i|
+      puts "[#{i}/#{count}] Updating #{repo.name}"
       repo.issues = repo.get_issues
       repo.save
     end
