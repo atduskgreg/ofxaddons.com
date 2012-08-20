@@ -4,10 +4,10 @@ require 'colorize'
 class Importer
 
   def self.update_source_for_uncategorized_repos
-    repos = Repo.all :category => nil
+    repos = Repo.all :not_addon => false, :category => nil
     count = repos.length
     repos.each_with_index do |repo,i|
-      puts "[#{i}/#{count}] finding source for #{repo.github_slug}"
+      puts "[#{i+1}/#{count}] finding source for #{repo.github_slug}"
       repo.update_ancestry
       if repo.source_repo
         puts "source: #{repo.source_repo.github_slug} [not_addon: #{repo.source_repo.not_addon}]"
