@@ -4,7 +4,7 @@ require 'colorize'
 class Importer
 
   def self.update_source_for_uncategorized_repos
-    repos = Repo.all :not_addon => false, :category => nil
+    repos = Repo.all :not_addon => false, :is_fork => false, :category => nil
     count = repos.length
     repos.each_with_index do |repo,i|
       puts "[#{i+1}/#{count}] finding source for #{repo.github_slug}"
@@ -20,8 +20,8 @@ class Importer
   end
 
   def self.update_issues_for_all_repos
-    count = Repo.count(:not_addon => false, :category.not => nil)
-    Repo.all(:not_addon => false, :category.not => nil).each_with_index do |repo, i|
+    count = Repo.count(:not_addon => false, :is_fork => false, :category.not => nil)
+    Repo.all(:not_addon => false, :is_fork => false, :category.not => nil).each_with_index do |repo, i|
       puts "[#{i+1}/#{count}] Updating Issues for #{repo.name}"
       repo.issues = repo.get_issues
       repo.save
