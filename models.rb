@@ -175,6 +175,18 @@ class Repo
     end
   end
 
+  def update_ancestry
+    result = HTTParty.get("https://api.github.com/repos/#{github_slug}")
+    if result.success?
+      self.source = result["source"]["full_name"]
+      self.save
+    end
+  end
+
+  def source_repo
+    Repo.first :github_slug => self.source
+  end
+
   def github_url
     "http://github.com/#{github_slug}"
   end
