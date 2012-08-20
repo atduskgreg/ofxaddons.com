@@ -46,6 +46,8 @@ class Repo
   property :source, Text
   property :parent, Text
 
+  property :is_fork, Boolean, :default => false
+
   # to uniquely specify a repo
   property :github_slug, Text
   
@@ -68,12 +70,13 @@ class Repo
     r.github_slug        = "#{json['owner']}/#{json['name']}"
     r.readme             = r.render_readme
     r.forks              = r.get_forks
+    r.is_fork            = json["fork"]
     r.most_recent_commit = r.get_most_recent_commit
     r.issues             = r.get_issues
-    if(json["fork"])
-      r.source = json["source"]
-      r.parent = json["parent"]
-    end
+    # if(json["fork"])
+    #   r.source = json["source"]
+    #   r.parent = json["parent"]
+    # end
     unless r.save
       r.errors.each {|e| puts e.red }
       return false
@@ -81,15 +84,15 @@ class Repo
     return true
   end
   
-  def self.search(term)
-    url = "http://github.com/api/v2/json/repos/search/#{term}"
-    json = HTTParty.get(url)
-    json["repositories"].each do |r|
-      if !Repo.exists?(:owner => r["owner"], :name => r["name"])
-        Repo.create_from_json( r )
-      end
-    end
-  end
+  # def self.search(term)
+  #   url = "http://github.com/api/v2/json/repos/search/#{term}"
+  #   json = HTTParty.get(url)
+  #   json["repositories"].each do |r|
+  #     if !Repo.exists?(:owner => r["owner"], :name => r["name"])
+  #       Repo.create_from_json( r )
+  #     end
+  #   end
+  # end
 
   def update_from_json(json)
     self.description        = json["description"]
@@ -99,10 +102,12 @@ class Repo
     self.forks              = get_forks
     self.most_recent_commit = get_most_recent_commit
     self.issues             = get_issues
-    if(json["fork"])
-      self.source = json["source"]
-      self.parent = json["parent"]
-    end
+    r.is_fork               = json["fork"]
+
+    # if(json["fork"])
+    #   self.source = json["source"]
+    #   self.parent = json["parent"]
+    # end
 
     unless self.save
       errors.each {|e| puts e.red }

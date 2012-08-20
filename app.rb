@@ -26,13 +26,13 @@ before do
 end
 
 get "/" do
-  @uncategorized = Repo.all(:not_addon => false, :category => nil, :order => :name.asc)
-  @repo_count = Repo.count(:conditions => ['not_addon = ?', 'false'])
+  @uncategorized = Repo.all(:not_addon => false, :is_fork => false, :category => nil, :order => :name.asc)
+  @repo_count = Repo.count(:conditions => ['not_addon = ? AND is_fork = ?', 'false', 'false'])
   erb :repos
 end
 
 get "/changes" do  
-  @most_recent = Repo.all(:not_addon => false, :category.not => nil, :order => [:last_pushed_at.desc]) 
+  @most_recent = Repo.all(:not_addon => false, :is_fork => false, :category.not => nil, :order => [:last_pushed_at.desc]) 
   erb :changes
 end
 
@@ -44,7 +44,7 @@ put "/repos/:repo_id" do
 end
 
 get "/repos/:repo_id" do
-  @uncategorized = Repo.all(:not_addon => false, :category => nil, :order => :name.asc)
+  @uncategorized = Repo.all(:not_addon => false, :is_fork => false, :category => nil, :order => :name.asc)
   @repo = Repo.get(params[:repo_id])
   erb :repo
 end
@@ -52,7 +52,7 @@ end
 get "/admin" do
   protected!
   @not_addons = Repo.all(:not_addon => true, :order => :name.asc)
-  repos = Repo.all(:not_addon => false, :order => :name.asc)
+  repos = Repo.all(:not_addon => false, :is_fork => false, :order => :name.asc)
   @uncategorized, @categorized = repos.partition{|r| r.category.nil?}
   erb :admin
 end
