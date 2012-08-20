@@ -179,6 +179,7 @@ class Repo
     result = HTTParty.get("https://api.github.com/repos/#{github_slug}")
     if result.success?
       self.source = result["source"]["full_name"]
+      self.is_fork = result["fork"]
       self.save
     end
   end

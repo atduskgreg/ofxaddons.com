@@ -5,3 +5,8 @@ task :cron do
   Importer.do_search("ofx")
   Importer.update_issues_for_all_repos
 end
+
+desc "update un-categorized"
+task :update_repos do
+	Importer.update_source_for_uncategorized_repos
+end

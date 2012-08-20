@@ -3,6 +3,22 @@ require 'colorize'
 
 class Importer
 
+  def self.update_source_for_uncategorized_repos
+    repos = Repo.all :category => nil
+    count = repos.length
+    repos.each_with_index do |repo,i|
+      puts "[#{i}/#{count}] finding source for #{repo.github_slug}"
+      repo.update_ancestry
+      if repo.source_repo
+        puts "source: #{repo.source_repo.github_slug} [not_addon: #{repo.source_repo.not_addon}]"
+        repo.not_addon = repo.source_repo.not_addon
+        repo.save
+      else 
+        puts "source unknown"
+      end
+    end
+  end
+
   def self.update_issues_for_all_repos
     count = Repo.count(:not_addon => false, :category.not => nil)
     Repo.all(:not_addon => false, :category.not => nil).each_with_index do |repo, i|
