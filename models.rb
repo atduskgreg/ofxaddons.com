@@ -102,7 +102,7 @@ class Repo
     self.forks              = get_forks
     self.most_recent_commit = get_most_recent_commit
     self.issues             = get_issues
-    r.is_fork               = json["fork"]
+    self.is_fork            = json["fork"]
 
     # if(json["fork"])
     #   self.source = json["source"]
