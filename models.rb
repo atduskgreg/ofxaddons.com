@@ -178,7 +178,9 @@ class Repo
   def update_ancestry
     result = HTTParty.get("https://api.github.com/repos/#{github_slug}")
     if result.success?
-      self.source = result["source"]["full_name"]
+      if result["source"]
+        self.source = result["source"]["full_name"]
+      end
       self.is_fork = result["fork"]
       self.save
     end
