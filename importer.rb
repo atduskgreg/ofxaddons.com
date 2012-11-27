@@ -30,7 +30,7 @@ class Importer
 
   def self.do_search(term, next_page=1)
     puts "requesting page #{next_page}"
-    url = "https://api.github.com/legacy/repos/search/#{term}?start_page=#{next_page}"
+    url = "https://api.github.com/legacy/repos/search/:{term}?start_page=#{next_page}"
     json = HTTParty.get(url)
   
     json["repositories"].each do |r|
