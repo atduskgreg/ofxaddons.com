@@ -1,60 +1,39 @@
-<div class="span-22 push-1 last">
-<h1>Most Recently Changed Addons</h1>
-</div>
-<div class="span-20 push-2 last">
-<% curWeek = "" %> 
-<% for repo in @most_recent %>
+<div class="row">
+    <h1 class="span12">Most Recently Changed Addons</h1>
+    <div class="span12">
+        <% curWeek = "" %> 
+        <% for repo in @most_recent %>
 
-  <% if curWeek != repo.last_pushed_at.strftime("%U") %>
-	  <% curWeek = repo.last_pushed_at.strftime("%U") %>
-	  <div class="span-21 pull-1">
-	  <h2>Week of <%= repo.last_pushed_at.strftime("%e %B, %Y") %> </h2>
-	  </div>
-  <% end %>
+        <% if curWeek != repo.last_pushed_at.strftime("%U") %>
+        <% curWeek = repo.last_pushed_at.strftime("%U") %>
+        <h2>Week of <%= repo.last_pushed_at.strftime("%e %B, %Y") %> </h2>
+        <% end %>
   
-  <div class="changedRepo span-20 last">
-     <div class="span-3">
-     <% if repo.most_recent_commit && repo.most_recent_commit["author"]  %>
-     <img style="width:70px;" src="<%= repo.most_recent_commit["author"]["avatar_url"] %>" />
-     <h4 class="repoOwner"><%= repo.most_recent_commit["author"]["login"] %></h4>  
+        <div class="changedRepo span10 offset1 row">
+            <div class="span1">
+                <% if repo.most_recent_commit && repo.most_recent_commit["author"]  %>
+                <img style="width:70px;" src="<%= repo.most_recent_commit["author"]["avatar_url"] %>" />
+                <h4 class="repoOwner"><%= repo.most_recent_commit["author"]["login"] %></h4>  
+                 <% else %>
+                <img style="width:70px;" src="/img/default-gravatar.png" />
+                <% end %>
+            </div>
 
-     <% else %>
-      <img style="width:70px;" src="/images/default-gravatar.png">
-     <% end %>
+            <div class="span4">
+                <h4 class="name"><a href="/repos/<%= repo.id %>"><%= repo.name %></a></h4>
+                <p class="description"><%= repo.description %></p>
+                <p><a href="<%= repo.github_url %>">view on Github</a></p>
+            </div>
 
-
-     </div>
-    
-    
-    
-    <div class="span-17 last">
-        <h4 class="repoName"><a href="/repos/<%= repo.id %>"><%= repo.name %></a></h4>
+            <blockquote class="span6 offset1">
+                <p>
+                    <% if repo.most_recent_commit && repo.most_recent_commit["commit"] %>
+                    <%= repo.most_recent_commit["commit"]["message"] %>
+                    <% end %>
+                </p>
+                <small>Committed on <%= repo.last_pushed_at.strftime("%e %B, %Y") %></small>
+            </blockquote>
+        </div>  
+        <% end %>
     </div>
-      
- <div class="span-5 append-1">
-          <p class="repoDescription"><%= repo.description %></p>
-
-  <p><a href="<%= repo.github_url %>">view on Github</a></p>
-  </div>
-  <div class="span-10 last">
-  
-  
-  <p class="commitIntro">
-    Committed on <%= repo.last_pushed_at.strftime("%e %B, %Y") %>
-  </p>
-  <p class="commitMessage">
-    <% if repo.most_recent_commit && repo.most_recent_commit["commit"] %>
-        <%= repo.most_recent_commit["commit"]["message"] %>
-    <% end %>
-  </p>
-
-
-</div>
-  
-  
-
-
-  
-</div>  
-<% end %>
 </div>

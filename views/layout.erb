@@ -1,36 +1,38 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<html>
-  <head>
-    <title>ofxAddons</title>
-    <link rel="stylesheet" href="/css/blueprint/screen.css">
-    <link rel="stylesheet" href="/css/site.css">
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-  </head>
-  <body>
-    <div class="container">
-      <div id="header" class="span-24 last">
-        <h1 class="span-5"><a href="/">ofxAddons</a></h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ofxAddons</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+	<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+	<div class="container" id="top">
+		<div class="row">
+			<div id="header" class="span12">
+				<h1><a href="/">ofxAddons</a></h1>
+				<p id="slogan">A directory of extensions and libraries for the <a href="http://openframeworks.cc">OpenFrameworks</a> creative coding toolkit. Compiled fresh from <a href="http://github.com">Github</a> daily.</p>
+			</div>
+            <div id="nav" class="span12">
+			<% for category in @categories %>
+				<a href="/#<%= category.slug %>"><%= category.name  %></a> / 
+			<% end %>
+			</div>
 
-        <p id="slogan" class="span-19 last">
-          <em>A directory of extensions and libraries for the <a href="http://openframeworks.cc">OpenFrameworks</a> creative coding toolkit. Compiled fresh from <a href="http://github.com">Github</a> daily.</em>
-        </p>
-      </div>
+			<div id="howto-nav" class="span12">
+				<a href="/howto">Contribute your own!</a>
+				<a href="/changes">See freshest addons!</a>
+			</div>
 
-      <div id="nav" class="span-23 last">
-        <% for category in @categories %>
-          <a href="/#<%= category.slug %>"><%= category.name  %></a> / 
-        <% end %>
-      </div>
+			<%= yield %>
 
-      <div id="howto-nav" class="span-23 last">
-        <a href="/howto">Contribute your own!</a> /   <a href="/changes">See freshest addons!</a>
-      </div>
-
-      <%= yield %>
-      <div id="footer" class="span-24 last">
-        <p>Created by <a href="http://www.jamesgeorge.org/">James George</a>, <a href="http://gregborenstein.com">Greg Borenstein</a> and <a href="http://www.virtualjames.com">James Hughes</a>.</p>
-        <p>Have questions? Don't see your addon? <a href="mailto:james@jamesgeorge.org">Email us</a>.</p>
-      </div>
-    </div>
-  </body>
+			<div id="footer" class="span12">
+				<p>Created by <a href="http://www.jamesgeorge.org/">James George</a>, <a href="http://gregborenstein.com">Greg Borenstein</a> and <a href="http://www.virtualjames.com">James Hughes</a>.</p>
+				<p>Have questions? Don't see your addon? <a href="mailto:james@jamesgeorge.org">Email us</a>.</p>
+			</div>
+		</div>
+	</div>
+</body>
 </html>

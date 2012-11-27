@@ -1,149 +1,123 @@
+<div id="howto" class="span12">
+    <h2>What are openFrameworks addons?</h2>
+    <p>An addon is code that extends openFrameworks in some way.  There are usually two main reasons to make an addon</p>
+    <ol>
+        <li>Bring in an external library or framework and allow it to easily be integrated into openFrameworks projects, eg: ofxKinect for using the kinect in openFrameworks, or ofxMidi for sending midi commands</li>
+        <li>Make some complicated task simple and reusable for yourself and other openFrameworks programmers, eg: ofxQuadWarp by julapy or ofxControlPanel by Theo for user interfaces</li>
+    </ol>
 
+    <h2>How do I install an addon I found on this site?</h2>
+    <p>There are two easy ways to install any addon you find here. Anywhere you see this icon: <span class="download"><a href="#"><i class="icon-download-alt icon-white"></i></a> you can click it to immediately downloaded the code.</span></p>
 
-<div id="howto" class="span-20 push-2 last">
-  <h2>What are openFrameworks addons?</h2>
-	<p>An addon is code that extends openFrameworks in some way.  There are usually two main reasons to make an addon</p>
-	<ol>
-		<li>Bring in an external library or framework and allow it to easily be integrated into openFrameworks projects, eg: ofxKinect for using the kinect in openFrameworks, or ofxMidi for sending midi commands</li>					<li>Make some complicated task simple and reusable for yourself and other openFrameworks programmers, eg: ofxQuadWarp by julapy or ofxControlPanel by Theo for user interfaces</li>
-	</ol>
-				
-	<h2>How do I install an addon I found on this site?</h2>
-	<p>
-	 There are two easy ways to install any addon you find here. Anywhere you see this icon: <span class="download"><a href="#">⇣</a> you can click it to immediately downloaded the code.</span>
-	</p>
+    <p>Or you can checkout a copy of the code using git. If you browse to the addon on github and copy the URL bar, then open up a terminal and move to the addons directory and clone it like so:</p>
 
-	<p>Or you can checkout a copy of the code using git. If you browse to the addon on github and copy the URL bar, then open up a terminal and move to the addons directory and clone it like so:</p>	
+    <p>Watch this video for detailed instructions for OSX:</p>
+    <iframe src="http://player.vimeo.com/video/34092591?byline=0&amp;portrait=0&amp;color=ffffff" width="500" height="375" frameborder="0" webkitAllowFullScreen="" mozallowfullscreen="" allowFullScreen=""></iframe>
+    <p><a href="http://vimeo.com/34092591">OF 007 Guide - Adding addons to an Xcode Project</a> from <a href="http://vimeo.com/of">openFrameworks</a> on <a href="http://vimeo.com">Vimeo</a>.</p>
+    <pre>
+$cd of_preRelease/addons/
+$git clone https://github.com/benben/ofxAddonTemplate
+    </pre>
+    <p>Once you've got the code using either of these methods you should be able to open up the project files in the examples folders of the addons and build->go to see them work. To start your own project, just copy the example folder into a new <code>apps/</code> folder and modify it from there. If the addon doesn't build right away, it may required dependent addons or libraries. Those should be described by the addon developer in their <code>README</code> file. If there are no project files or the addon is structured in a way that makes openFrameworks show up missing when you open them, please email the addon developer pointing them to this page so they can change the structure to make it easier for people to use.</p>
+    <p>Being included on the site is no guarantee that the code works or is useful. We couldn't possibly test and run them all ourselves, so it's between you and the developer to sort out issues if they don't work.</p>
 
-	<p>Watch this video for detailed instructions for OSX:</p>
-	<iframe src="http://player.vimeo.com/video/34092591?byline=0&amp;portrait=0&amp;color=ffffff" width="500" height="375" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe> <p><a href="http://vimeo.com/34092591">OF 007 Guide - Adding addons to an Xcode Project</a> from <a href="http://vimeo.com/of">openFrameworks</a> on <a href="http://vimeo.com">Vimeo</a>.</p>	
-<pre>
-  $cd of_preRelease/addons/
-  $git clone https://github.com/obviousjim/ofxSomeAddon		
-</pre>
-		<p>
-			Once you've got the code using either of these methods you should be able to open up the project files in the examples folders of the addons and build->go to see them work.  To start your own project, just copy the example folder into a new apps/ folder and modify it from there.  If the addon doesn't build right away, it may required dependent addons or libraries. Those should be described by the addon developer in their README file.  If there are no project files or the addon is structured in a way that makes openFrameworks show up missing when you open them, please email the addon developer pointing them to this page so they can change the structure to make it easier for people to use.
-		</p>
-		<p>
-			Being included on the site is no guarantee that the code works or is useful. We couldn't possibly test and run them all ourselves, so it's between you and the developer to sort out issues if they don't work.
-		</p>
-		
-	  	<h2>How do you find all these addons?</h2>
-		<p>
-			We wrote scripts to discover addons on <a href="http://github.com">github.com</a>. The scripts look at the repository name and description for things like 'openFrameworks' and 'ofx'. We have manual admin tools to discard the results that aren't openFrameworks related, empty, or blatantly incomplete. The ones we keep are dividing into categories after doing a bit of research about them.
-		</p>
-		
-		<h2>Should I turn my openFrameworks thing into an addon?</h2>
-		<p>The best addons make something that was hard easy. They allow you to do complicated things with really little code.  If you have just conqured a big library, algorithm, or invented a new process you should consider making it an addon.  If you're still wondering, maybe these questions will help:</p>
-		<ol>
-			<li>Does your addon do something that you think other people would like to do too?</li>
-			<li>Make sure your addon doesn't already exist by looking at <a href="/">ofxaddons.com</a>.</li>
-			<li>If a similar thing does exist but you think you did it better, consider forking the existing addon into your github account and modifying it.</li>
-		</ol>
+    <h2>How do you find all these addons?</h2>
+    <p>We wrote scripts to discover addons on <a href="http://github.com">github.com</a>. The scripts look at the repository name and description for things like <code>openFrameworks</code> and <code>ofx</code>. We have manual admin tools to discard the results that aren't openFrameworks related, empty, or blatantly incomplete. The ones we keep are dividing into categories after doing a bit of research about them.</p>
 
-		<h2>How do I make an openFrameworks addon?</h2>
-		<h3>Folder structure for an addon looks like this:</h3>
+    <h2>Should I turn my openFrameworks thing into an addon?</h2>
+    <p>The best addons make something that was hard easy. They allow you to do complicated things with really little code.  If you have just conqured a big library, algorithm, or invented a new process you should consider making it an addon. If you're still wondering, maybe these questions will help:</p>
+    <ol>
+        <li>Does your addon do something that you think other people would like to do too?</li>
+        <li>Make sure your addon doesn't already exist by looking at <a href="/">ofxaddons.com</a>.</li>
+        <li>If a similar thing does exist but you think you did it better, consider forking the existing addon into your github account and modifying it.</li>
+    </ol>
 
-<pre>
+    <h2>How do I make an openFrameworks addon?</h2>
+    <h3>Folder structure for an addon looks like this:</h3>
+
+    <pre>
 of_preRelease/
-  addons/
-    ofxMyAddon/
-      src/
-        ofxMyAddon.h
-        ofxMyAddon.cpp
-        ...
-      libs/
-        libwhatever/
-          src/
-            lib_implementation.h
-            lib_implementation.cpp
-            ...
-          includes/
-            libwhatever.h
-            ...
-          lib/
-            osx/
-              static_libwhatever.a
-            linux/
-              static_libwhatever.a  
-            ... //other platforms
-      example-anExample/
-        src/
-          main.cpp
-          testApp.h
-          testApp.cpp
-          ... //other source
-        MyAddonExample.xcodeproj
-        ... //other project files for other platforms
-      bin/
-        data/
-          necessaryAsset.txt
-</pre>
+    addons/
+        ofxMyAddon/
+            src/
+                ofxMyAddon.h
+                ofxMyAddon.cpp
+                ...
+            libs/
+                libwhatever/
+                    src/
+                        lib_implementation.h
+                        lib_implementation.cpp
+                        ...
+                    includes/
+                        libwhatever.h
+                        ...
+            example-anExample/
+                src/
+                    main.cpp
+                    testApp.h
+                    testApp.cpp
+                    ... //other source
+            MyAddonExample.xcodeproj
+            ... //other project files for other platforms
+    </pre>
 
-		<p>Everything should go into of_preRelease/addons/.  The name of the repository should be ofxMyAddon. The point being when someone clones your git repository into their addons/ folder your examples will run without having to shuffle any files around</p>
-      
-			<h3>Wait can you explain that more?</h3>
-			<ul style="padding:0">
-			<li>
-			</li>
-			
-			<li>The folder under of_preRelease/addons should be the same name as the addon. This is also the git repository n ame
-<pre>
-    of_preRelease/addons/ofxMyAddon/
-</pre>
-			</li>
-			
-			<li>Beneath it there should be at least two sub folders for the source and examples
-<pre>
-    ofxMyAddon/src
-    ofxMyAddon/example
-</pre>
-			</li>
-			<li>If you have multiple examples for your addon, make sure they are prefixed with example-xxxx
-<pre>
-    ofxMyAddon/example-simpleExample
-    ofxMyAddon/example-moreComplicatedExample
-</pre>
-			</li>
-			<li>
-				If the addon is for interfacing with external libraries include the source or any static libs for these in a libs folder
-<pre>
-	ofxMyAddons/libs
-</pre>
-			</li>
-			<li>
-			The src folder should contain your addon source
-<pre>
-    ofxMyAddon/src/ofxMyAddon.h
-    ofxMyAddon/src/ofxMyAddon.cpp
-    ...
-</pre>
-		</li>
-		 <li>
-		 The example folder should contain the example source and project files (the same style that you would normally find in apps/examples/someExample
-<pre>
-    ofxMyAddon/example/MyAddonExample.xcodeproj
-    ... //other project files for other platforms
-    ofxMyAddon/example/src/main.cpp
-    ofxMyAddon/example/src/testApp.h
-    ofxMyAddon/example/src/testApp.cpp
-    ...
-    ofxMyAddon/example/bin/data
-</pre>
-		</li>
-	</ul>
-			
-	<h2>Is my addon done yet?</h2>
-	<ul style="list-style-type:disc">
-		<li>Do you describe what your project does in your description and README including</li>
-		<li>Do you list what operating systems you are supporting?</li>
-		<li>Do you have example projects?</li>
-		<li>Do your examples compile against the latest openFrameworks distribution downloaded from the of website?</li>
-		<li>Did you give credit and links to whoever wrote the original code your addon includes?</li>
-		<li>Are you clear about how your addon is licensed? Be straightforward if you don't want people to use it commercially. Also make sure that your dependent libraries have licenses that you are respecting.</li>
-	</ul>			
+    <p>Everything should go into <code>of_preRelease/addons/</code>. The name of the repository should be <code>ofxMyAddon</code>. The point being when someone clones your git repository into their <code>addons/</code> folder your examples will run without having to shuffle any files around</p>
 
-	<h2>How do I submit my addon to this page?</h2>
-	<p>
-		You don't have to! Uploading it to github is enough, as long as you have the 'ofx' prefix in your repository name then we'll find it. Feel free to send us a note if you want to tell us about it and let us know what category it belongs in.
-	</p>
+    <h3>Wait can you explain that more?</h3>
+    <ul style="padding:0">
+        <li>The folder under <code>of_preRelease/addons</code> should be the same name as the addon. This is also the git repository name
+            <pre>
+of_preRelease/addons/ofxMyAddon/
+            </pre>
+        </li>
+
+        <li>Beneath it there should be at least two sub folders for the source and examples
+            <pre>
+ofxMyAddon/src
+ofxMyAddon/example
+            </pre>
+        </li>
+        <li>If you have multiple examples for your addon, make sure they are prefixed with example-xxxx
+            <pre>
+ofxMyAddon/example-simpleExample
+ofxMyAddon/example-moreComplicatedExample
+            </pre>
+        </li>
+        <li>If the addon is for interfacing with external libraries include the source or any static libs for these in a libs folder
+            <pre>
+ofxMyAddons/libs
+            </pre>
+        </li>
+        <li>The src folder should contain your addon source
+            <pre>
+ofxMyAddon/src/ofxMyAddon.h
+ofxMyAddon/src/ofxMyAddon.cpp
+...
+            </pre>
+        </li>
+        <li>The example folder should contain the example source and project files (the same style that you would normally find in <code>apps/examples/someExample</code>
+            <pre>
+ofxMyAddon/example/MyAddonExample.xcodeproj
+... //other project files for other platforms
+ofxMyAddon/example/src/main.cpp
+ofxMyAddon/example/src/testApp.h
+ofxMyAddon/example/src/testApp.cpp
+...
+            </pre>
+        </li>
+    </ul>
+
+    <h2>Is my addon done yet?</h2>
+    <ul>
+        <li>Do you describe what your project does in your description and <code>README</code> including</li>
+        <li>Do you list what operating systems you are supporting?</li>
+        <li>Do you have example projects?</li>
+        <li>Do your examples compile against the latest openFrameworks distribution downloaded from the of website?</li>
+        <li>Did you give credit and links to whoever wrote the original code your addon includes?</li>
+        <li>Are you clear about how your addon is licensed? Be straightforward if you don't want people to use it commercially. Also make sure that your dependent libraries have licenses that you are respecting.</li>
+    </ul>
+
+    <h2>How do I submit my addon to this page?</h2>
+    <p>You don't have to! Uploading it to github is enough, as long as you have the 'ofx' prefix in your repository name then we'll find it. Feel free to send us a note if you want to tell us about it and let us know what category it belongs in.</p>
 </div>
