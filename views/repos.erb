@@ -1,34 +1,42 @@
 <div class="category row">
-
-    <% @categories.each_with_index do |category, index| %>
-        <h2 class="span12"><a name="<%= category.slug %>"><%= category.name %></a> (<%= category.repos.count %>)</h2>
-    
-        <% category.repos.reject{ |r| r.not_addon == true }.sort_by{|r| r.name }.each_with_index do |repo, index| %>
-        <div class="repo span3 <% if (index+1).divmod(4)[1] == 0 %> <% end %>">
-            <p class="name"><a href="/repos/<%= repo.id %>"><%= repo.name %></a> <span class="download"><a href="<%= repo.github_url %>/zipball/master"><i class="icon-download-alt icon-white"></i></a> <a class="github_link" href="<%= repo.github_url %>"><i class="icon-eye-open icon-white"></i></a></span></p>
-            <% if !repo.warning_labels.blank? %>
-            <p class="warning-labels">
-                <% for warning in repo.warning_labels %>
-                <span class="warning <%= warning %>"><%= warning.to_s.split("-").last %></span>
-                <% end %> 
-            </p>
+    <div id="nav" class="span2">
+        <ul class="nav nav-list affix">
+            <% for category in @categories %>
+            <li><a href="#"<%= category.slug %>"><%= category.name %></a></li>
             <% end %>
-            <p class="author">&#151; <%= repo.owner %></p>
-            <p class="description"><%= repo.description %></p>
-        </div>
-        <% if (index+1).divmod(4)[1] == 0 %><br style="clear:both;" /><% end %>
+        </ul>
+    </div>
+
+    <div id="body" class="span10 row">
+        <% @categories.each_with_index do |category, index| %>
+            <h2 class="span9"><a id="<%= category.slug %>"><%= category.name %></a> (<%= category.repos.count %>)</h2>
+    
+            <% category.repos.reject{ |r| r.not_addon == true }.sort_by{|r| r.name }.each_with_index do |repo, index| %>
+            <div class="repo span3 <% if (index+1).divmod(3)[1] == 0 %> <% end %>">
+                <p class="name"><a href="/repos/<%= repo.id %>"><%= repo.name %></a> <span class="download"><a href="<%= repo.github_url %>/zipball/master"><i class="icon-download-alt icon-white"></i></a> <a class="github_link" href="<%= repo.github_url %>"><i class="icon-eye-open icon-white"></i></a></span></p>
+                <% if !repo.warning_labels.blank? %>
+                <p class="warning-labels">
+                    <% for warning in repo.warning_labels %>
+                    <span class="warning <%= warning %>"><%= warning.to_s.split("-").last %></span>
+                    <% end %> 
+                </p>
+                <% end %>
+                <p class="author">&#151; <%= repo.owner %></p>
+                <p class="description"><%= repo.description %></p>
+            </div>
+            <% if (index+1).divmod(3)[1] == 0 %><br style="clear:both;" /><% end %>
+            <% end %>
         <% end %>
-    <% end %>
 
-    <% unless @uncategorized.empty? %>
-    <h2 class="span12"><a name="uncategorized">Uncategorized</a></h2>
-        <% for repo in @uncategorized %>
-        <div class="repo span3">
-            <p class="name"><a href="/repos/<%= repo.id %>"><%= repo.name %></a> <span class="download"><a href="<%= repo.github_url %>/zipball/master"><i class="icon-download-alt icon-white"></i></a> <a class="github_link" href="<%= repo.github_url %>"><i class="icon-eye-open icon-white"></i></a></span></p>
-            <p class="author">&#151; <%= repo.owner %></p>
-            <p class="description"><%= repo.description %></p>
-        </div>
-    <% end %>
-
+        <% unless @uncategorized.empty? %>
+        <h2 class="span12"><a name="uncategorized">Uncategorized</a></h2>
+            <% for repo in @uncategorized %>
+            <div class="repo span3">
+                <p class="name"><a href="/repos/<%= repo.id %>"><%= repo.name %></a> <span class="download"><a href="<%= repo.github_url %>/zipball/master"><i class="icon-download-alt icon-white"></i></a> <a class="github_link" href="<%= repo.github_url %>"><i class="icon-eye-open icon-white"></i></a></span></p>
+                <p class="author">&#151; <%= repo.owner %></p>
+                <p class="description"><%= repo.description %></p>
+            </div>
+            <% end %>
+        <% end %>
+    </div>
 </div>
-<% end %>
