@@ -4,32 +4,42 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>ofxAddons</title>
-	<link rel="stylesheet" href="css/bootstrap.min.css">
-	<link rel="stylesheet" href="css/bootstrap-responsive.min.css">
-	<link rel="stylesheet" href="css/site.css">
+	<link href="/favicon.png" type="image/png" rel="icon">
+	<link href="/favicon.ico" type="image/x-icon" rel="icon">
+	<link rel="stylesheet" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/css/bootstrap-responsive.min.css">
+	<link rel="stylesheet" href="/css/site.css">
+	<link href='http://fonts.googleapis.com/css?family=Questrial' rel='stylesheet' type='text/css'>
+	<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+	<script>window.jQuery || document.write('<script src="/js/jquery-1.8.3.min.js" type="text/javascript"><\/script>')</script>
+	<script src="/js/bootstrap.min.js" type="text/javascript"></script>
 </head>
-<body>
-	<div class="container" id="top">
+<body data-spy="scroll" data-target=".sidebar">
+	<div class="container">
 		<div class="row">
-			<div id="header" class="span12">
+			<div id="header" class="span10 offset2">
 				<h1><a href="/">ofxAddons</a></h1>
 				<p id="slogan">A directory of extensions and libraries for the <a href="http://openframeworks.cc">OpenFrameworks</a> creative coding toolkit. Compiled fresh from <a href="http://github.com">Github</a> daily.</p>
 			</div>
 
-            <div id="howto-nav" class="navutils span3 offset1">
-                <a href="/howto">Contribute your own!</a>
-            </div>
-            <div id="changes-nav" class="navutils span3 offset1">
-                <a href="/changes">See freshest addons!</a>
-            </div>
-            <div id="social-nav" class="navutils span3 offset1">
+            <a href="/howto">
+                <div id="howto-nav" class="navutils span2 offset2">Contribute your own!</div>
+            </a>
+            <a href="/changes">
+                <div id="changes-nav" class="navutils span2 offset1">See freshest addons!</div>
+            </a>
+            <div id="social-nav" class="navutils span2 offset1">
                 <iframe src="http://ghbtns.com/github-btn.html?user=atduskgreg&repo=ofxaddons.com&type=watch" allowtransparency="true" frameborder="0" scrolling="0" width="62" height="20"></iframe>    
                 <iframe scrolling="no" frameborder="0" allowtransparency="true" src="http://platform.twitter.com/widgets/follow_button.1352365724.html#_=1354021167400&amp;id=twitter-widget-1&amp;lang=en&amp;screen_name=ofxaddons&amp;show_count=false&amp;show_screen_name=false&amp;size=m" class="twitter-follow-button" style="width: 60px; height: 20px;" title="Twitter Follow Button" data-twttr-rendered="true"></iframe>
             </div>
 
+			<div class="span12 headbor"></div>
+
 			<%= yield %>
 
-			<div id="footer" class="span12">
+			<div class="span12 headbor"></div>
+
+			<div id="footer" class="span10 offset2">
 				<p>Created by <a href="http://www.jamesgeorge.org/">James George</a>, <a href="http://gregborenstein.com">Greg Borenstein</a> and <a href="http://www.virtualjames.com">James Hughes</a>.</p>
 				<p>Have questions? Don't see your addon? <a href="mailto:james@jamesgeorge.org">Email us</a>.</p>
 			</div>

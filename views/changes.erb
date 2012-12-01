@@ -1,4 +1,4 @@
-<div class="row">
+<div class="span10 offset2 row">
     <h1 class="span12">Most Recently Changed Addons</h1>
     <div class="span12">
         <% curWeek = "" %> 
@@ -11,7 +11,7 @@
   
         <div class="changedRepo span10 offset1 row">
             <div class="span1">
-                <% if repo.most_recent_commit && repo.most_recent_commit["author"]  %>
+                <% if repo.most_recent_commit && repo.most_recent_commit["author"] %>
                 <img style="width:70px;" src="<%= repo.most_recent_commit["author"]["avatar_url"] %>" />
                 <h4 class="repoOwner"><%= repo.most_recent_commit["author"]["login"] %></h4>  
                  <% else %>
@@ -22,7 +22,7 @@
             <div class="span4">
                 <h4 class="name"><a href="/repos/<%= repo.id %>"><%= repo.name %></a></h4>
                 <p class="description"><%= repo.description %></p>
-                <p><a href="<%= repo.github_url %>">view on Github</a></p>
+                <p><a href="<%= repo.github_url %>/zipball/master"><i class="icon-download-alt icon-white"></i></a> <a class="github_link" href="<%= repo.github_url %>"><i class="icon-eye-open icon-white"></i></a></p>
             </div>
 
             <blockquote class="span6 offset1">

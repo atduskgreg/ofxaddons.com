@@ -1,15 +1,16 @@
 <div class="category row">
-    <div id="nav" class="span2">
+    <div class="span2 sidebar hidden-phone">
         <ul class="nav nav-list affix">
             <% for category in @categories %>
-            <li><a href="#"<%= category.slug %>"><%= category.name %></a></li>
+            <li><a href="#<%= category.slug %>"><%= category.name %></a></li>
             <% end %>
+            <li><a href="#uncategorized">Uncategorized</a></li>
         </ul>
     </div>
 
     <div id="body" class="span10 row">
         <% @categories.each_with_index do |category, index| %>
-            <h2 class="span9"><a id="<%= category.slug %>"><%= category.name %></a> (<%= category.repos.count %>)</h2>
+            <h2 class="span9" id="<%= category.slug %>"><%= category.name %> (<%= category.repos.count %>)</h2>
     
             <% category.repos.reject{ |r| r.not_addon == true }.sort_by{|r| r.name }.each_with_index do |repo, index| %>
             <div class="repo span3 <% if (index+1).divmod(3)[1] == 0 %> <% end %>">
@@ -17,7 +18,7 @@
                 <% if !repo.warning_labels.blank? %>
                 <p class="warning-labels">
                     <% for warning in repo.warning_labels %>
-                    <span class="warning <%= warning %>"><%= warning.to_s.split("-").last %></span>
+                    <span class="label label-important <%= warning %>"><%= warning.to_s.split("-").last %></span>
                     <% end %> 
                 </p>
                 <% end %>
@@ -29,7 +30,7 @@
         <% end %>
 
         <% unless @uncategorized.empty? %>
-        <h2 class="span12"><a name="uncategorized">Uncategorized</a></h2>
+        <h2 class="span9" id="uncategorized">Uncategorized</a></h2>
             <% for repo in @uncategorized %>
             <div class="repo span3">
                 <p class="name"><a href="/repos/<%= repo.id %>"><%= repo.name %></a> <span class="download"><a href="<%= repo.github_url %>/zipball/master"><i class="icon-download-alt icon-white"></i></a> <a class="github_link" href="<%= repo.github_url %>"><i class="icon-eye-open icon-white"></i></a></span></p>

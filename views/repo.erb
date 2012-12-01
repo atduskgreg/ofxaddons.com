@@ -28,8 +28,8 @@
     <h2>Fresher Forks</h2>
         <% for fork in @repo.fresher_forks %>
         <p>by <a href="http://github.com/<%= fork["owner"]["login"] %>"><%= fork["owner"]["login"] %></a></p>
-        <p><a href="<%= fork["html_url"] %>">view on Github</a></p> 
-        <p>last pushed: <%= DateTime.parse(fork["pushed_at"]).strftime("%e %B, %Y") %></p>
+        <p><a href="<%= fork["html_url"] %>">View on Github</a></p> 
+        <p>Last pushed: <%= DateTime.parse(fork["pushed_at"]).strftime("%e %B, %Y") %></p>
         <% end %>
     <% end %>
 

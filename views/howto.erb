@@ -1,4 +1,4 @@
-<div id="howto" class="span12">
+<div id="howto" class="span10 offset2">
     <h2>What are openFrameworks addons?</h2>
     <p>An addon is code that extends openFrameworks in some way.  There are usually two main reasons to make an addon</p>
     <ol>
@@ -16,8 +16,7 @@
     <p><a href="http://vimeo.com/34092591">OF 007 Guide - Adding addons to an Xcode Project</a> from <a href="http://vimeo.com/of">openFrameworks</a> on <a href="http://vimeo.com">Vimeo</a>.</p>
     <pre>
 $cd of_preRelease/addons/
-$git clone https://github.com/benben/ofxAddonTemplate
-    </pre>
+$git clone https://github.com/benben/ofxAddonTemplate </pre>
     <p>Once you've got the code using either of these methods you should be able to open up the project files in the examples folders of the addons and build->go to see them work. To start your own project, just copy the example folder into a new <code>apps/</code> folder and modify it from there. If the addon doesn't build right away, it may required dependent addons or libraries. Those should be described by the addon developer in their <code>README</code> file. If there are no project files or the addon is structured in a way that makes openFrameworks show up missing when you open them, please email the addon developer pointing them to this page so they can change the structure to make it easier for people to use.</p>
     <p>Being included on the site is no guarantee that the code works or is useful. We couldn't possibly test and run them all ourselves, so it's between you and the developer to sort out issues if they don't work.</p>
 
@@ -35,32 +34,13 @@ $git clone https://github.com/benben/ofxAddonTemplate
     <h2>How do I make an openFrameworks addon?</h2>
     <h3>Folder structure for an addon looks like this:</h3>
 
-    <pre>
-of_preRelease/
-    addons/
-        ofxMyAddon/
-            src/
-                ofxMyAddon.h
-                ofxMyAddon.cpp
-                ...
-            libs/
-                libwhatever/
-                    src/
-                        lib_implementation.h
-                        lib_implementation.cpp
-                        ...
-                    includes/
-                        libwhatever.h
-                        ...
-            example-anExample/
-                src/
-                    main.cpp
-                    testApp.h
-                    testApp.cpp
-                    ... //other source
-            MyAddonExample.xcodeproj
-            ... //other project files for other platforms
-    </pre>
+    <div id="repo"></div>
+    <script src="/js/repo.min.js" type="text/javascript"></script>
+    <script>
+        jQuery(function($){
+        $('#repo').repo({ user: 'benben', name: 'ofxAddonTemplate' });
+        });
+    </script>
 
     <p>Everything should go into <code>of_preRelease/addons/</code>. The name of the repository should be <code>ofxMyAddon</code>. The point being when someone clones your git repository into their <code>addons/</code> folder your examples will run without having to shuffle any files around</p>
 
@@ -68,33 +48,28 @@ of_preRelease/
     <ul style="padding:0">
         <li>The folder under <code>of_preRelease/addons</code> should be the same name as the addon. This is also the git repository name
             <pre>
-of_preRelease/addons/ofxMyAddon/
-            </pre>
+of_preRelease/addons/ofxMyAddon/</pre>
         </li>
 
         <li>Beneath it there should be at least two sub folders for the source and examples
             <pre>
 ofxMyAddon/src
-ofxMyAddon/example
-            </pre>
+ofxMyAddon/example</pre>
         </li>
         <li>If you have multiple examples for your addon, make sure they are prefixed with example-xxxx
             <pre>
 ofxMyAddon/example-simpleExample
-ofxMyAddon/example-moreComplicatedExample
-            </pre>
+ofxMyAddon/example-moreComplicatedExample</pre>
         </li>
         <li>If the addon is for interfacing with external libraries include the source or any static libs for these in a libs folder
             <pre>
-ofxMyAddons/libs
-            </pre>
+ofxMyAddons/libs</pre>
         </li>
         <li>The src folder should contain your addon source
             <pre>
 ofxMyAddon/src/ofxMyAddon.h
 ofxMyAddon/src/ofxMyAddon.cpp
-...
-            </pre>
+...</pre>
         </li>
         <li>The example folder should contain the example source and project files (the same style that you would normally find in <code>apps/examples/someExample</code>
             <pre>
@@ -103,8 +78,7 @@ ofxMyAddon/example/MyAddonExample.xcodeproj
 ofxMyAddon/example/src/main.cpp
 ofxMyAddon/example/src/testApp.h
 ofxMyAddon/example/src/testApp.cpp
-...
-            </pre>
+... </pre>
         </li>
     </ul>
 
