@@ -74,6 +74,11 @@ h1 {
 	text-align: right;
 }
 
+	.sidebar > .nav > li > a {
+		margin-left: -400px;
+		margin-right: -130px;
+	}
+
 	.sidebar > .nav > li > a:hover, .sidebar > .nav > .active > a {
 		background-color: #3A3839;
 	}
