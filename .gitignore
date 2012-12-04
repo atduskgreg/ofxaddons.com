@@ -161,3 +161,10 @@ pip-log.txt
 
 # Mac crap
 .DS_Store
+
+# Ruby Project
+.bundle/
+credentials.yml
+*.dat
+.rvmrc
+heroku
