@@ -12,10 +12,10 @@
         <div class="changedRepo span10 offset1 row">
             <div class="span1">
                 <% if repo.most_recent_commit && repo.most_recent_commit["author"] %>
-                <img style="width:70px;" src="<%= repo.most_recent_commit["author"]["avatar_url"] %>" />
+                <img style="width:70px;" src="<%= repo.most_recent_commit["author"]["avatar_url"] %>" class="img-polaroid" />
                 <h4 class="repoOwner"><%= repo.most_recent_commit["author"]["login"] %></h4>  
                  <% else %>
-                <img style="width:70px;" src="/img/default-gravatar.png" />
+                <img style="width:70px;" src="/img/default-gravatar.png" class="img-polaroid" />
                 <% end %>
             </div>
 
