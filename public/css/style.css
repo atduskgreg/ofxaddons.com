@@ -1,3 +1,7 @@
+/*
+ * CSS Style for ofxAddons.com
+ */
+
 body {
 	font-family: 'Segoe UI', Arial, sans-serif;
 }
@@ -188,22 +192,22 @@ h2 {
 	}
 
 @media (max-width: 767px) {
-    .navutils {
-	    -webkit-border-radius: 0;
-	    border-radius: 0;
-    }
-    #howto-nav {
-        border-bottom:none;
-        -webkit-border-top-left-radius: 10px;
-        -webkit-border-top-right-radius: 10px;
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
-    }
-    #social-nav {
-        border-top:none;
-        -webkit-border-bottom-left-radius: 10px;
-        -webkit-border-bottom-right-radius: 10px;
-        border-bottom-left-radius: 10px;
-        border-bottom-right-radius: 10px;
-    }
+	.navutils {
+		-webkit-border-radius: 0;
+		border-radius: 0;
+	}
+	#howto-nav {
+		border-bottom:none;
+		-webkit-border-top-left-radius: 10px;
+		-webkit-border-top-right-radius: 10px;
+		border-top-left-radius: 10px;
+		border-top-right-radius: 10px;
+	}
+	#social-nav {
+		border-top:none;
+		-webkit-border-bottom-left-radius: 10px;
+		-webkit-border-bottom-right-radius: 10px;
+		border-bottom-left-radius: 10px;
+		border-bottom-right-radius: 10px;
+	}
 }
