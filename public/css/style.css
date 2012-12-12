@@ -1,0 +1,213 @@
+/*
+ * CSS Style for ofxAddons.com
+ */
+
+body {
+	font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+a {
+	color: #EE3987;
+}
+
+	a:hover {
+		color: #fff;
+		background-color: #EE3987;
+		text-decoration: none;
+	}
+
+#header {
+	font-family: 'Questrial', 'Segoe UI', Arial, sans-serif;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+h1 {
+	display: inline-block;
+}
+
+	h1 a {
+		color: #000;
+		text-decoration: none;
+	}
+
+		h1 a:hover {
+			color: #000;
+			background: none;
+		}
+
+#slogan {
+	font-size: 0.8em;
+	line-height: 15px;
+	border-left: 5px solid #bfbfbf;
+	padding-left: 10px;
+	margin-left: 10px;
+	max-width: 500px;
+	display: inline-block;
+}
+
+.navutils {
+	background-color: #fff;
+	color: #EE3987;
+	text-decoration: none;
+	font-weight: bold;
+	text-align: center;
+	padding: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	border: solid 1px #EE3987;
+}
+
+	.navutils:hover, .navutils a:hover {
+		color: #fff;
+		background-color: #EE3987;
+	}
+
+#social-nav {
+	padding-bottom: 6px;
+}
+
+.headbor {
+	height: 14px;
+	background-color: #565455;
+	margin-bottom: 20px;
+	margin-top: 20px;
+}
+
+.sidebar {
+	text-align: right;
+}
+
+	.sidebar > .nav > li > a {
+		margin-left: -400px;
+		margin-right: -130px;
+	}
+
+	.sidebar > .nav > li > a:hover, .sidebar > .nav > .active > a {
+		background-color: #3A3839;
+	}
+
+h2 {
+	font-family: 'Questrial', 'Segoe UI', Arial, sans-serif;
+	border-bottom: 8px solid #B9BBBD;
+}
+
+.repo {
+	margin-bottom: 20px;
+}
+
+	.repo p {
+		margin: 0;
+	}
+
+	.repo .name {
+		font-weight: bold;
+	}
+
+	.repo .author {
+		font-weight: bold;
+		color: #9f9f9f;
+	}
+
+	.repo .description {
+		font-size: 0.9em;
+	}
+
+.repo_page h2 {
+	border-bottom: 8px solid #B9BBBD;
+}
+
+.repo_page .repo_category {
+	float: right;
+	background-color: #3A3839;
+	font-size: 14px;
+	margin-top: 4px;
+	padding: 4px;
+}
+
+	.repo_page .repo_category a {
+		color: #fff;
+		text-decoration: none;
+	}
+
+.repo_details p {
+	margin: 0;
+}
+
+.repo_readme {
+	color: #444;
+	font-size: 85%;
+	border: 1px solid #E9E9E9;
+	background-color: #F8F8F8;
+	padding: .7em;
+}
+
+	.repo_readme pre {
+		font-family: 'Bitstream Vera Sans Mono','Courier',monospace;
+		white-space: pre-wrap;
+		word-wrap: break-word;
+	}
+
+.download a {
+	color: #fff;
+	padding: 3px 5px 1px 6px;
+	text-decoration: none;
+	background-color: #E07EAA;
+	border-radius: 50%;
+}
+
+	.download a:hover {
+		background-color: #EE3987;
+	}
+
+.changedRepo {
+	margin-bottom: 40px;
+}
+
+	.changedRepo img {
+		float: left;
+		/*  margin-right: 10px;*/
+		margin-bottom: 10px;
+		margin-left: 20px;
+	}
+
+.repoOwner {
+	color: #666;
+	font-style: italic;
+	text-align: center;
+}
+
+#repo a:hover {
+	background-color: rgba(0, 0, 0, 0.20);
+}
+
+#footer {
+	padding-bottom: 40px;
+}
+
+	#footer p {
+		font: 0.9em 'Questrial', 'Segoe UI', Arial, sans-serif;
+		margin: 0;
+		color: #565455;
+	}
+
+@media (max-width: 767px) {
+	.navutils {
+		-webkit-border-radius: 0;
+		border-radius: 0;
+	}
+	#howto-nav {
+		border-bottom:none;
+		-webkit-border-top-left-radius: 10px;
+		-webkit-border-top-right-radius: 10px;
+		border-top-left-radius: 10px;
+		border-top-right-radius: 10px;
+	}
+	#social-nav {
+		border-top:none;
+		-webkit-border-bottom-left-radius: 10px;
+		-webkit-border-bottom-right-radius: 10px;
+		border-bottom-left-radius: 10px;
+		border-bottom-right-radius: 10px;
+	}
+}

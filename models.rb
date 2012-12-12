@@ -85,7 +85,7 @@ class Repo
   end
   
   # def self.search(term)
-  #   url = "http://github.com/api/v2/json/repos/search/#{term}"
+  #   url = "https://api.github.com/legacy/repos/search/:{term}"
   #   json = HTTParty.get(url)
   #   json["repositories"].each do |r|
   #     if !Repo.exists?(:owner => r["owner"], :name => r["name"])
@@ -117,7 +117,7 @@ class Repo
   end
 
   def get_most_recent_commit
-    url = "https://api.github.com/repos/#{self.github_slug}/commits"
+    url = "https://api.github.com/repos/:{self.github_slug}/commits"
     puts "fetching most recent commit: #{ url }"
     result = HTTParty.get(url)
     if result.success?
@@ -135,7 +135,7 @@ class Repo
   end
 
   def get_forks
-    url = "https://api.github.com/repos/#{self.github_slug}/forks"
+    url = "https://api.github.com/repos/:{self.github_slug}/forks"
     puts "fetching forks: #{ url }"
     result = HTTParty.get(url)
     if result.success?
@@ -167,7 +167,7 @@ class Repo
   end
 
   def get_issues
-    result = HTTParty.get("https://api.github.com/repos/#{github_slug}/issues")
+    result = HTTParty.get("https://api.github.com/repos/:{github_slug}/issues")
     if result.success?
       result.parsed_response
     else
@@ -176,7 +176,7 @@ class Repo
   end
 
   def update_ancestry
-    result = HTTParty.get("https://api.github.com/repos/#{github_slug}")
+    result = HTTParty.get("https://api.github.com/repos/:{github_slug}")
     if result.success?
       if result["source"]
         self.source = result["source"]["full_name"]
