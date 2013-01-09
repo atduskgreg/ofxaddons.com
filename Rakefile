@@ -6,8 +6,6 @@ task :cron do
 
   before = Repo.count(:not_addon => false, :is_fork => false, :category => nil)
   
-  raise "AIEeeeeeee!"
-
   Importer.do_search("ofx")
   Importer.update_issues_for_all_repos
   Importer.update_source_for_uncategorized_repos
