@@ -20,7 +20,7 @@ gem 'wikicloth'         # renders wiki markup for readme files
 
 
 group :development do
-  gem "dm-mysql-adapter"
+  gem "dm-postgres-adapter"
 end
 
 group :production do
