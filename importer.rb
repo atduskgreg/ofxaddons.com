@@ -1,5 +1,6 @@
 require './models'
 require 'colorize'
+require 'pony'
 
 class Importer
 
@@ -26,6 +27,22 @@ class Importer
       repo.issues = repo.get_issues
       repo.save
     end
+  end
+
+  def self.send_report(msg, num_created)
+    Pony.mail :to => ['greg.borenstein@gmail.com', 'james@jamesgeorge.org'],
+      :from => 'greg.borenstein@gmail.com',
+      :subject => 'ofxaddons report',
+      :body => "#{msg}\n\n#{num_created} addons were created.\nlog in here to categorize them: http://ofxaddons.com/admin", 
+      :via => :smtp,
+      :via_options => { 
+          :address   => 'smtp.sendgrid.net', 
+          :port   => '25', 
+          :user_name   => ENV['SENDGRID_USERNAME'], 
+          :password   => ENV['SENDGRID_PASSWORD'],
+          :authorization => :plain,
+          :domain => ENV['SENDGRID_DOMAIN']
+        } 
   end
 
   def self.do_search(term, next_page=1)

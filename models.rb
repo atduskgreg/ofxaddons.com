@@ -110,7 +110,7 @@ class Repo
     # end
 
     unless self.save
-      errors.each {|e| puts "ERROR: #{e.inspect}" }
+      errors.each {|e| puts "ERROR: #{e}" }
       return false
     end
     return true

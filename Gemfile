@@ -17,7 +17,7 @@ gem 'rdoc', '3.6.1'     # renders rdoc for readme files
 gem 'redcarpet'         # renders markdown for readme files
 gem 'RedCloth'          # renders textile for readme files
 gem 'wikicloth'         # renders wiki markup for readme files
-
+gem 'pony'
 
 group :development do
   gem "dm-postgres-adapter"
