@@ -29,11 +29,11 @@ class Importer
     end
   end
 
-  def self.send_report(msg, num_created)
+  def self.send_report(msg)
     Pony.mail :to => ['greg.borenstein@gmail.com', 'james@jamesgeorge.org'],
       :from => 'greg.borenstein@gmail.com',
       :subject => 'ofxaddons report',
-      :body => "#{msg}\n\n#{num_created} addons were created.\nlog in here to categorize them: http://ofxaddons.com/admin", 
+      :body => msg, 
       :via => :smtp,
       :via_options => { 
           :address   => 'smtp.sendgrid.net', 
