@@ -32,7 +32,12 @@ class Importer
     puts "requesting page #{next_page}"
     url = "https://api.github.com/legacy/repos/search/#{term}?start_page=#{next_page}"
     json = HTTParty.get(url)
-  
+    
+    if !json["repositories"]
+      puts "NO REPOS"
+      return
+    end
+
     json["repositories"].each do |r|
       puts r.inspect
   
