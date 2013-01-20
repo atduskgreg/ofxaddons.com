@@ -25,6 +25,13 @@ before do
     @categories = Category.all(:order => :name.asc)
 end
 
+get "/api/v1/all.json" do
+  content_type :json
+  repos = Repo.all(:not_addon => false, :is_fork => false, :category.not => nil, :order => :name.asc)
+  {"repos" => repos.collect{|r| r.to_json_hash}}.to_json  
+
+end
+
 get "/" do
   @uncategorized = Repo.all(:not_addon => false, :is_fork => false, :category => nil, :order => :name.asc)
   @repo_count = Repo.count(:conditions => ['not_addon = ? AND is_fork = ?', 'false', 'false'])

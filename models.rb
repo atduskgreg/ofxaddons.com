@@ -12,7 +12,7 @@ require 'httparty'
 require 'nokogiri'
 
 # DataMapper::Logger.new(STDOUT, :debug)
-DataMapper.setup(:default, ENV['DATABASE_URL'] || 'mysql://localhost/ofxaddons')
+DataMapper.setup(:default, ENV['DATABASE_URL'] || 'postgres://localhost/ofxaddons')
 
 class Category
   include DataMapper::Resource
@@ -56,6 +56,22 @@ class Repo
   
   belongs_to :category, :required => false
   
+  def to_json_hash
+    result = {
+     :name => name,
+     :owner => owner,
+     :description =>  description,
+     :last_pushed_at => last_pushed_at,
+     :github_created_at => github_created_at,
+     :category => category.name,
+     :homepage => "https://github.com/#{github_slug}",
+     :clone_url => "https://github.com/#{github_slug}.git",
+     :warning_labels => warning_labels
+    }
+
+
+  end
+
   def self.exists?(params={})
     Repo.first(:github_slug => "#{params['owner']}/#{params['name']}")
   end
