@@ -94,7 +94,7 @@ class Repo
     #   r.parent = json["parent"]
     # end
     unless r.save
-      r.errors.join(", ").each {|e| puts e.red }
+      r.errors.each {|e| puts e.inspect }
       return false
     end
     return true
