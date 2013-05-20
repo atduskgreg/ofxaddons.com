@@ -144,9 +144,13 @@ class Repo
   end
   
   def fresher_forks
-    forks.select do |f|
-      fork_last_pushed = DateTime.parse f["pushed_at"]
-      fork_last_pushed > self.last_pushed_at
+    if forks
+      forks.select do |f|
+        fork_last_pushed = DateTime.parse f["pushed_at"]
+        fork_last_pushed > self.last_pushed_at
+      end
+    else
+      []
     end
   end
 
