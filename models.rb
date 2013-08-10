@@ -40,6 +40,7 @@ class Repo
   property :forks, Json
   property :most_recent_commit, Json
   property :issues, Json
+  property :followers, Integer 
 
   property :last_pushed_at, ZonedTime, :required => true
   property :github_created_at, ZonedTime
@@ -85,24 +86,19 @@ class Repo
     if r.is_fork
     	r.owner              = json["owner"]['login']
 		r.github_slug        = "#{json['full_name']}"
+		r.followers          = json["watchers"]		
 	    r.update_ancestry()		
     else
         r.owner              = json["owner"]
 		r.github_slug        = "#{json['owner']}/#{json['name']}"
 		r.most_recent_commit = r.get_most_recent_commit
+		r.followers          = json["followers"]
     end
+    
     r.description        = json["description"]
     r.last_pushed_at     = Time.parse(json["pushed_at"]).utc if json["pushed_at"]
     r.github_created_at  = Time.parse(json["created_at"]).utc if json["created_at"]
     r.readme             = r.render_readme
-    
-    
-#    r.forks              = r.get_forks
-#    r.issues             = r.get_issues
-    
-    #if(json["fork"])
-    #   self.source = json["source"]
-    #end
     
     unless r.save
       r.errors.each {|e| puts e.inspect }
@@ -131,14 +127,12 @@ class Repo
 #    self.issues             = get_issues
     self.is_fork            = json["fork"]
     if self.is_fork
-	   self.update_ancestry()
+		self.followers          = json["watchers"]		    
+		self.update_ancestry()
 	else
+	    self.followers          = json["followers"]
 		self.most_recent_commit = get_most_recent_commit
 	end    
-	
-    #if(json["fork"])
-    #   self.source = json["source"]
-    #end
 
     unless self.save
       errors.each {|e| puts "ERROR: #{e}" }

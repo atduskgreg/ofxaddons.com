@@ -25,14 +25,24 @@ before do
     @categories = Category.all(:order => :name.asc)
 end
 
+def render
+  File.open('public/render.html', 'w') do |f|
+    request = Rack::MockRequest.new(Sinatra::Application)
+    f.write request.get('/render').body
+  end
+end
+
 get "/api/v1/all.json" do
   content_type :json
   repos = Repo.all(:not_addon => false, :is_fork => false, :category.not => nil, :order => :name.asc)
   {"repos" => repos.collect{|r| r.to_json_hash}}.to_json  
-
 end
 
 get "/" do
+  send_file File.join(settings.public_folder, 'index.html')
+end
+
+get "/render" do
   @uncategorized = Repo.all(:not_addon => false, :is_fork => false, :category => nil, :order => :name.asc)
   @repo_count = Repo.count(:conditions => ['not_addon = ? AND is_fork = ?', 'false', 'false'])
   erb :repos
@@ -47,6 +57,7 @@ put "/repos/:repo_id" do
   protected!
   @repo = Repo.get(params[:repo_id])
   @repo.update(params[:repo])
+  render
   redirect "/admin"
 end
 
