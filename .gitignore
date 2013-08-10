@@ -4,3 +4,5 @@ credentials.yml
 .DS_Store
 .rvmrc
 heroku
+
+/config.rb

@@ -33,9 +33,10 @@
   <% unless @repo.fresher_forks.empty? %>
     <h2>Fresher Forks</h2>
     <% for fork in @repo.fresher_forks %>
-      <p>by <a href="http://github.com/<%= fork["owner"]["login"] %>"><%= fork["owner"]["login"] %></a></p>
- 	  <p><a href="<%= fork["html_url"] %>">view on Github</a></p> 
-      <p>last pushed: <%= DateTime.parse(fork["pushed_at"]).strftime("%e %B, %Y") %></p>
+      <p>by <a href="http://github.com/<%= fork.owner %>"><%= fork.owner %></a></p>
+ 	  <p><a href="http://github.com/<%= fork.github_slug %>">view on Github</a></p> 
+      <p>last pushed: <%= fork.last_pushed_at %></p>
+      <!-- DateTime.parse(fork.last_pushed_at).strftime("%e %B, %Y")  -->
     <% end %>
   <%end %>
 

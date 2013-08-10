@@ -11,6 +11,8 @@ require 'github/markup'
 require 'httparty'
 require 'nokogiri'
 
+require './auth'
+
 # DataMapper::Logger.new(STDOUT, :debug)
 DataMapper.setup(:default, ENV['DATABASE_URL'] || 'postgres://localhost/ofxaddons')
 
@@ -79,20 +81,29 @@ class Repo
   def self.create_from_json(json)
     r                    = self.new 
     r.name               = json["name"]
-    r.owner              = json["owner"]
-    r.description        = json["description"]
-    r.last_pushed_at     = Time.parse(json["pushed_at"]) if json["pushed_at"]
-    r.github_created_at  = Time.parse(json["created_at"]) if json["created_at"]
-    r.github_slug        = "#{json['owner']}/#{json['name']}"
-    r.readme             = r.render_readme
-    r.forks              = r.get_forks
     r.is_fork            = json["fork"]
-    r.most_recent_commit = r.get_most_recent_commit
-    r.issues             = r.get_issues
-    # if(json["fork"])
-    #   r.source = json["source"]
-    #   r.parent = json["parent"]
-    # end
+    if r.is_fork
+    	r.owner              = json["owner"]['login']
+		r.github_slug        = "#{json['full_name']}"
+	    r.update_ancestry()		
+    else
+        r.owner              = json["owner"]
+		r.github_slug        = "#{json['owner']}/#{json['name']}"
+		r.most_recent_commit = r.get_most_recent_commit
+    end
+    r.description        = json["description"]
+    r.last_pushed_at     = Time.parse(json["pushed_at"]).utc if json["pushed_at"]
+    r.github_created_at  = Time.parse(json["created_at"]).utc if json["created_at"]
+    r.readme             = r.render_readme
+    
+    
+#    r.forks              = r.get_forks
+#    r.issues             = r.get_issues
+    
+    #if(json["fork"])
+    #   self.source = json["source"]
+    #end
+    
     unless r.save
       r.errors.each {|e| puts e.inspect }
       return false
@@ -111,19 +122,23 @@ class Repo
   # end
 
   def update_from_json(json)
+  
     self.description        = json["description"]
-    self.last_pushed_at     = Time.parse(json["pushed_at"]) if json["pushed_at"]
-    self.github_created_at  = Time.parse(json["created_at"]) if json["created_at"]
+    self.last_pushed_at     = Time.parse(json["pushed_at"]).utc if json["pushed_at"]
+    self.github_created_at  = Time.parse(json["created_at"]).utc if json["created_at"]	
     self.readme             = render_readme
-    self.forks              = get_forks
-    self.most_recent_commit = get_most_recent_commit
-    self.issues             = get_issues
+#    self.forks              = get_forks
+#    self.issues             = get_issues
     self.is_fork            = json["fork"]
-
-    # if(json["fork"])
+    if self.is_fork
+	   self.update_ancestry()
+	else
+		self.most_recent_commit = get_most_recent_commit
+	end    
+	
+    #if(json["fork"])
     #   self.source = json["source"]
-    #   self.parent = json["parent"]
-    # end
+    #end
 
     unless self.save
       errors.each {|e| puts "ERROR: #{e}" }
@@ -133,7 +148,7 @@ class Repo
   end
 
   def get_most_recent_commit
-    url = "https://api.github.com/repos/#{self.github_slug}/commits"
+    url = "https://api.github.com/repos/#{self.github_slug}/commits?#$auth_params"
     puts "fetching most recent commit: #{ url }"
     result = HTTParty.get(url)
     if result.success?
@@ -144,26 +159,55 @@ class Repo
   end
   
   def fresher_forks
-    if forks
-      forks.select do |f|
-        fork_last_pushed = DateTime.parse f["pushed_at"]
-        fork_last_pushed > self.last_pushed_at
+	  Repo.all(:not_addon => false, :is_fork => true, :source => self.github_slug).select do |r|
+         r.last_pushed_at > self.last_pushed_at #|| r.followers > self.followers
       end
-    else
-      []
-    end
+	  	
+#     if forks
+#       forks.select do |f|
+#         fork_last_pushed = DateTime.parse f["pushed_at"]
+#         fork_last_pushed > self.last_pushed_at
+#       end
+#     else
+#       []
+#     end
   end
 
-  def get_forks
-    url = "https://api.github.com/repos/#{self.github_slug}/forks"
-    puts "fetching forks: #{ url }"
-    result = HTTParty.get(url)
-    if result.success?
-      return result.parsed_response
-    else
-      return nil
-    end
-  end  
+#   def update_forks
+# #    url = "https://api.github.com/repos/#{self.github_slug}/forks"
+#     puts "fetching forks: #{ url }"
+#     result = HTTParty.get(url)
+#     if result.success?
+#       #return result.parsed_response
+#       result.each do |r|
+#   	    repo = Repo.first(:owner => r['owner'], :name => r['name'])
+# 	  
+# # 	    # don't bother with non-addons
+# # 	    if repo && repo.not_addon
+# # 	      puts "skipping:\t".red + "#{ r['owner'] }/#{ r['name'] }\n"
+# # 	      next
+# # 	    end
+#  	      
+# 	    if !repo
+# 	      # create a new record
+# 	      puts "creating fork:\t".green + "#{ r['owner'] }/#{ r['name'] }"
+# 	      Repo.create_from_json(r)
+# 	    else # uncomment this line and comment the next to update all with the latest
+# #	    elsif r["pushed_at"] && (DateTime.parse(r["pushed_at"]) > repo.last_pushed_at)
+# 	      # update this record
+# 	      puts "updating fork:\t".green + "#{ r['owner'] }/#{ r['name'] }"
+# 	      repo.update_from_json(r)
+# 	    end
+# 
+#       end
+# #         fork_last_pushed = DateTime.parse f["pushed_at"]
+# #         fork_last_pushed > self.last_pushed_at
+# #       end
+# 
+#     else
+#       #return nil
+#     end
+#   end  
 
   # find currently open issues on the repo whose title
   # matches one of our tags. Wish we could do this with labels
@@ -187,7 +231,7 @@ class Repo
   end
 
   def get_issues
-    result = HTTParty.get("https://api.github.com/repos/#{github_slug}/issues")
+    result = HTTParty.get("https://api.github.com/repos/#{github_slug}/issues?#$auth_params")
     if result.success?
       result.parsed_response
     else
@@ -196,13 +240,13 @@ class Repo
   end
 
   def update_ancestry
-    result = HTTParty.get("https://api.github.com/repos/#{github_slug}")
-    if result.success?
-      if result["source"]
-        self.source = result["source"]["full_name"]
+    if self.is_fork
+      result = HTTParty.get("https://api.github.com/repos/#{github_slug}?#$auth_params")
+	  if result.success? && result["source"]
+         self.source = result["source"]["full_name"]
+         puts "source of #{self.github_slug} is #{self.source}"
+		 self.save
       end
-      self.is_fork = result["fork"]
-      self.save
     end
   end
 

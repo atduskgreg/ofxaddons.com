@@ -1,6 +1,7 @@
 require './models'
 require 'colorize'
 require 'pony'
+require './auth'
 
 class Importer
 
@@ -9,16 +10,55 @@ class Importer
     count = repos.length
     repos.each_with_index do |repo,i|
       puts "[#{i+1}/#{count}] finding source for #{repo.github_slug}"
-      repo.update_ancestry
-      if repo.source_repo
-        puts "source: #{repo.source_repo.github_slug} [not_addon: #{repo.source_repo.not_addon}]"
-        repo.not_addon = repo.source_repo.not_addon
-        repo.save
-      else 
-        puts "source unknown"
-      end
+      if repo.is_fork
+	      repo.update_ancestry
+	      if repo.source_repo
+	        puts "source: #{repo.source_repo.github_slug} [not_addon: #{repo.source_repo.not_addon}]"
+	        repo.not_addon = repo.source_repo.not_addon
+	        repo.save
+	      else 
+	        puts "source unknown"
+	      end
+	   end
     end
   end
+  
+  def self.update_forks
+    repos = Repo.all :not_addon => false, :is_fork => false, :category.not => nil
+    count = repos.length
+    repos.each_with_index do |source_repo,i|
+      puts "[#{i+1}/#{count}] finding source for #{source_repo.github_slug}"	  
+
+	  #TODO only check if has forks if repo.has_forks
+
+   	  url = "https://api.github.com/repos/#{source_repo.github_slug}/forks?#$auth_params"
+	  puts "fetching forks: #{ url }"
+	  result = HTTParty.get(url)
+	  if result.success?
+	  	result.each do |r|
+		
+		  fork_repo = Repo.first(:owner => r['owner']['login'], :name => r['name'])
+
+		  if r["pushed_at"] && (Time.parse(r["pushed_at"]).utc > source_repo.last_pushed_at.utc)
+			  puts "fork pushed at #{Time.parse(r["pushed_at"]).utc}, source repo #{source_repo.last_pushed_at}. updating"
+		      if !fork_repo
+		        # create a new record
+		        puts "creating fork:\t".green + "#{ r['owner']['login'] }/#{ r['name'] }"
+		        #puts "creating fork".green
+		        Repo.create_from_json(r)
+		      else # uncomment this line and comment the next to update all with the latest
+	#	      elsif r["pushed_at"] && (DateTime.parse(r["pushed_at"]) > repo.last_pushed_at)
+		        # update this record
+		        puts "updating fork:\t".green + "#{ r['owner']['login'] }/#{ r['name'] }"
+		        fork_repo.update_from_json(r)
+		      end
+		   else
+		   	 puts "no commits, skipping ".red + "#{ r['owner']['login'] }/#{ r['name'] }"
+		   end
+	    end	  	
+	  end
+	end
+  end  
 
   def self.update_issues_for_all_repos
     count = Repo.count(:not_addon => false, :is_fork => false, :category.not => nil)
@@ -45,9 +85,12 @@ class Importer
         } 
   end
 
+    
   def self.do_search(term, next_page=1)
-    puts "requesting page #{next_page}"
-    url = "https://api.github.com/legacy/repos/search/#{term}?start_page=#{next_page}"
+  	puts "doing search"
+
+    url = "https://api.github.com/legacy/repos/search/#{term}?start_page=#{next_page}&sort=updated&#$auth_params"
+    puts "#{url} requesting page #{next_page}"
     json = HTTParty.get(url)
     
     if !json["repositories"]
@@ -63,27 +106,30 @@ class Importer
         puts "skipping:\t".red + "#{ r['owner'] }/#{ r['name'] }\n"
         next
       end
-  
-      repo = Repo.first(:owner => r["owner"], :name => r["name"])
-  
-      # don't bother with non-addons
-      if repo && repo.not_addon
-        puts "skipping:\t".red + "#{ r['owner'] }/#{ r['name'] }\n"
-        next
-      end
-      
-      if !repo
-        # create a new record
-        puts "creating:\t".green + "#{ r['owner'] }/#{ r['name'] }"
-        Repo.create_from_json(r)
-      #else # uncomment this line and comment the next to update all with the latest
-      elsif r["pushed_at"] && (DateTime.parse(r["pushed_at"]) > repo.last_pushed_at)
-        # update this record
-        puts "updating:\t".green + "#{ r['owner'] }/#{ r['name'] }"
-        repo.update_from_json(r)
-      end
-      puts
+  	    
+  	    repo = Repo.first(:owner => r['owner'], :name => r['name'])
+	  
+	    # don't bother with non-addons
+	    if repo && repo.not_addon
+	      puts "skipping:\t".red + "#{ r['owner'] }/#{ r['name'] }\n"
+	      next
+	    end
+	      
+	    if !repo
+	      # create a new record
+	      puts "creating:\t".green + "#{ r['owner'] }/#{ r['name'] }"
+	      Repo.create_from_json(r)
+	    else # uncomment this line and comment the next to update all with the latest
+	    #elsif r["pushed_at"] && (DateTime.parse(r["pushed_at"]) > repo.last_pushed_at)
+	      # update this record
+	      puts "updating:\t".green + "#{ r['owner'] }/#{ r['name'] }"
+	      repo.update_from_json(r)
+	    end
+	    
+	    puts 
+	  	  
     end
+ 
   
     if json["repositories"].length == 100
       do_search(term, next_page + 1)
@@ -91,4 +137,5 @@ class Importer
   
   end
 
+  
 end
