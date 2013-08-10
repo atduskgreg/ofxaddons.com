@@ -38,6 +38,7 @@ class Repo
   property :forks, Json
   property :most_recent_commit, Json
   property :issues, Json
+  property :followers, Integer 
 
   property :last_pushed_at, ZonedTime, :required => true
   property :github_created_at, ZonedTime
@@ -89,6 +90,7 @@ class Repo
     r.is_fork            = json["fork"]
     r.most_recent_commit = r.get_most_recent_commit
     r.issues             = r.get_issues
+    r.followers          = json["followers"]
     # if(json["fork"])
     #   r.source = json["source"]
     #   r.parent = json["parent"]
@@ -119,6 +121,7 @@ class Repo
     self.most_recent_commit = get_most_recent_commit
     self.issues             = get_issues
     self.is_fork            = json["fork"]
+    self.followers          = json["followers"]
 
     # if(json["fork"])
     #   self.source = json["source"]
