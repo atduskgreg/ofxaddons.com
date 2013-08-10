@@ -4,9 +4,6 @@ require 'sinatra'
 require './models'
 require 'yaml'
 
-set :logging, true
-set :dump_errors, true
-
 helpers do
 
   def protected!
