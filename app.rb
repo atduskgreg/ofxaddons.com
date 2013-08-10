@@ -53,6 +53,16 @@ get "/changes" do
   erb :changes
 end
 
+put "/repos/update_all" do
+  protected!
+  params[:repos].each do |r|
+    @repo = Repo.get(r[0])
+    @repo.update(params[:repos][r[0]])
+  end
+  redirect "/admin"
+end
+
+# deprecated!
 put "/repos/:repo_id" do
   protected!
   @repo = Repo.get(params[:repo_id])

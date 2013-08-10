@@ -8,35 +8,35 @@
 
 <h2>Uncategorized</h2>
 
-<% for repo in @uncategorized %>
-<div style="border:1px solid #000; margin: 5px; padding: 5px">
-  <h2><a href="/repos/<%= repo.id %>"><%= repo.name %></a></h2> 
-  <p><a href="<%= repo.github_url %>">view on Github</a></p>
+<form action="/repos/update_all" method="post">
+  <input type="hidden" name="_method" value="put" />
+  <input type="submit" value="Save All" />
+  <% for repo in @uncategorized %>
+    <div style="border:1px solid #000; margin: 5px; padding: 5px">
+      <h2><a href="/repos/<%= repo.id %>"><%= repo.name %></a></h2> 
+      <p><a href="<%= repo.github_url %>">view on Github</a></p>
 
-  <h3>by <%= repo.owner %></h3>
-  <p>
-    <%= repo.description %>
-  </p>
-  
-  <form action="/repos/<%= repo.id %>" method="post">
-    <input type="hidden" name="_method" value="put" />
-    <select name="repo[category_id]">
-      <% for category in @categories %>
-      <option value="<%= category.id %>"><%= category.name %></option>
-      <% end %>
-    </select>
-      <input type="submit" value="Save" />
+      <h3>by <%= repo.owner %></h3>
+      <p>
+        <%= repo.description %>
+      </p>
+    
+      
+      <select name="repos[<%= repo.id %>][category_id]">
+        <option value="">[Choose a category]</option>
+        <% for category in @categories %>
+        <!--<input type="checkbox" name="repo[category_id]" value="true"><%= category.name %>-->
+        <option value="<%= category.id %>"><%= category.name %></option>
+        <% end %>
+      </select>
 
-  </form>
-  
-  <form action="/repos/<%= repo.id %>" method="post">
-    <input type="hidden" name="_method" value="put" />
-    <input type="hidden" name="repo[not_addon]" value="true" />
+      <input type="checkbox" name="repos[<%= repo.id %>][not_addon]" value="true">Not OF-related
+      <input type="checkbox" name="repos[<%= repo.id %>][not_addon]" value="true">Not an addon
+    </div>
+  <% end %>
+</form>
+<!--<%= repo.id %>-->
 
-    <input type="submit" value="NOT AN ADDON" />
-  </form>
-</div>
-<% end %>
 
 <h2>Categorized</h2>
 
