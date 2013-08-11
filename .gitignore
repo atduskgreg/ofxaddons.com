@@ -6,3 +6,4 @@ credentials.yml
 heroku
 
 /config.rb
+/auth.rb
