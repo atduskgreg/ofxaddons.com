@@ -26,7 +26,7 @@ before do
 end
 
 def bake_html
-  File.open('public/render.html', 'w') do |f|
+  File.open('public/index.html', 'w') do |f|
     request = Rack::MockRequest.new(Sinatra::Application)
     f.write request.get('/render').body
   end
