@@ -24,7 +24,7 @@ class Importer
   end
   
   def self.update_forks
-    repos = Repo.all :not_addon => false, :is_fork => false, :category.not => nil
+    repos = Repo.all :not_addon => false, :is_fork => false, :category.not => nil, :has_forks => true
     count = repos.length
     repos.each_with_index do |source_repo,i|
       puts "[#{i+1}/#{count}] finding source for #{source_repo.github_slug}"	  
