@@ -51,6 +51,12 @@ get "/render" do
   erb :repos
 end
 
+get "/unfinished" do
+  @uncategorized = Repo.all(:not_addon => false, :is_fork => false, :category => nil, :order => :name.asc)
+  @incomplete = Repo.all(:not_addon => false, :incomplete => true, :is_fork => false, :order => :name.asc)
+  erb :unfinished
+end
+
 get "/changes" do  
   @most_recent = Repo.all(:not_addon => false, :is_fork => false, :category.not => nil, :order => [:last_pushed_at.desc]) 
   erb :changes
