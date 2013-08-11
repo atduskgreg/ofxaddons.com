@@ -5,16 +5,17 @@ desc "This task is called by the Heroku cron add-on"
 task :cron do
   begin
 
-  before = Repo.count(:not_addon => false, :is_fork => false, :category => nil)
+  before = Repo.count(:not_addon => false, :is_fork => false, :category => nil, :deleted => false)
   
   Importer.do_search("ofx")
 #  Importer.update_issues_for_all_repos
   Importer.update_source_for_uncategorized_repos
   Importer.update_forks
+  Importer.purge_deleted_repos
   
   bake_html
 
-  num_new = Repo.count(:not_addon => false, :is_fork => false, :category => nil) - before
+  num_new = Repo.count(:not_addon => false, :is_fork => false, :category => nil, :deleted => false) - before
   puts num_new
   Importer.send_report("Cron job ran successfully. #{num_new} addons were created.\nlog in here to categorize them: http://ofxaddons.com/admin")
   rescue Exception => e
