@@ -1,32 +1,92 @@
+<div class="span-26 last indent">
 
+<% unless @uncategorized.empty? %>
 
-<h2>Incomplete</h2>
-<% for repo in @incomplete %>
+<h2 style="border-bottom:0px">Uncategorized</h2>
 
-  <div style="border:1px solid #000; margin: 5px; padding: 5px">
-    <h2><a href="/repos/<%= repo.id %>"><%= repo.name %></a></h2> 
-    <p><a href="<%= repo.github_url %>">view on Github</a></p>
-
-    <h3>by <%= repo.owner %></h3>
-    <p>
-      <%= repo.description %>
-    </p>
+  <% @uncategorized.each_with_index do |repo, index| %>
     
-  </div>
+    <div  class="repo span-7 append-1 <% if (index+1).divmod(3)[1] == 0 %> last <% end %>" >
+      <p class="name github"><a href="<%= repo.github_url %>"><%= repo.name %></a> </p>
+      <p class="description"><%= repo.description %></p>
+      <p class="author">
+        <% if !repo.owner_avatar.blank?  %>
+          <img class="userIcon" src="<%= repo.owner_avatar %>" />
+        <% else %>
+          <img class="userIcon" src="/images/default-gravatar.png">
+        <% end %>
+        
+        <a class="github" href="<%= repo.github_url %>">created</a> by <a href="/users/<%= repo.owner %>"><%= repo.owner %></a> <br/>updated <abbr class="timeago" title="<%= repo.last_pushed_at.strftime('%Y-%m-%dT%H:%M:%S%z') %>"><%= repo.last_pushed_at.strftime("%m/%e/%y") %></abbr> (<%= repo.get_last_update_of_release %>) 
+        <% if repo.followers != 0 && !repo.followers.blank? %>
+          <img class="starImage" src="images/starGray.png" /> <b><%= repo.followers %></b>
+        <% end %>
+      </p>
+      
+      <% for fork in repo.fresher_forks %>
+        <p>
+          <% if !fork.owner_avatar.blank?  %>
+            <img class="userIcon" src="<%= fork.owner_avatar %>" />
+          <% else %>
+            <img class="userIcon" src="/images/default-gravatar.png">
+          <% end %>
+          <a class="github" href="<%fork.github_url%>">fork</a> by <a href="http://github.com/<%= fork.owner %>"><%= fork.owner %></a> <br/>updated <abbr class="timeago" title="<%= fork.last_pushed_at.strftime('%Y-%m-%dT%H:%M:%S%z') %>"><%= fork.last_pushed_at.strftime("%m/%e/%y") %></abbr> (<%= fork.get_last_update_of_release %>) 
+        <% if fork.followers != 0 && !fork.followers.blank? %>
+          <img class="starImage" src="images/starGray.png" /> <b><%= fork.followers %></b>
+        <% end %>
+        </p>
+      <% end %>
+      
+    </div>
+
+  <% if (index+1).divmod(3)[1] == 0 %><br style="clear:both;" /><% end %>
+  <% end %>
+
 <% end %>
+</div>
 
-<h2>Uncategorized</h2>
-<% for repo in @uncategorized %>
+<div class="span-26 last indent">
+<% unless @incomplete.empty? %>
 
-  <div style="border:1px solid #000; margin: 5px; padding: 5px">
-    <h2><a href="/repos/<%= repo.id %>"><%= repo.name %></a></h2> 
-    <p><a href="<%= repo.github_url %>">view on Github</a></p>
+<h2 style="border-bottom:0px">Incomplete</h2>
 
-    <h3>by <%= repo.owner %></h3>
-    <p>
-      <%= repo.description %>
-    </p>
+  <% @incomplete.each_with_index do |repo, index| %>
     
-  </div>
+    <div  class="repo span-7 append-1 <% if (index+1).divmod(3)[1] == 0 %> last <% end %>" >
+      <p class="name github"><a href="<%= repo.github_url %>"><%= repo.name %></a> </p>
+      <p class="description"><%= repo.description %></p>
+      <p class="author">
+        <% if !repo.owner_avatar.blank?  %>
+          <img class="userIcon" src="<%= repo.owner_avatar %>" />
+        <% else %>
+          <img class="userIcon" src="/images/default-gravatar.png">
+        <% end %>
+        
+        <a class="github" href="<%= repo.github_url %>">created</a> by <a href="/users/<%= repo.owner %>"><%= repo.owner %></a> <br/>updated <abbr class="timeago" title="<%= repo.last_pushed_at.strftime('%Y-%m-%dT%H:%M:%S%z') %>"><%= repo.last_pushed_at.strftime("%m/%e/%y") %></abbr> (<%= repo.get_last_update_of_release %>) 
+        <% if repo.followers != 0 && !repo.followers.blank? %>
+          <img class="starImage" src="images/starGray.png" /> <b><%= repo.followers %></b>
+        <% end %>
+      </p>
+      
+      <% for fork in repo.fresher_forks %>
+        <p>
+          <% if !fork.owner_avatar.blank?  %>
+            <img class="userIcon" src="<%= fork.owner_avatar %>" />
+          <% else %>
+            <img class="userIcon" src="/images/default-gravatar.png">
+          <% end %>
+          <a class="github" href="<%fork.github_url%>">fork</a> by <a href="http://github.com/<%= fork.owner %>"><%= fork.owner %></a> <br/>updated <abbr class="timeago" title="<%= fork.last_pushed_at.strftime('%Y-%m-%dT%H:%M:%S%z') %>"><%= fork.last_pushed_at.strftime("%m/%e/%y") %></abbr> (<%= fork.get_last_update_of_release %>) 
+        <% if fork.followers != 0 && !fork.followers.blank? %>
+          <img class="starImage" src="images/starGray.png" /> <b><%= fork.followers %></b>
+        <% end %>
+        </p>
+      <% end %>
+      
+    </div>
+
+  <% if (index+1).divmod(3)[1] == 0 %><br style="clear:both;" /><% end %>
+  <% end %>
+
 <% end %>
+</div>
+
 
