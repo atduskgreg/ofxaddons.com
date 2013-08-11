@@ -1,28 +1,14 @@
-<div id="body" class="span-26 last indent" >
+<div class="span-26 last indent">
 
-<% @categories.each_with_index do |category, index| %>
+<% unless @uncategorized.empty? %>
 
-<div class="category span-24">
-<h2 class="span-24"><a name="<%= category.slug %>"><%= category.name %></a> (<%= category.repos.count %>)</h2>
+<h2 style="border-bottom:0px">Uncategorized</h2>
+
+  <% @uncategorized.each_with_index do |repo, index| %>
     
-  <% category.repos.reject{ |r| r.not_addon == true }.sort_by{|r| r.name }.each_with_index do |repo, index| %>
-
-   <div class="repo span-7 append-1 <% if (index+1).divmod(3)[1] == 0 %> last <% end %>" >
-      
-      <p class="name github"><a href="<%= repo.github_url %>"><%= repo.name %></a></p>
-      
-      <% if !repo.warning_labels.blank? %>
-      <p class="warning-labels">
-        <% for warning in repo.warning_labels %>
-        <span class="warning <%= warning %>">
-          <%= warning.to_s.split("-").last %>
-        </span>
-        <% end %> 
-      </p>
-      <% end %>
-      
+    <div  class="repo span-7 append-1 <% if (index+1).divmod(3)[1] == 0 %> last <% end %>" >
+      <p class="name github"><a href="<%= repo.github_url %>"><%= repo.name %></a> </p>
       <p class="description"><%= repo.description %></p>
-
       <p class="author">
         <% if !repo.owner_avatar.blank?  %>
           <img class="userIcon" src="<%= repo.owner_avatar %>" />
@@ -50,12 +36,10 @@
         </p>
       <% end %>
       
-      
     </div>
-    <% if (index+1).divmod(3)[1] == 0 %><br style="clear:both;" /><% end %>
+
+  <% if (index+1).divmod(3)[1] == 0 %><br style="clear:both;" /><% end %>
   <% end %>
 
-</div>
 <% end %>
-
-  </div>
+</div>

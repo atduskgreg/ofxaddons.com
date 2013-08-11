@@ -1,0 +1,25 @@
+<div class="span-24 last indent">
+
+	<div class="userPage span-22 last">
+
+	<p class="span-3">
+        <a href="http://github.com/<%= @user %>">
+        <% if !@user_data.owner_avatar.blank?  %>
+          <img style="width:100px;" src="<%= @user_data.owner_avatar %>" />
+     	<% else %>
+          <img style="width:100px;" src="/images/default-gravatar.png">
+     	<% end %>
+     	</a>
+ 	</p>
+ 	<p>
+ 		<h1 class="name"><a href="http://github.com/<%= @user %>"><%= @user %></a> (<%= @user_repos.count %>)</h1>
+ 	</p>
+</div>
+
+<div class="userPage span-22 last">
+	<% for repo in @user_repos %>
+	<p class="span-4 append-1"><a href="<%= repo.github_url %>"><%= repo.name %></a></p>
+	<% end %>
+</div>
+
+</div>
