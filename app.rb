@@ -100,8 +100,8 @@ end
 
 get "/users/:user_name" do
   @user = params[:user_name]
-  @user_data = Repo.first(:not_addon => false, :owner => params[:user_name])
-  @user_repos = Repo.all(:not_addon => false, :owner => params[:user_name], :order => :name.asc)
+  @user_data = Repo.first(:not_addon => false, :owner => params[:user_name], :is_fork => false)
+  @user_repos = Repo.all(:not_addon => false, :owner => params[:user_name], :order => [:followers.desc], :is_fork => false)
   erb :user
 end
 
