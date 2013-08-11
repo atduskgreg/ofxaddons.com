@@ -61,6 +61,7 @@ class Repo
   # not finished, not real OF addon, these show up on unfinished page
   property :incomplete, Boolean, :default => false
   
+  property :deleted, Boolean, :default => false  
 
   belongs_to :category, :required => false
 
