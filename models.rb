@@ -57,9 +57,7 @@ class Repo
   # to uniquely specify a repo
   property :github_slug, Text
   
-  # not OF related, these don't show up on any public page
   property :not_addon, Boolean, :default => false
-  # not finished, not real OF addon, these show up on unfinished page
   property :incomplete, Boolean, :default => false
 
   property :deleted, Boolean, :default => false

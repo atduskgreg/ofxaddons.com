@@ -1,12 +1,15 @@
 body {
   font-family: Arial, sans-serif;
+  padding
 }
 
 
 #slogan {
   margin-bottom:0;
   margin-top: 18px;
-  color: #FDBB1C;
+  /*color: #FDBB1C;*/
+  color: #999;
+  font-size: 20px;
 }
 
 #slogan a {
@@ -29,6 +32,7 @@ ul{
   font-size:11px;
   width:932px;
   margin-right: 0;
+  margin-bottom: 10px;
 }
 
 #nav a {
@@ -42,26 +46,33 @@ ul{
 }
 
 #howto-nav a {
-  color: #D05399;
+  color: #666;
 
   text-decoration: none;
   font-weight: bold;
 }
 
 #howto-nav a:hover {
-  color: #fff;
+  /*color: #fff;*/
+  color: #EE3987;
 
   background: none;
 }
 
 #howto-nav{
-  background: #565455;
-  padding-left: 42px;
-  margin-bottom: 18px;
+  /*background: #e1e1e1;*/
+  /*background: #565455;*/
+  padding-left: 32px;
+  padding-right: 10px;
+ /* margin-bottom: 18px;*/
+  margin-bottom: 0px;
+  text-align: right;
+  margin-top: -10px;
 }
 
 a {
   color: #EE3987;
+  text-decoration: none;
 }
 
 a:hover {
@@ -85,10 +96,12 @@ a:hover {
 }
 
 .repo .name {
-  font-weight: bold;
+  font-size: 16px;
+  background: #E6E8EA;
+  word-wrap: break-word;
 }
 
-.repo .author {
+.repo .github {
   font-weight: bold;
 }
 
@@ -105,7 +118,7 @@ a:hover {
 }
 
 h2 {
-  border-bottom: 14px solid #B9BBBD;
+  /*border-bottom: 14px solid #B9BBBD;*/
 }
 
 #howto h2 {
@@ -193,16 +206,17 @@ h1 a:hover{
 }
 
 .changedRepo img{
-	float: left;
+	/*float: left;*/
 /*  margin-right: 10px;*/
 	margin-bottom: 10px;
-	margin-left: 20px;
+	/*margin-left: 20px;*/
+
 }
 
 .repoOwner {
     color: #666;
     font-style: italic;
-    text-align: center;
+    /*text-align: center;*/
 }
 
 .repoDescription {
@@ -227,4 +241,48 @@ h1 a:hover{
     color: #aaa;
     margin: 0;
     font-style: italic;
+}
+
+.userIcon{
+  width: 16px;
+  vertical-align: bottom;
+}
+
+.userPage img{
+  float: left;
+}
+
+.userPage .name{
+    margin-top: -15px;
+    margin-bottom: 5px;
+}
+
+.starImage{
+  width:16px;  
+  vertical-align:top;
+}
+
+.indent{
+  margin:0 -20px 1.5em 20px;
+}
+
+#howto h2{
+  border-bottom: 4px solid #E6E8EA;
+}
+
+.description{
+    font-style: italic;
+    padding-bottom: 5px;
+}
+
+.repo .name a{
+  color: #444;
+}
+
+.repo .name {
+  padding: 6px 0px 0px 4px;
+}
+
+.repo .name a:hover{
+  color: #fff;
 }
