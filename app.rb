@@ -87,7 +87,10 @@ get "/admin" do
   @not_addons = Repo.all(:not_addon => true, :order => :name.asc)
   repos = Repo.all(:not_addon => false, :is_fork => false, :deleted => false, :order => :name.asc)
 
-  @uncategorized, @categorized = repos.partition{|r| r.category.nil?}
+  @incomplete = repos.select{|r| r.incomplete}
+  @uncategorized = repos.select{|r| r.category.nil? and not r.incomplete}
+  @categorized = repos.partition{|r| not r.category.nil? and not r.incomplete}
+  
   erb :admin
 end
 
@@ -105,6 +108,12 @@ end
 get "/contributors" do
   @contributors = Repo.all(:not_addon => false, :is_fork => false, :category.not => nil, :order => :name.asc)
   erb :contributors
+end
+
+get "/unfinished" do
+ @uncategorized = Repo.all(:not_addon => false, :is_fork => false, :category => nil, :order => :name.asc)
+ @incomplete = Repo.all(:not_addon => false, :incomplete => true, :is_fork => false, :order => :name.asc)
+ erb :unfinished
 end
 
 get "/uncategorized" do
