@@ -43,6 +43,102 @@
 <% for category in @categories %>
 
   <h3><%= category.name %></h3>
+
+  <% for repo in category.repos %>
+
+    <% if (repo.not_addon == false) %>
+      <div style="border:1px solid #000; margin: 5px; padding: 5px">
+        <h2><a href="/repos/<%= repo.id %>"><%= repo.name %></a></h2> 
+        <p><a href="<%= repo.github_url %>">view on Github</a></p>
+
+        <h3>by <%= repo.owner %></h3>
+        <p>
+          <%= repo.description %>
+        </p>
+        
+        <form action="/repos/<%= repo.id %>" method="post">
+          <input type="hidden" name="_method" value="put" />
+          <select name="repo[category_id]">
+            <% for c in @categories %>
+              <% if (category.name == c.name) %>
+                <option selected value="<%= c.id %>"><%= c.name %></option>
+              <% else %>
+                <option value="<%= c.id %>"><%= c.name %></option>
+              <% end %>
+            <% end %>
+          </select>
+          <input type="submit" value="Save" />
+        </form>
+        
+        <form action="/repos/<%= repo.id %>" method="post">
+          <input type="hidden" name="_method" value="put" />
+          <input type="hidden" name="repo[not_addon]" value="true" />
+
+          <input type="submit" value="NOT AN ADDON" />
+        </form>
+      </div>
+    <% end %>
+  <% end %>
+
+<% end %>
+
+<h2>Blocked as Not Addons</h2>
+
+<% for repo in @not_addons %>
+  <ul>
+    <li><a href="<%= repo.github_url %>"><%= repo.owner  %>/<%= repo.name %></a>
+      <em><%= repo.description %></em>
+      </li>
+    
+  </ul>
+
+<% end %>
+
+
+<!--
+<h1>Administer Repos</h1>
+<p><em>Total: <%= @uncategorized.length + @categorized.length + @not_addons.length %></em></p>
+
+<p><em>Uncategorized: <%= @uncategorized.length %></em></p>
+<p><em>Categorized: <%= @categorized.length %></em></p>
+<p><em>Blocked: <%= @not_addons.length %></em></p>
+
+
+<h2>Uncategorized</h2>
+
+<form action="/repos/update_all" method="post">
+  <input type="hidden" name="_method" value="put" />
+  <input type="submit" value="Save All" />
+  <% for repo in @uncategorized %>
+    <div style="border:1px solid #000; margin: 5px; padding: 5px">
+      <h2><a href="/repos/<%= repo.id %>"><%= repo.name %></a></h2> 
+      <p><a href="<%= repo.github_url %>">view on Github</a></p>
+
+      <h3>by <%= repo.owner %></h3>
+      <p>
+        <%= repo.description %>
+      </p>
+    
+      
+      <select name="repos[<%= repo.id %>][category_id]">
+        <option value="">[Choose a category]</option>
+        <% for category in @categories %>
+        //<input type="checkbox" name="repo[category_id]" value="true"><%= category.name %>
+        <option value="<%= category.id %>"><%= category.name %></option>
+        <% end %>
+      </select>
+
+      <input type="checkbox" name="repos[<%= repo.id %>][not_addon]" value="true">Not OF-related
+      <input type="checkbox" name="repos[<%= repo.id %>][not_addon]" value="true">Not an addon
+    </div>
+  <% end %>
+</form>
+
+<h2>Categorized</h2>
+
+<% for category in @categories %>
+
+  <h3><%= category.name %></h3>
   <% for repo in category.repos %>
     <div style="border:1px solid #000; margin: 5px; padding: 5px">
   <h2><a href="/repos/<%= repo.id %>"><%= repo.name %></a></h2> 
@@ -86,3 +182,5 @@
   </ul>
 
 <% end %>
+
+  -->
