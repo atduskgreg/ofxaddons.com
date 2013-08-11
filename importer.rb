@@ -5,8 +5,9 @@ require './auth'
 
 class Importer
 
+
   def self.update_source_for_uncategorized_repos
-    repos = Repo.all :not_addon => false, :is_fork => false, :category => nil
+    repos = Repo.all :not_addon => false, :is_fork => false, :category => nil, :deleted => false
     count = repos.length
     repos.each_with_index do |repo,i|
       puts "[#{i+1}/#{count}] finding source for #{repo.github_slug}"
@@ -26,7 +27,7 @@ class Importer
   def self.update_forks
 
 
-    repos = Repo.all :not_addon => false, :is_fork => false, :category.not => nil, :has_forks => true
+    repos = Repo.all :not_addon => false, :is_fork => false, :deleted => false, :category.not => nil, :has_forks => true
 
     count = repos.length
     repos.each_with_index do |source_repo,i|
@@ -66,7 +67,7 @@ class Importer
 
   def self.update_issues_for_all_repos
     count = Repo.count(:not_addon => false, :is_fork => false, :category.not => nil)
-    Repo.all(:not_addon => false, :is_fork => false, :category.not => nil).each_with_index do |repo, i|
+    Repo.all(:not_addon => false, :is_fork => false, :deleted => false, :category.not => nil).each_with_index do |repo, i|
       puts "[#{i+1}/#{count}] Updating Issues for #{repo.name}"
       repo.issues = repo.get_issues
       repo.save
@@ -124,8 +125,7 @@ class Importer
 	      # create a new record
 	      puts "creating:\t".green + "#{ r['owner'] }/#{ r['name'] }"
 	      Repo.create_from_json(r)
-	    else # uncomment this line and comment the next to update all with the latest
-	    #elsif r["pushed_at"] && (DateTime.parse(r["pushed_at"]) > repo.last_pushed_at)
+	    else
 	      # update this record
 	      puts "updating:\t".green + "#{ r['owner'] }/#{ r['name'] }"
 	      repo.update_from_json(r)
@@ -141,6 +141,32 @@ class Importer
     end
   
   end
-
   
+  def self.purge_deleted_repos
+  	
+  	repos = Repo.all :not_addon => false
+  	count = repos.length
+  	puts "checking for deleted repos"
+  	
+  	repos.each_with_index do |repo,i|
+   	  url = "https://api.github.com/repos/#{repo.github_slug}?#$auth_params"
+   	  result = HTTParty.get(url)
+
+   	  #puts "repo #{i} : #{url}"
+   	  was_deleted = repo.deleted
+	if result["message"].eql?("Not Found")
+   	  puts "[#{i+1}/#{count}] https://api.github.com/repos/#{repo.github_slug} was deleted".red
+   	  repo.deleted = true
+    else 
+  	  puts "[#{i+1}/#{count}] https://api.github.com/repos/#{repo.github_slug} still live"
+  	  repo.deleted = false
+    end
+    
+    if repo.deleted != was_deleted
+      puts "-saving deletion change-"
+	  repo.save 
+	end
+	
+  end
+ end 
 end

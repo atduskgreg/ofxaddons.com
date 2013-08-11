@@ -35,3 +35,8 @@ task :update_specific_repo, :arg1 do |t, args|
 	puts "searching for ofx#{args["arg1"]}"
 	Importer.do_search("ofx#{args["arg1"]}")
 end
+
+desc "purge deleted repos"
+task :purge_deleted_repos do 
+	Importer.purge_deleted_repos
+end

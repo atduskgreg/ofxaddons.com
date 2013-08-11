@@ -59,9 +59,12 @@ class Repo
   
   property :not_addon, Boolean, :default => false
   property :incomplete, Boolean, :default => false
-  
+
+  property :deleted, Boolean, :default => false
+
   belongs_to :category, :required => false
-  
+
+    
   def to_json_hash
     result = {
      :name => name,
@@ -112,6 +115,7 @@ class Repo
     r.github_created_at  = Time.parse(json["created_at"]) if json["created_at"]
     r.github_pushed_at	 = json["pushed_at"]
     r.readme             = r.render_readme
+	r.deleted 		 = false	
 	
     unless r.save
       r.errors.each {|e| puts e.inspect }
@@ -162,7 +166,8 @@ class Repo
 		puts self.owner_avatar
 		self.most_recent_commit = get_most_recent_commit
     end    
-
+	self.deleted = false #in case it was re-added
+	
     unless self.save
       errors.each {|e| puts "ERROR: #{e}" }
       return false
