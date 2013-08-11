@@ -63,6 +63,9 @@ put "/repos/update_all" do
     @repo = Repo.get(r[0])
     rps = params[:repos][r[0]].select {|k,v| puts "new k #{k} v #{v}"; not v.eql? ""}
     val = @repo.update(rps)
+
+    puts "val #{val}"
+    puts "params #{rps}"
   end
 
   redirect "/admin"
@@ -71,7 +74,11 @@ end
 put "/repos/:repo_id" do
   protected!
   @repo = Repo.get(params[:repo_id])
-  @repo.update(params[:repo])
+  val = @repo.update(params[:repo])
+
+  puts "val #{val}"
+  puts "params #{params[:repo]}"
+  
   bake_html
   redirect "/admin"
 end
@@ -87,7 +94,10 @@ get "/admin" do
   @not_addons = Repo.all(:not_addon => true, :order => :name.asc)
   repos = Repo.all(:not_addon => false, :is_fork => false, :order => :name.asc)
 
-  @uncategorized, @categorized = repos.partition{|r| r.category.nil?}
+  @incomplete = repos.select{|r| r.incomplete}
+  @uncategorized = repos.select{|r| r.category.nil? and not r.incomplete}
+  @categorized = repos.partition{|r| not r.category.nil? and not r.incomplete}
+
   erb :admin
 end
 
