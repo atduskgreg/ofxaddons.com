@@ -58,8 +58,10 @@ put "/repos/update_all" do
   protected!
   params[:repos].each do |r|
     @repo = Repo.get(r[0])
-    @repo.update(params[:repos][r[0]])
+    rps = params[:repos][r[0]].select {|k,v| puts "new k #{k} v #{v}"; not v.eql? ""}
+    val = @repo.update(rps)
   end
+
   redirect "/admin"
 end
 
@@ -81,6 +83,7 @@ get "/admin" do
   protected!
   @not_addons = Repo.all(:not_addon => true, :order => :name.asc)
   repos = Repo.all(:not_addon => false, :is_fork => false, :order => :name.asc)
+
   @uncategorized, @categorized = repos.partition{|r| r.category.nil?}
   erb :admin
 end
