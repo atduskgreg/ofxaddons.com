@@ -50,6 +50,7 @@ class Repo
 
   property :last_pushed_at, ZonedTime, :required => true
   property :github_created_at, ZonedTime
+  property :github_pushed_at, Text
 
   # github source graph
   property :source, Text
@@ -60,12 +61,16 @@ class Repo
 
   # to uniquely specify a repo
   property :github_slug, Text
-  
+  # not OF related, these don't show up on any public page
   property :not_addon, Boolean, :default => false
+  # not finished, not real OF addon, these show up on unfinished page
   property :incomplete, Boolean, :default => false
   
+  property :deleted, Boolean, :default => false  
+
   belongs_to :category, :required => false
-  
+
+    
   def to_json_hash
     result = {
      :name => name,
@@ -98,24 +103,26 @@ class Repo
     r.is_fork            = json["fork"]
     r.has_forks           = json["forks"] > 0
     if r.is_fork
-    	r.owner              = json["owner"]['login']
-      r.owner_avatar       = json["owner"]["avatar_url"]
+        r.owner              = json["owner"]['login']
+		r.owner_avatar       = json["owner"]["avatar_url"]
   		r.github_slug        = "#{json['full_name']}"
   		r.followers          = json["watchers"]		
 	    r.update_ancestry()		
     else
         r.owner              = json["owner"]
         r.owner_avatar       = r.get_owner_avatar_url(r.owner)
-    		r.github_slug        = "#{json['owner']}/#{json['name']}"
-    		r.most_recent_commit = r.get_most_recent_commit
-    		r.followers          = json["followers"]
+    	r.github_slug        = "#{json['owner']}/#{json['name']}"
+    	r.most_recent_commit = r.get_most_recent_commit
+    	r.followers          = json["followers"]
     end
-    
+
     r.description        = json["description"]
-    r.last_pushed_at     = Time.parse(json["pushed_at"]).utc if json["pushed_at"]
-    r.github_created_at  = Time.parse(json["created_at"]).utc if json["created_at"]
+    r.last_pushed_at     = Time.parse(json["pushed_at"]) if json["pushed_at"]
+    r.github_created_at  = Time.parse(json["created_at"]) if json["created_at"]
+    r.github_pushed_at	 = json["pushed_at"]
     r.readme             = r.render_readme
-    
+	r.deleted 		 = false	
+	
     unless r.save
       r.errors.each {|e| puts e.inspect }
       return false
@@ -186,23 +193,24 @@ class Repo
   def update_from_json(json)
   
     self.description        = json["description"]
-    self.last_pushed_at     = Time.parse(json["pushed_at"]).utc if json["pushed_at"]
-    self.github_created_at  = Time.parse(json["created_at"]).utc if json["created_at"]	
+    self.last_pushed_at     = Time.parse(json["pushed_at"]) if json["pushed_at"]
+    self.github_created_at  = Time.parse(json["created_at"]) if json["created_at"]	
+    self.github_pushed_at	= json["pushed_at"]
     self.readme             = render_readme
-#    self.forks             = get_forks
 #    self.issues            = get_issues
     self.is_fork            = json["fork"]
     self.has_forks           = json["forks"] > 0
     if self.is_fork
   		self.followers         = json["watchers"]
-      self.owner_avatar      = json["owner"]["avatar_url"]
+  		self.owner_avatar      = json["owner"]["avatar_url"]
   		self.update_ancestry()
   	else
 	    self.followers         = json["followers"]
-      self.owner_avatar      = get_owner_avatar_url(self.owner)
+		  self.owner_avatar      = get_owner_avatar_url(self.owner)
 		  self.most_recent_commit = get_most_recent_commit
     end    
-
+	self.deleted = false #in case it was re-added
+	
     unless self.save
       errors.each {|e| puts "ERROR: #{e}" }
       return false
@@ -225,52 +233,7 @@ class Repo
 	  Repo.all(:not_addon => false, :is_fork => true, :source => self.github_slug).select do |r|
          r.last_pushed_at > self.last_pushed_at #|| r.followers > self.followers
       end
-	  	
-#     if forks
-#       forks.select do |f|
-#         fork_last_pushed = DateTime.parse f["pushed_at"]
-#         fork_last_pushed > self.last_pushed_at
-#       end
-#     else
-#       []
-#     end
   end
-
-#   def update_forks
-# #    url = "https://api.github.com/repos/#{self.github_slug}/forks"
-#     puts "fetching forks: #{ url }"
-#     result = HTTParty.get(url)
-#     if result.success?
-#       #return result.parsed_response
-#       result.each do |r|
-#   	    repo = Repo.first(:owner => r['owner'], :name => r['name'])
-# 	  
-# # 	    # don't bother with non-addons
-# # 	    if repo && repo.not_addon
-# # 	      puts "skipping:\t".red + "#{ r['owner'] }/#{ r['name'] }\n"
-# # 	      next
-# # 	    end
-#  	      
-# 	    if !repo
-# 	      # create a new record
-# 	      puts "creating fork:\t".green + "#{ r['owner'] }/#{ r['name'] }"
-# 	      Repo.create_from_json(r)
-# 	    else # uncomment this line and comment the next to update all with the latest
-# #	    elsif r["pushed_at"] && (DateTime.parse(r["pushed_at"]) > repo.last_pushed_at)
-# 	      # update this record
-# 	      puts "updating fork:\t".green + "#{ r['owner'] }/#{ r['name'] }"
-# 	      repo.update_from_json(r)
-# 	    end
-# 
-#       end
-# #         fork_last_pushed = DateTime.parse f["pushed_at"]
-# #         fork_last_pushed > self.last_pushed_at
-# #       end
-# 
-#     else
-#       #return nil
-#     end
-#   end  
 
   # find currently open issues on the repo whose title
   # matches one of our tags. Wish we could do this with labels

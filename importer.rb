@@ -5,8 +5,9 @@ require './auth'
 
 class Importer
 
+
   def self.update_source_for_uncategorized_repos
-    repos = Repo.all :not_addon => false, :is_fork => false, :category => nil
+    repos = Repo.all :not_addon => false, :is_fork => false, :category => nil, :deleted => false
     count = repos.length
     repos.each_with_index do |repo,i|
       puts "[#{i+1}/#{count}] finding source for #{repo.github_slug}"
@@ -24,38 +25,42 @@ class Importer
   end
   
   def self.update_forks
-    repos = Repo.all :not_addon => false, :is_fork => false, :category.not => nil, :has_forks => true
+
+
+    repos = Repo.all :not_addon => false, :is_fork => false, :deleted => false, :category.not => nil, :has_forks => true
+
     count = repos.length
     repos.each_with_index do |source_repo,i|
-      puts "[#{i+1}/#{count}] finding source for #{source_repo.github_slug}"	  
+    
+	  if !source_repo.github_pushed_at
+	    puts "[#{i+1}/#{count}] #{source_repo.github_slug} does not have a pushed at string, cannot query forks".red
+	    next
+	  end
 
-	  #TODO only check if has forks if repo.has_forks
+      puts "[#{i+1}/#{count}] finding source for #{source_repo.github_slug}"	  
 
    	  url = "https://api.github.com/repos/#{source_repo.github_slug}/forks?#$auth_params"
 	  puts "fetching forks: #{ url }"
 	  result = HTTParty.get(url)
 	  if result.success?
-	  	result.each do |r|
-		
-		  fork_repo = Repo.first(:owner => r['owner']['login'], :name => r['name'])
-
-		  if r["pushed_at"] && (Time.parse(r["pushed_at"]).utc > source_repo.last_pushed_at.utc)
-			  puts "fork pushed at #{Time.parse(r["pushed_at"]).utc}, source repo #{source_repo.last_pushed_at}. updating"
+	  	result.each do |r| 
+		  if r["pushed_at"] && DateTime.parse(r["pushed_at"]) > DateTime.parse(source_repo.github_pushed_at)
+			  puts "fork pushed at #{DateTime.parse(r["pushed_at"])}, source repo #{DateTime.parse(source_repo.github_pushed_at)}. updating"
+		  	  fork_repo = Repo.first(:owner => r['owner']['login'], :name => r['name'])
 		      if !fork_repo
 		        # create a new record
 		        puts "creating fork:\t".green + "#{ r['owner']['login'] }/#{ r['name'] }"
 		        #puts "creating fork".green
 		        Repo.create_from_json(r)
             fork_repo.check_features
-		      else # uncomment this line and comment the next to update all with the latest
-	#	      elsif r["pushed_at"] && (DateTime.parse(r["pushed_at"]) > repo.last_pushed_at)
+		      else
 		        # update this record
 		        puts "updating fork:\t".green + "#{ r['owner']['login'] }/#{ r['name'] }"
 		        fork_repo.update_from_json(r)
             fork_repo.check_features
 		      end
 		   else
-		   	 puts "no commits, skipping ".red + "#{ r['owner']['login'] }/#{ r['name'] }"
+		  	puts "no more recent commits than source, skipping ".red + "#{ r['owner']['login'] }/#{ r['name'] }"
 		   end
 	    end	  	
 	  end
@@ -64,7 +69,7 @@ class Importer
 
   def self.update_issues_for_all_repos
     count = Repo.count(:not_addon => false, :is_fork => false, :category.not => nil)
-    Repo.all(:not_addon => false, :is_fork => false, :category.not => nil).each_with_index do |repo, i|
+    Repo.all(:not_addon => false, :is_fork => false, :deleted => false, :category.not => nil).each_with_index do |repo, i|
       puts "[#{i+1}/#{count}] Updating Issues for #{repo.name}"
       repo.issues = repo.get_issues
       repo.save
@@ -105,25 +110,25 @@ class Importer
   
       # don't bother with repos that have never been pushed
       unless r["pushed_at"]
-        puts "skipping:\t".red + "#{ r['owner'] }/#{ r['name'] }\n"
+        puts "no commits, skipping:\t".red + "#{ r['owner'] }/#{ r['name'] }\n"
         next
       end
   	    
+#  	    puts "looking up repo #{ r['owner'] }/#{ r['name'] }"
   	    repo = Repo.first(:owner => r['owner'], :name => r['name'])
-	  
+  	      	    	    
 	    # don't bother with non-addons
 	    if repo && repo.not_addon
 	      puts "skipping:\t".red + "#{ r['owner'] }/#{ r['name'] }\n"
 	      next
 	    end
-	      
+
 	    if !repo
 	      # create a new record
 	      puts "creating:\t".green + "#{ r['owner'] }/#{ r['name'] }"
 	      Repo.create_from_json(r)
         repo.check_features
-	    else # uncomment this line and comment the next to update all with the latest
-	    #elsif r["pushed_at"] && (DateTime.parse(r["pushed_at"]) > repo.last_pushed_at)
+	    else
 	      # update this record
 	      puts "updating:\t".green + "#{ r['owner'] }/#{ r['name'] }"
 	      repo.update_from_json(r)
@@ -140,6 +145,32 @@ class Importer
     end
   
   end
-
   
+  def self.purge_deleted_repos
+  	
+  	repos = Repo.all :not_addon => false
+  	count = repos.length
+  	puts "checking for deleted repos"
+  	
+  	repos.each_with_index do |repo,i|
+   	  url = "https://api.github.com/repos/#{repo.github_slug}?#$auth_params"
+   	  result = HTTParty.get(url)
+
+   	  #puts "repo #{i} : #{url}"
+   	  was_deleted = repo.deleted
+	if result["message"].eql?("Not Found")
+   	  puts "[#{i+1}/#{count}] https://api.github.com/repos/#{repo.github_slug} was deleted".red
+   	  repo.deleted = true
+    else 
+  	  puts "[#{i+1}/#{count}] https://api.github.com/repos/#{repo.github_slug} still live"
+  	  repo.deleted = false
+    end
+    
+    if repo.deleted != was_deleted
+      puts "-saving deletion change-"
+	  repo.save 
+	end
+	
+  end
+ end 
 end

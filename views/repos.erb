@@ -1,16 +1,15 @@
-<div id="body" class="span-24 last">
-<% @categories.each_with_index do |category, index| %>
-<div class="category span-22 push-2 last">
-<h2 class="span-21 pull-1"><a name="<%= category.slug %>"><%= category.name %></a> (<%= category.repos.count %>)</h2>
-    
-  <% category.repos.reject{ |r| r.not_addon == true }.sort_by{|r| r.name }.each_with_index do |repo, index| %>
+<div id="body" class="span-26 last indent" >
 
-   <div class="repo span-6 append-1 <% if (index+1).divmod(3)[1] == 0 %> last <% end %>">
-      <p class="name"><a href="/repos/<%= repo.id %>"><%= repo.name %></a> <span class="download"><a href="<%= repo.github_url %>/zipball/master">⇣</a></span>
-        <% if !repo.followers.blank? %>
-          <%= repo.followers %> stars
-        <% end %>
-      </p>
+<% @categories.each_with_index do |category, index| %>
+
+<div class="category span-24">
+<h2 class="span-24"><a name="<%= category.slug %>"><%= category.name %></a> (<%= category.repos.count %>)</h2>
+    
+  <% category.repos.reject{ |r| r.deleted || r.not_addon }.sort_by{|r| r.name }.each_with_index do |repo, index| %>
+
+   <div class="repo span-7 append-1 <% if (index+1).divmod(3)[1] == 0 %> last <% end %>" >
+      
+      <p class="name github"><a href="<%= repo.github_url %>"><%= repo.name %></a></p>
       <% if !repo.warning_labels.blank? %>
       <p class="warning-labels">
         <% for warning in repo.warning_labels %>
@@ -20,10 +19,36 @@
         <% end %> 
       </p>
       <% end %>
-      <p class="author">by <%= repo.owner %></p>
-      <p class="description">
-        <em><%= repo.description %> [<a class="github_link" href="<%= repo.github_url %>">view on Github</a>]</em>
+      
+      <p class="description"><%= repo.description %></p>
+
+      <p class="author">
+        <% if !repo.owner_avatar.blank?  %>
+          <img class="userIcon" src="<%= repo.owner_avatar %>" />
+        <% else %>
+          <img class="userIcon" src="/images/default-gravatar.png">
+        <% end %>
+        
+        <a class="github" href="<%= repo.github_url %>">created</a> by <a href="/users/<%= repo.owner %>"><%= repo.owner %></a> <br/>updated <abbr class="timeago" title="<%= repo.last_pushed_at.strftime('%Y-%m-%dT%H:%M:%S%z') %>"><%= repo.last_pushed_at.strftime("%m/%e/%y") %></abbr> (<%= repo.get_last_update_of_release %>) 
+        <% if repo.followers != 0 && !repo.followers.blank? %>
+          <img class="starImage" src="images/starGray.png" /> <b><%= repo.followers %></b>
+        <% end %>
       </p>
+      
+      <% for fork in repo.fresher_forks %>
+        <p>
+          <% if !fork.owner_avatar.blank?  %>
+            <img class="userIcon" src="<%= fork.owner_avatar %>" />
+          <% else %>
+            <img class="userIcon" src="/images/default-gravatar.png">
+          <% end %>
+          <a class="github" href="<%fork.github_url%>">fork</a> by <a href="http://github.com/<%= fork.owner %>"><%= fork.owner %></a> <br/>updated <abbr class="timeago" title="<%= fork.last_pushed_at.strftime('%Y-%m-%dT%H:%M:%S%z') %>"><%= fork.last_pushed_at.strftime("%m/%e/%y") %></abbr> (<%= fork.get_last_update_of_release %>) 
+        <% if fork.followers != 0 && !fork.followers.blank? %>
+          <img class="starImage" src="images/starGray.png" /> <b><%= fork.followers %></b>
+        <% end %>
+        </p>
+      <% end %>
+      
       
     </div>
     <% if (index+1).divmod(3)[1] == 0 %><br style="clear:both;" /><% end %>
@@ -32,21 +57,4 @@
 </div>
 <% end %>
 
-<% unless @uncategorized.empty? %>
-
-<h2>Uncategorized</h2>
- <ul>
-    
-  <% for repo in @uncategorized %>
-    <li>
-      <p><a href="/repos/<%= repo.id %>"><%= repo.name %></a> by <%= repo.owner %>
-      <p>
-        <%= repo.description %> [<a href="<%= repo.github_url %>">view on Github</a>]
-      </p>
-      
-    </li>
-
-  <% end %>
-  </ul>
-  <% end %>
   </div>

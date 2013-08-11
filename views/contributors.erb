@@ -1,0 +1,22 @@
+<div class="span-26 last indent">
+
+<% unless @contributors.empty? %>
+
+<h2 style="border-bottom:0px">Contributors</h2>
+
+  <% @contributors.each_with_index do |repo, index| %>
+    
+    <div  class="repo span-6 append-1 <% if (index+1).divmod(3)[1] == 0 %> last <% end %>" style="">
+      <p>
+      	<% if !repo.owner_avatar.blank?  %>
+          <img style="width:30px; vertical-align:middle" src="<%= repo.owner_avatar %>" />
+        <% else %>
+          <img style="width:30px; vertical-align:middle" src="/images/default-gravatar.png">
+        <% end %>
+         <a href="/users/<%= repo.owner %>"><%= repo.owner %></a> (0)</p>
+    </div>
+
+  <% end %>
+
+<% end %>
+</div>
