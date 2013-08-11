@@ -1,8 +1,11 @@
 require 'rubygems'
 require 'bundler/setup'
 require 'sinatra'
+require "sinatra/config_file"
 require './models'
 require 'yaml'
+
+config_file 'datas/config.yml'
 
 helpers do
 
