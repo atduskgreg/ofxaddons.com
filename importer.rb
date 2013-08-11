@@ -107,18 +107,19 @@ class Importer
   
       # don't bother with repos that have never been pushed
       unless r["pushed_at"]
-        puts "skipping:\t".red + "#{ r['owner'] }/#{ r['name'] }\n"
+        puts "no commits, skipping:\t".red + "#{ r['owner'] }/#{ r['name'] }\n"
         next
       end
   	    
+#  	    puts "looking up repo #{ r['owner'] }/#{ r['name'] }"
   	    repo = Repo.first(:owner => r['owner'], :name => r['name'])
-	  
+  	      	    	    
 	    # don't bother with non-addons
 	    if repo && repo.not_addon
 	      puts "skipping:\t".red + "#{ r['owner'] }/#{ r['name'] }\n"
 	      next
 	    end
-	      
+
 	    if !repo
 	      # create a new record
 	      puts "creating:\t".green + "#{ r['owner'] }/#{ r['name'] }"
