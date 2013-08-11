@@ -44,6 +44,7 @@ class Repo
 
   property :last_pushed_at, ZonedTime, :required => true
   property :github_created_at, ZonedTime
+  property :github_pushed_at, Text
 
   # github source graph
   property :source, Text
@@ -83,6 +84,7 @@ class Repo
     r                    = self.new 
     r.name               = json["name"]
     r.is_fork            = json["fork"]
+    
     if r.is_fork
     	r.owner              = json["owner"]['login']
 		r.github_slug        = "#{json['full_name']}"
@@ -94,12 +96,16 @@ class Repo
 		r.most_recent_commit = r.get_most_recent_commit
 		r.followers          = json["followers"]
     end
-    
+
     r.description        = json["description"]
-    r.last_pushed_at     = Time.parse(json["pushed_at"]).utc if json["pushed_at"]
-    r.github_created_at  = Time.parse(json["created_at"]).utc if json["created_at"]
+    r.last_pushed_at     = Time.parse(json["pushed_at"]) if json["pushed_at"]
+    r.github_created_at  = Time.parse(json["created_at"]) if json["created_at"]
+    r.github_pushed_at	 = json["pushed_at"]
     r.readme             = r.render_readme
-    
+	
+	#query for the user
+	#if the user doesn't exist, create owner name
+
     unless r.save
       r.errors.each {|e| puts e.inspect }
       return false
@@ -120,9 +126,11 @@ class Repo
   def update_from_json(json)
   
     self.description        = json["description"]
-    self.last_pushed_at     = Time.parse(json["pushed_at"]).utc if json["pushed_at"]
-    self.github_created_at  = Time.parse(json["created_at"]).utc if json["created_at"]	
+    self.last_pushed_at     = Time.parse(json["pushed_at"]) if json["pushed_at"]
+    self.github_created_at  = Time.parse(json["created_at"]) if json["created_at"]	
+    self.github_pushed_at	= json["pushed_at"]
     self.readme             = render_readme
+    
 #    self.forks              = get_forks
 #    self.issues             = get_issues
     self.is_fork            = json["fork"]

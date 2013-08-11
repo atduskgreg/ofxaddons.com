@@ -24,23 +24,31 @@ class Importer
   end
   
   def self.update_forks
+  	  
+  	#TODO only get repos with repo.has_forks
+  	  
     repos = Repo.all :not_addon => false, :is_fork => false, :category.not => nil
     count = repos.length
     repos.each_with_index do |source_repo,i|
+    
+	  if !source_repo.github_pushed_at
+	    puts "this repo does not have a pushed at string, cannot query forks".red
+	    next
+	  end
+
       puts "[#{i+1}/#{count}] finding source for #{source_repo.github_slug}"	  
 
-	  #TODO only check if has forks if repo.has_forks
 
    	  url = "https://api.github.com/repos/#{source_repo.github_slug}/forks?#$auth_params"
 	  puts "fetching forks: #{ url }"
 	  result = HTTParty.get(url)
 	  if result.success?
 	  	result.each do |r|
-		
+		  
 		  fork_repo = Repo.first(:owner => r['owner']['login'], :name => r['name'])
-
-		  if r["pushed_at"] && (Time.parse(r["pushed_at"]).utc > source_repo.last_pushed_at.utc)
-			  puts "fork pushed at #{Time.parse(r["pushed_at"]).utc}, source repo #{source_repo.last_pushed_at}. updating"
+		  		  
+		  if r["pushed_at"] && DateTime.parse(r["pushed_at"]) > DateTime.parse(source_repo.github_pushed_at)
+			  puts "fork pushed at #{DateTime.parse(r["pushed_at"])}, source repo #{DateTime.parse(source_repo.github_pushed_at)}. updating"
 		      if !fork_repo
 		        # create a new record
 		        puts "creating fork:\t".green + "#{ r['owner']['login'] }/#{ r['name'] }"
@@ -53,7 +61,7 @@ class Importer
 		        fork_repo.update_from_json(r)
 		      end
 		   else
-		   	 puts "no commits, skipping ".red + "#{ r['owner']['login'] }/#{ r['name'] }"
+		  	puts "no more recent commits than source, skipping ".red + "#{ r['owner']['login'] }/#{ r['name'] }"
 		   end
 	    end	  	
 	  end
