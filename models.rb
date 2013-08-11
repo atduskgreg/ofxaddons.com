@@ -51,6 +51,7 @@ class Repo
   property :parent, Text
 
   property :is_fork, Boolean, :default => false
+  property :has_forks, Boolean, :default => false
 
   # to uniquely specify a repo
   property :github_slug, Text
@@ -84,6 +85,7 @@ class Repo
     r                    = self.new 
     r.name               = json["name"]
     r.is_fork            = json["fork"]
+    r.has_forks           = json["forks"] > 0
     if r.is_fork
     	r.owner              = json["owner"]['login']
       r.owner_avatar       = json["owner"]["avatar_url"]
@@ -92,7 +94,7 @@ class Repo
 	    r.update_ancestry()		
     else
         r.owner              = json["owner"]
-        r.owner_avatar       = get_owner_avatar_url(r.owner)
+        r.owner_avatar       = r.get_owner_avatar_url(r.owner)
     		r.github_slug        = "#{json['owner']}/#{json['name']}"
     		r.most_recent_commit = r.get_most_recent_commit
     		r.followers          = json["followers"]
@@ -140,6 +142,7 @@ class Repo
 #    self.forks             = get_forks
 #    self.issues            = get_issues
     self.is_fork            = json["fork"]
+    self.has_forks           = json["forks"] > 0
     if self.is_fork
   		self.followers         = json["watchers"]
       self.owner_avatar      = json["owner"]["avatar_url"]
