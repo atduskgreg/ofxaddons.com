@@ -115,8 +115,3 @@ get "/unfinished" do
  @incomplete = Repo.all(:not_addon => false, :incomplete => true, :is_fork => false, :order => :name.asc)
  erb :unfinished
 end
-
-get "/uncategorized" do
-  @uncategorized = Repo.all(:not_addon => false, :is_fork => false, :category => nil, :order => :name.asc)
-  erb :uncategorized
-end  
