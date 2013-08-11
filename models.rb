@@ -82,6 +82,12 @@ class Repo
   end
   
   def self.create_from_json(json)
+
+    if(!json["name"].start_with?('ofx'))
+      puts "Repo's name not starting with 'ofx', not saving"
+      return false
+    end
+
     r                    = self.new 
     r.name               = json["name"]
     r.is_fork            = json["fork"]
