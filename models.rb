@@ -35,6 +35,7 @@ class Repo
   property :id, Serial
   property :name, Text
   property :owner, Text
+  property :owner_avatar, Text 
   property :description, Text
   property :readme, Text
   property :forks, Json
@@ -50,6 +51,7 @@ class Repo
   property :parent, Text
 
   property :is_fork, Boolean, :default => false
+  property :has_forks, Boolean, :default => false
 
   # to uniquely specify a repo
   property :github_slug, Text
@@ -83,16 +85,19 @@ class Repo
     r                    = self.new 
     r.name               = json["name"]
     r.is_fork            = json["fork"]
+    r.has_forks           = json["forks"] > 0
     if r.is_fork
     	r.owner              = json["owner"]['login']
-		r.github_slug        = "#{json['full_name']}"
-		r.followers          = json["watchers"]		
+      r.owner_avatar       = json["owner"]["avatar_url"]
+  		r.github_slug        = "#{json['full_name']}"
+  		r.followers          = json["watchers"]		
 	    r.update_ancestry()		
     else
         r.owner              = json["owner"]
-		r.github_slug        = "#{json['owner']}/#{json['name']}"
-		r.most_recent_commit = r.get_most_recent_commit
-		r.followers          = json["followers"]
+        r.owner_avatar       = r.get_owner_avatar_url(r.owner)
+    		r.github_slug        = "#{json['owner']}/#{json['name']}"
+    		r.most_recent_commit = r.get_most_recent_commit
+    		r.followers          = json["followers"]
     end
     
     r.description        = json["description"]
@@ -117,22 +122,38 @@ class Repo
   #   end
   # end
 
+  def get_owner_avatar_url(owner_name)
+    url = "https://api.github.com/users/#{owner_name}?#$auth_params"
+    puts "fetching repo owner datas: #{ url }"
+    result = HTTParty.get(url)
+    if result.success?
+      return result["avatar_url"]
+    else
+      return nil
+    end
+  end
+
   def update_from_json(json)
   
     self.description        = json["description"]
     self.last_pushed_at     = Time.parse(json["pushed_at"]).utc if json["pushed_at"]
     self.github_created_at  = Time.parse(json["created_at"]).utc if json["created_at"]	
     self.readme             = render_readme
-#    self.forks              = get_forks
-#    self.issues             = get_issues
+#    self.forks             = get_forks
+#    self.issues            = get_issues
     self.is_fork            = json["fork"]
+    self.has_forks           = json["forks"] > 0
     if self.is_fork
-		self.followers          = json["watchers"]		    
-		self.update_ancestry()
-	else
-	    self.followers          = json["followers"]
-		self.most_recent_commit = get_most_recent_commit
-	end    
+  		self.followers         = json["watchers"]
+      self.owner_avatar      = json["owner"]["avatar_url"]
+      puts self.owner_avatar
+  		self.update_ancestry()
+  	else
+	    self.followers         = json["followers"]
+      self.owner_avatar      = get_owner_avatar_url(self.owner)
+      puts self.owner_avatar
+		  self.most_recent_commit = get_most_recent_commit
+    end    
 
     unless self.save
       errors.each {|e| puts "ERROR: #{e}" }
