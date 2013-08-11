@@ -12,6 +12,7 @@ gem "httparty"
 gem "i18n"              # used by activesupport, which is installed by dm-zone-types
 gem "nokogiri"          # used for scraping readme files
 gem "sinatra"
+gem "sinatra-contrib"	# used for YAML config files http://www.sinatrarb.com/contrib/config_file.html
 gem 'creole'            # renders creole for readme files
 gem 'rdoc', '3.6.1'     # renders rdoc for readme files
 gem 'redcarpet'         # renders markdown for readme files

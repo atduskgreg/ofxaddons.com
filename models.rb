@@ -260,6 +260,17 @@ class Repo
     end
   end
 
+  def get_last_update_of_release
+    last = settings.ofreleases[0]['version']
+    settings.ofreleases.each do |r|
+      if(r['date'] > self.last_pushed_at)
+        return last
+      end
+      last = r['version']
+    end
+    return last
+  end
+
   def update_ancestry
     if self.is_fork
       result = HTTParty.get("https://api.github.com/repos/#{github_slug}?#$auth_params")
