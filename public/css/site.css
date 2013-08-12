@@ -101,6 +101,14 @@ a:hover {
   background: url(https://raw.github.com/kikko/ofxSpine/master/addon_thumbnail.png) center center;
 }
 
+.repo span.makefile {
+  background: #E6E8EA;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  padding: 2px;
+  font-size: 11px;
+}
+
 .repo .bg .name {
   position: absolute;
   display: block;
