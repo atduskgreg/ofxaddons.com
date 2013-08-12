@@ -130,6 +130,10 @@ a:hover {
   background: none;
 }
 
+.clear {
+  clear: both;
+}
+
 .repo p{
   margin: 0;
 }
