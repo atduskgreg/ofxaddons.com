@@ -1,50 +1,59 @@
 
 
-<div id="howto" class="span-23 last indent">
-  <h2>What are openFrameworks addons?</h2>
-	<p>An addon is code that extends openFrameworks in some way.  There are usually two main reasons to make an addon</p>
+<div class="howtoSide span-6 append-1 last">
+<ul>
+	<li><a href="#what">What are OF addons?</a></li>
+	<li><a href="#install">How do I install an addon from this site?</a></li>
+	<li><a href="#should_i">Should I turn my OF thing into an addon?</a></li>
+	<li><a href="#make">How do I make an OF addon?</a></li>
+	<li><a href="#is_done">Is my addon done yet?</a></li>
+	<li><a href="#add_thumbnail">How do I add a thumbnail for this site?</a></li>
+	<li><a href="#submit">How do I submit my addon to this page?</a></li>
+	<li><a href="#how_find">How do you find all these addons?</a></li>
+
+</ul>
+</div>
+
+<div id="howto" class="span-17 last" style="margin-left:10px">
+  <a id="#what">
+  <h2>What are openFrameworks addons?</h2></a>
+	<p>An addon is code that extends openFrameworks in some way.  There are usually two main reasons to make an addon:</p>
 	<ol>
-		<li>Bring in an external library or framework and allow it to easily be integrated into openFrameworks projects, eg: ofxKinect for using the kinect in openFrameworks, or ofxMidi for sending midi commands</li>					
-		<li>Make some complicated task simple and reusable for yourself and other openFrameworks programmers, eg: ofxQuadWarp by julapy or ofxControlPanel by Theo for user interfaces</li>
+		<li>Bring in an external library or framework and allow it to easily be integrated into openFrameworks projects, eg: <a href="https://github.com/ofTheo/ofxKinect">ofxKinect</a> for using the kinect in openFrameworks, or <a href="https://github.com/danomatika/ofxMidi">ofxMidi</a> for sending midi commands</li>					
+		<li>Make some complicated task simple and reusable for yourself and other openFrameworks programmers, eg: <a href="https://github.com/julapy/ofxQuadWarp">ofxQuadWarp</a> by <a href="/users/julapy">julapy</a> or <a href="https://github.com/ofTheo/ofxControlPanel">ofxControlPanel</a> by <a href="/users/ofTheo">ofTheo</a> for user interfaces</li>
 	</ol>
 				
-	<h2>How do I install an addon I found on this site?</h2>
+	<a id="install">
+	<h2>How do I install an addon I found on this site?</h2></a>
 	
-		<p>You can checkout a copy of the code using git. The name of each addon links to its <a href="http://github.com">github</a> repository. You can use the Download Zip button or copy the URL bar, open up a terminal, move to the addons directory and clone it like so (change the url):</p>
+		<p>You can checkout a copy of the code using git. The name of each addon links to its <a href="http://github.com">github</a> repository. You can use the <em>Download Zip</em> button <img src="/images/howto_download.png" style="width:120px; vertical-align:middle" /> or copy the URL bar, open up a terminal, move to your local openFrameworks addons directory and clone it:</p>
 
 		<pre>
 		$cd of_preRelease/addons/
-		$ $git clone https://github.com/obviousjim/ofxSomeAddon</pre>	
+		$git clone https://github.com/obviousjim/ofxSomeAddon</pre>	
 
-		<p>
-			Once you've got the code using either of these methods you should be able to open up the project files in the examples folders of the addons and build->go to see them work.  Addons can be included in new openFrameworks projects through the <a href="http://www.openframeworks.cc/tutorials/introduction/002_projectGenerator.html">Project Generator</a> or you can just copy the example folder into a new apps/ folder and modify it from there.
+		<p>Once you've got the code using either of these methods you should be able to open up the project files in the examples folders of the addon (note that some addons may be not have an example) and build->go to see them work.</p>
+
+		<p>Addons can be included in new openFrameworks projects through the <a href="http://www.openframeworks.cc/tutorials/introduction/002_projectGenerator.html">Project Generator</a> or you can just copy the example folder into a new apps/ folder and modify it from there.
 		</p>
 
-		<p>If the addon doesn't build right away, it may required dependent addons or libraries. Those should be described by the addon developer in their README file.  If there are no project files or the addon is structured in a way that makes openFrameworks show up missing when you open them, please email the addon developer pointing them to this page so they can change the structure to make it easier for people to use.
+		<p>If the addon doesn't build right away, it may require or be dependent on other addons or libraries. Those should be described by the addon developer in their README file.  If there are no project files or the addon is structured in a way that makes openFrameworks show up missing when you open them, please email the addon developer pointing them to this page so they can change the structure to make it easier for people to use.
 		</p>
 
 		<p>
 			Being included on the site is no guarantee that the code works or is useful. We couldn't possibly test and run them all ourselves, so it's between you and the developer to sort out issues if they don't work.
 		</p>
-
-		<p>Watch this video for detailed instructions for OSX:</p>
-		<iframe src="http://player.vimeo.com/video/34092591?byline=0&amp;portrait=0&amp;color=ffffff" width="500" height="375" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe> <p><a href="http://vimeo.com/34092591">OF 007 Guide - Adding addons to an Xcode Project</a> from <a href="http://vimeo.com/of">openFrameworks</a> on <a href="http://vimeo.com">Vimeo</a>.</p>	
-
 		
-	  <h2>How do you find all these addons?</h2>
-		<p>
-			We wrote scripts to discover addons on <a href="http://github.com">github.com</a>. The scripts look at the repository name and description for things like 'openFrameworks' and 'ofx'. We have manual admin tools to discard the results that aren't openFrameworks related, empty, or blatantly incomplete. The ones we keep are dividing into categories after doing a bit of research about them.
-		</p>
-		
-	<h2>Should I turn my openFrameworks thing into an addon?</h2>
-		<p>The best addons make something that was hard easy. They allow you to do complicated things with really little code.  If you have just conqured a big library, algorithm, or invented a new process you should consider making it an addon.  If you're still wondering, maybe these questions will help:</p>
+	<a id="should_i">
+	<h2>Should I turn my openFrameworks thing into an addon?</h2></a>
+		<p>The best addons make something that was hard easy. They allow you to do complicated things with really little code.  If you have just conquered a big library, algorithm, or invented a new process you should consider making it an addon.  If you're still wondering, maybe these questions will help:</p>
 		<ol>
 			<li>Does your addon do something that you think other people would like to do too?</li>
 			<li>Make sure your addon doesn't already exist by looking at <a href="/">ofxaddons.com</a>.</li>
 			<li>If a similar thing does exist but you think you did it better, consider forking the existing addon into your github account and modifying it.</li>
 		</ol>
-
-	<h2>How do I make an openFrameworks addon?</h2>
+	<a id="make">
+	<h2>How do I make an openFrameworks addon?</h2></a>
 		<h3>Folder structure for an addon looks like this:</h3>
 
 <pre>
@@ -90,7 +99,7 @@ of_preRelease/
 			<li>
 			</li>
 			
-			<li>The folder under of_preRelease/addons should be the same name as the addon. This is also the git repository n ame
+			<li>The folder under of_preRelease/addons should be the same name as the addon. This is also the git repository name
 <pre>
     of_preRelease/addons/ofxMyAddon/
 </pre>
@@ -136,9 +145,9 @@ of_preRelease/
 		</li>
 	</ul>
 			
-	<h2>Is my addon done yet?</h2>
-	<ul style="list-style-type:disc">
-		<li>Do you describe what your project does in your description and README including</li>
+	<a id="is_done"><h2>Is my addon done yet?</h2></a>
+	<ul style="list-style-type:disc; margin-left:20px">
+		<li>Do you describe what your project does in your description and README including?</li>
 		<li>Do you list what operating systems you are supporting?</li>
 		<li>Do you have example projects?</li>
 		<li>Do your examples compile against the latest openFrameworks distribution downloaded from the of website?</li>
@@ -146,8 +155,19 @@ of_preRelease/
 		<li>Are you clear about how your addon is licensed? Be straightforward if you don't want people to use it commercially. Also make sure that your dependent libraries have licenses that you are respecting.</li>
 	</ul>			
 
-	<h2>How do I submit my addon to this page?</h2>
+	<a id="submit"><h2>How do I submit my addon to this page?</h2></a>
 	<p>
 		You don't have to! Uploading it to github is enough, as long as you have the 'ofx' prefix in your repository name then we'll find it. Feel free to send us a note if you want to tell us about it and let us know what category it belongs in.
 	</p>
+
+	<a id="add_thumbnail"><h2>How do I add a thumbnail for this page?</h2></a>
+	<p>
+	Include an image file (270x70) in the root of your repository named: <b>ofxaddons_thumbnail.png</b></p>
+	
+	 <a id="how_find">
+	 <h2>How do you find all these addons?</h2></a>
+		<p>
+			We wrote scripts to discover addons on <a href="http://github.com">github.com</a>. The scripts look at the repository name and description for things like 'openFrameworks' and 'ofx'. We have manual admin tools to discard the results that aren't openFrameworks related, empty, or blatantly incomplete. The ones we keep are tagged with categories after doing a bit of research about them.
+		</p>
+		
 </div>
