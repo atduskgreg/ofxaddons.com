@@ -367,3 +367,9 @@ abbr{
   border-width: 0px;
 }
 
+.unfinishedSlogan{
+  font-size: 16px; 
+  font-style:italic;
+  color: #999; 
+  margin-top: -10px
+}
