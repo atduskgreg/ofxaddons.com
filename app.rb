@@ -38,7 +38,7 @@ end
 
 get "/api/v1/all.json" do
   content_type :json
-  repos = Repo.all(:not_addon => false, :is_fork => false, :category.not => nil, :order => :name.asc)
+  repos = Repo.all(:not_addon => false, :is_fork => false, :category.not => nil, :deleted => false, :order => :name.asc)
   {"repos" => repos.collect{|r| r.to_json_hash}}.to_json  
 end
 
@@ -47,13 +47,13 @@ get "/" do
 end
 
 get "/render" do
-  @uncategorized = Repo.all(:not_addon => false, :is_fork => false, :category => nil, :order => :name.asc)
-  @repo_count = Repo.count(:conditions => ['not_addon = ? AND is_fork = ?', 'false', 'false'])
+  @uncategorized = Repo.all(:not_addon => false, :is_fork => false, :deleted => false, :category => nil, :order => :name.asc)
+  @repo_count = Repo.count(:conditions => ['not_addon = ? AND is_fork = ? AND deleted = ?', 'false', 'false', 'false'])
   erb :repos
 end
 
 get "/changes" do  
-  @most_recent = Repo.all(:not_addon => false, :is_fork => false, :category.not => nil, :order => [:last_pushed_at.desc]) 
+  @most_recent = Repo.all(:not_addon => false, :is_fork => false, :deleted => false, :category.not => nil, :order => [:last_pushed_at.desc]) 
   erb :changes
 end
 
@@ -86,7 +86,7 @@ end
 get "/admin" do
   protected!
   @not_addons = Repo.all(:not_addon => true, :order => :name.asc)
-  repos = Repo.all(:not_addon => false, :is_fork => false, :order => :name.asc)
+  repos = Repo.all(:not_addon => false, :is_fork => false, :deleted => false, :order => :name.asc)
 
   @incomplete = repos.select{|r| r.incomplete}
   @uncategorized = repos.select{|r| r.category.nil? and not r.incomplete}
@@ -122,3 +122,4 @@ get "/uncategorized" do
   @uncategorized = Repo.all(:not_addon => false, :is_fork => false, :category => nil, :order => :name.asc)
   erb :uncategorized
 end  
+
