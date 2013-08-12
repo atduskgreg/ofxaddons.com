@@ -5,7 +5,7 @@ body {
 body {
 
   padding: 0;
-  margin: 40px 0;
+  margin: 20px 0;
 }
 
 #logo:hover {
@@ -15,7 +15,7 @@ body {
 #slogan {
   margin: 10px 0 0 0;
   color: #999;
-  font-size: 24px;
+  font-size: 18px;
 }
 
 #slogan a {
@@ -30,7 +30,7 @@ ul {
 
 #nav_links{
   font-size: 24px;
-  margin: 40px 0;
+  margin: 10px 0 20px 0;
 }
 
 #nav_links a {
@@ -47,7 +47,7 @@ ul {
 
 #nav {
   width:932px;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 
 #nav a {
