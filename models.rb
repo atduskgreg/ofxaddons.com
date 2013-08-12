@@ -13,7 +13,7 @@ require 'nokogiri'
 
 require './auth'
 
-# DataMapper::Logger.new(STDOUT, :debug)
+DataMapper::Logger.new(STDOUT, :debug)
 DataMapper.setup(:default, ENV['DATABASE_URL'] || 'postgres://localhost/ofxaddons')
 
 class Category
@@ -184,7 +184,7 @@ class Repo
   
   def fresher_forks
 	  Repo.all(:not_addon => false, :is_fork => true, :source => self.github_slug).select do |r|
-         r.last_pushed_at > self.last_pushed_at || r.followers > self.followers
+         r.last_pushed_at > self.last_pushed_at || (r.followers > self.followers unless r.followers.nil?)
       end
   end
 
