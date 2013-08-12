@@ -2,7 +2,7 @@
 
 <% unless @contributors.empty? %>
 
-<h2 style="border-bottom:0px">Contributors</h2>
+<h2 style="border-bottom:0px">Contributors (<%= @contributors.count %>)</h2>
 
   <% @contributors.each_with_index do |repo, index| %>
     
@@ -13,7 +13,7 @@
         <% else %>
           <img style="width:30px; vertical-align:middle" src="/images/default-gravatar.png">
         <% end %>
-         <a href="/users/<%= repo.owner %>"><%= repo.owner %></a> (0)</p>
+         <a href="/users/<%= repo.owner %>"><%= repo.owner %></a></p>
     </div>
 
   <% end %>

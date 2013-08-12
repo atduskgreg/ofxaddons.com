@@ -4,6 +4,7 @@ require 'sinatra'
 require "sinatra/config_file"
 require './models'
 require 'yaml'
+require 'backports'
 
 config_file 'datas/config.yml'
 
@@ -107,6 +108,7 @@ end
 
 get "/contributors" do
   @contributors = Repo.all(:not_addon => false, :is_fork => false, :category.not => nil, :order => :name.asc)
+  @contributors = @contributors.uniq {|r| r.owner}
   erb :contributors
 end
 
