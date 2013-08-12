@@ -134,12 +134,19 @@ a:hover {
   position: relative;
 }
 
-.repo span.makefile {
-  background: #E6E8EA;
+.repo span.feature {
   -moz-border-radius: 2px;
   border-radius: 2px;
-  padding: 2px;
+  padding: 3px;
   font-size: 11px;
+}
+
+.repo span.makefile {
+  background: #CBB9F8;
+}
+
+.repo span.example {
+  background: #B9D8F8;
 }
 
 .repo .bg .name {
