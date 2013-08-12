@@ -52,8 +52,7 @@
 </div>
 
 <div id="body" class="span-26 last" >
-
-  <% index = 0; for repo in @categorized  %>
+  <% index = 0; for repo in @categorized.sort_by{|r| -r.followers.to_i }  %>
     
     <div class="c_<%= repo.category_id %> repo span-7 append-1 <% if (index+1).divmod(3)[1] == 0 %> last<% end %>" >
       <p class="name github"><a href="<%= repo.github_url %>"><%= repo.name %></a></p>
