@@ -7,10 +7,13 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <script src="js/jquery-1.10.2.min.js" type="text/javascript"></script>
     <script src="js/jquery.timeago.js" type="text/javascript"></script>
+    <script src="js/ofxaddons.js" type="text/javascript"></script>
 
     <script type="text/javascript">
       jQuery(document).ready(function() {
         $("abbr.timeago").timeago();
+        $("#nav_links a").removeClass('current');
+        $("#link_<%= @current %>").addClass('current');
       });
     </script>
 
@@ -18,24 +21,16 @@
   <body>
     <div class="container">
       <div id="header" class="span-24 last">
-        <h1 class="span-4"><a href="/"><img style="width:120px;padding-top:20px" src="<%settings.root%>/images/ofxlogo.png"/></a></h1>
+        <a id="logo" class="span-2 append-1" href="/"><img style="width:80px;padding-top:20px" src="<%settings.root%>/images/ofxlogo.png"/></a>
 
-        <p id="slogan" class="span-20 last">
+        <p id="slogan" class="span-18">
           <em>ofxAddons is a directory of extensions and libraries for the <a href="http://openframeworks.cc">OpenFrameworks</a> creative coding toolkit. Compiled fresh from <a href="http://github.com">Github</a> daily.</em>
         </p>
       </div>
 
-      <div id="howto-nav" class="span-23 last">
-        <a href="/changes">Freshest</a> //   <a href="/uncategorized">Uncategorized</a> //   <a href="/howto">Make your own!</a>   
+      <div id="nav_links" class="span-23 last">
+        <a id="link_addons" href="/">addons</a> // <a  id="link_changes" href="/changes">freshest</a> //   <a  id="link_unfinished" href="/unfinished">unsorted</a> //   <a  id="link_contributors" href="/contributors">contributors</a> // <a id="link_howto" href="/howto">make your own!</a>  
       </div>
-
-      <div id="nav" class="span-23 last">
-        <% for category in @categories %>
-          <a href="/#<%= category.slug %>"><%= category.name  %></a> / 
-        <% end %>
-      </div>
-
-      
 
       <%= yield %>
       <div id="footer" class="span-24 last">
