@@ -43,6 +43,11 @@ class Repo
   property :issues, Json
   property :followers, Integer 
 
+  property :has_makefile, Boolean, :default => false
+  property :example_count, Integer, :default => 0
+  property :has_correct_folder_structure, Boolean, :default => false
+  property :has_thumbnail, Boolean, :default => false
+
   property :last_pushed_at, ZonedTime, :required => true
   property :github_created_at, ZonedTime
   property :github_pushed_at, Text
@@ -137,12 +142,51 @@ class Repo
 
   def get_owner_avatar_url(owner_name)
     url = "https://api.github.com/users/#{owner_name}?#$auth_params"
-    puts "fetching repo owner datas: #{ url }"
     result = HTTParty.get(url)
     if result.success?
       return result["avatar_url"]
     else
       return nil
+    end
+  end
+
+  def check_features
+    url = "https://api.github.com/repos/#{github_slug}/contents?#$auth_params"
+    puts "fetching repo's contents..."
+    content = HTTParty.get(url)
+    self.example_count = 0
+    has_src_folder = false
+    has_libs_folder = false
+    content.each do |c|
+      name = c['name']
+      if name == "addon_config.mk" || name == "addon.make"
+        self.has_makefile = true
+        puts "Found Makefile!".green
+      elsif name.match(/example/i)
+        puts "Found Example!".green
+        self.example_count += 1
+      elsif name.match(/src/i)
+        has_src_folder = true
+      elsif name.match(/libs/i)
+        has_libs_folder = true
+      elsif name.match(/thumbnail/i)
+        puts "Found Thumbnail!".green
+        self.has_thumbnail = true
+      end
+    end
+
+    if has_src_folder and has_libs_folder
+      puts "Has correct folder structure.".green
+      self.has_correct_folder_structure = true
+    else
+      puts "Has incorrect folder structure.".yellow
+    end
+
+    if self.save
+      errors.each {|e| puts "ERROR: #{e}" }
+      return false
+    else
+      return true
     end
   end
 
@@ -159,13 +203,11 @@ class Repo
     if self.is_fork
   		self.followers         = json["watchers"]
   		self.owner_avatar      = json["owner"]["avatar_url"]
-  		puts self.owner_avatar
   		self.update_ancestry()
   	else
 	    self.followers         = json["followers"]
-		self.owner_avatar      = get_owner_avatar_url(self.owner)
-		puts self.owner_avatar
-		self.most_recent_commit = get_most_recent_commit
+		  self.owner_avatar      = get_owner_avatar_url(self.owner)
+		  self.most_recent_commit = get_most_recent_commit
     end    
 	self.deleted = false #in case it was re-added
 	

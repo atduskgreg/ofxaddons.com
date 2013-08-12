@@ -52,10 +52,12 @@ class Importer
 		        puts "creating fork:\t".green + "#{ r['owner']['login'] }/#{ r['name'] }"
 		        #puts "creating fork".green
 		        Repo.create_from_json(r)
+            fork_repo.check_features
 		      else
 		        # update this record
 		        puts "updating fork:\t".green + "#{ r['owner']['login'] }/#{ r['name'] }"
 		        fork_repo.update_from_json(r)
+            fork_repo.check_features
 		      end
 		   else
 		  	puts "no more recent commits than source, skipping ".red + "#{ r['owner']['login'] }/#{ r['name'] }"
@@ -125,10 +127,12 @@ class Importer
 	      # create a new record
 	      puts "creating:\t".green + "#{ r['owner'] }/#{ r['name'] }"
 	      Repo.create_from_json(r)
+        repo.check_features
 	    else
 	      # update this record
 	      puts "updating:\t".green + "#{ r['owner'] }/#{ r['name'] }"
 	      repo.update_from_json(r)
+        repo.check_features
 	    end
 	    
 	    puts 
