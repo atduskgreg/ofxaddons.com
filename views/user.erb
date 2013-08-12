@@ -21,11 +21,36 @@
   	
   	<div  class="repo span-7 append-1 <% if (index+1).divmod(3)[1] == 0 %> last <% end %>" >
       
-      <a href="<%= repo.github_url %>"><b><%= repo.name %></b></a>
+      <p class="name github"><a href="<%= repo.github_url %>"><%= repo.name %></a></p>
+      <p class="description"><%= repo.description %></p>
+
+      <p class="author">
+        
+        <a class="github" href="<%repo.github_url%>">created</a> by <a href="/users/<%= repo.owner %>"><% if !repo.owner_avatar.blank?  %>
+          <img class="userIcon" src="<%= repo.owner_avatar %>" />
+        <% else %>
+          <img class="userIcon" src="/images/default-gravatar.png">
+        <% end %><%= repo.owner %></a> <br/>updated <abbr class="timeago" title="<%= repo.last_pushed_at.strftime('%Y-%m-%dT%H:%M:%S%z') %>"><%= repo.last_pushed_at.strftime("%m/%e/%y") %></abbr> (~<%= repo.get_last_update_of_release %>) 
         <% if repo.followers != 0 && !repo.followers.blank? %>
-          <img class="" style="width:14px; vertical-align:top" src="/images/starGray.png" /><b><%= repo.followers %></b>
+          <img class="starImage" src="/images/starGray.png" /> <b><%= repo.followers %></b>
         <% end %>
-        <p class="description"><%= repo.description %></p>
+      </p>
+
+      <% for fork in repo.fresher_forks %>
+        <p>
+          
+          <a class="github" href="<%fork.github_url%>">fork</a> by <a href="http://github.com/<%= fork.owner %>"><% if !fork.owner_avatar.blank?  %>
+            <img class="userIcon" src="<%= fork.owner_avatar %>" />
+          <% else %>
+            <img class="userIcon" src="/images/default-gravatar.png">
+          <% end %>
+          <%= fork.owner %></a> <br/>updated <abbr class="timeago" title="<%= fork.last_pushed_at.strftime('%Y-%m-%dT%H:%M:%S%z') %>"><%= fork.last_pushed_at.strftime("%m/%e/%y") %></abbr> (~<%= fork.get_last_update_of_release %>) 
+        <% if fork.followers != 0 && !fork.followers.blank? %>
+          <img class="starImage" src="/images/starGray.png" /> <b><%= fork.followers %></b>
+        <% end %>
+        </p>
+      <% end %>
+
   	</div>
     
     <% if (index+1).divmod(3)[1] == 0 %><br style="clear:both;" /><% end %>

@@ -103,7 +103,7 @@ get "/admin" do
   erb :admin
 end
 
-get "/howto" do
+get "/howto/" do
   @current = "howto"
   erb :howto
 end
