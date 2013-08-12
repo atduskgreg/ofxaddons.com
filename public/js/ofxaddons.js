@@ -90,9 +90,22 @@ $(window).load(function () {
 });
 
 function filter(){
+	var n = 0;
 	$('.repo').each(function(i,e){
 		if( shown($(e)) ){
 			$(e).fadeIn();
+			if (n%3 == 0) {
+				$(e).addClass('clear');
+			} else {
+				$(e).removeClass('clear');
+			}
+
+			if (n%3 == 2) {
+				$(e).addClass('last');
+			} else {
+				$(e).removeClass('last');
+			}
+			n++;
 		}
 		else{
 			$(e).fadeOut();	
