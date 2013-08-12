@@ -72,7 +72,7 @@
       <p class="author">
         
         <a class="github" href="<%repo.github_url%>">created</a> by <% if !repo.owner_avatar.blank?  %>
-          <img class="userIcon" src="<%= repo.owner_avatar %>" />
+          <a href="/users/<%= repo.owner %>"><img class="userIcon" src="<%= repo.owner_avatar %>" />
         <% else %>
           <img class="userIcon" src="/images/default-gravatar.png">
         <% end %><%= repo.owner %></a> <br/>updated <abbr class="timeago" title="<%= repo.last_pushed_at.strftime('%Y-%m-%dT%H:%M:%S%z') %>"><%= repo.last_pushed_at.strftime("%m/%e/%y") %></abbr> (~<%= repo.get_last_update_of_release %>) 
