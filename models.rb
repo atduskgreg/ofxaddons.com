@@ -201,11 +201,15 @@ class Repo
   def check_features
     url = "https://api.github.com/repos/#{github_slug}/contents?#$auth_params"
     puts "fetching repo's contents..."
+    
     content = HTTParty.get(url)
+    unless content.success?
+    	puts "empty repository".red
+    	return
+	end
+	
     self.example_count = 0
     has_src_folder = false
-#    has_libs_folder = false
-# TODO: Check for stray source files in repo
     content.each do |c|
       name = c['name']
       if name == "addon_config.mk" || name == "addon.make"
@@ -216,9 +220,6 @@ class Repo
         self.example_count += 1
       elsif name.match(/src/i)
         has_src_folder = true
-#      elsif name.match(/libs/i)
-#        has_libs_folder = true
-
 #TODO: Maybe we want it to be ofxaddons_thumb or something very specific?
       elsif name.match(/thumbnail/i)
         puts "    Found Thumbnail!".green
@@ -226,7 +227,6 @@ class Repo
       end
     end
 
-#    if has_src_folder and has_libs_folder
 	if has_src_folder
       puts "   Has correct folder structure.".green
       self.has_correct_folder_structure = true
@@ -234,14 +234,7 @@ class Repo
       puts "   Has incorrect folder structure.".yellow
       self.has_correct_folder_structure = false
     end
-	
-	#JG no need to save again as this is done in the update/create calls now
-    #if self.save
-    #  errors.each {|e| puts "ERROR: #{e}" }
-    #  return false
-    #else
-    #  return true
-    #end
+
   end
 
   # find currently open issues on the repo whose title
