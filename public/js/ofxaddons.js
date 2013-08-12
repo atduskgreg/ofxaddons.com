@@ -112,29 +112,30 @@ function selectAllCats() {
 }
 
 function filter(){
-	var n = 0;
-	$('.repo').each(function(i,e){
-		if( shown($(e)) ){
-			$(e).fadeIn();
-			if (n%3 == 0) {
-				$(e).addClass('clear');
-			} else {
-				$(e).removeClass('clear');
-			}
+	if (window.location.pathname == "/") {
+		var n = 0;
+		$('.repo').each(function(i,e){
+			if( shown($(e)) ){
+				$(e).fadeIn();
+				if (n%3 == 0) {
+					$(e).addClass('clear');
+				} else {
+					$(e).removeClass('clear');
+				}
 
-			if (n%3 == 2) {
-				$(e).addClass('last');
-			} else {
-				$(e).removeClass('last');
+				if (n%3 == 2) {
+					$(e).addClass('last');
+				} else {
+					$(e).removeClass('last');
+				}
+				n++;
 			}
-			n++;
-		}
-		else{
-			$(e).fadeOut();	
-		}
-		//console.log( "class is " + $(e).class() );
-	});
-
+			else{
+				$(e).fadeOut();	
+			}
+			//console.log( "class is " + $(e).class() );
+		});
+	}
 }
 
 
