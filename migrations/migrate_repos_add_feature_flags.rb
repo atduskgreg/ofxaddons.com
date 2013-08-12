@@ -13,7 +13,7 @@ migration 1, :migrate_repos_add_feature_flags do
       add_column :example_count, 'integer'
       add_column :has_makefile, 'boolean'
       add_column :has_correct_folder_structure, 'boolean'
-      add_column :thumbnail_url, 'text'
+      add_column :has_thumbail, 'boolean'
     end
   end
 end

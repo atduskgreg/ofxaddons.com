@@ -92,16 +92,16 @@ class Repo
   end
   
   def self.create_from_json(json)
+# JG: moving this to the Importer
+#     if(!json["name"].start_with?('ofx'))
+#       puts "Repo's name not starting with 'ofx', not saving"
+#       return false
+#     end
 
-    if(!json["name"].start_with?('ofx'))
-      puts "Repo's name not starting with 'ofx', not saving"
-      return false
-    end
-
-    r                    = self.new 
+    r                  = self.new 
     r.name               = json["name"]
     r.is_fork            = json["fork"]
-    r.has_forks           = json["forks"] > 0
+    r.has_forks          = json["forks"] > 0
     if r.is_fork
         r.owner              = json["owner"]['login']
 		r.owner_avatar       = json["owner"]["avatar_url"]
@@ -120,8 +120,9 @@ class Repo
     r.last_pushed_at     = Time.parse(json["pushed_at"]) if json["pushed_at"]
     r.github_created_at  = Time.parse(json["created_at"]) if json["created_at"]
     r.github_pushed_at	 = json["pushed_at"]
-    r.readme             = r.render_readme
-	r.deleted 		 = false	
+#    r.readme             = r.render_readme
+	r.deleted 		 	 = false	
+	r.check_features
 	
     unless r.save
       r.errors.each {|e| puts e.inspect }
@@ -140,63 +141,13 @@ class Repo
   #   end
   # end
 
-  def get_owner_avatar_url(owner_name)
-    url = "https://api.github.com/users/#{owner_name}?#$auth_params"
-    result = HTTParty.get(url)
-    if result.success?
-      return result["avatar_url"]
-    else
-      return nil
-    end
-  end
-
-  def check_features
-    url = "https://api.github.com/repos/#{github_slug}/contents?#$auth_params"
-    puts "fetching repo's contents..."
-    content = HTTParty.get(url)
-    self.example_count = 0
-    has_src_folder = false
-    has_libs_folder = false
-    content.each do |c|
-      name = c['name']
-      if name == "addon_config.mk" || name == "addon.make"
-        self.has_makefile = true
-        puts "Found Makefile!".green
-      elsif name.match(/example/i)
-        puts "Found Example!".green
-        self.example_count += 1
-      elsif name.match(/src/i)
-        has_src_folder = true
-      elsif name.match(/libs/i)
-        has_libs_folder = true
-      elsif name.match(/thumbnail/i)
-        puts "Found Thumbnail!".green
-        self.has_thumbnail = true
-      end
-    end
-
-    if has_src_folder and has_libs_folder
-      puts "Has correct folder structure.".green
-      self.has_correct_folder_structure = true
-    else
-      puts "Has incorrect folder structure.".yellow
-    end
-
-    if self.save
-      errors.each {|e| puts "ERROR: #{e}" }
-      return false
-    else
-      return true
-    end
-  end
-
   def update_from_json(json)
   
     self.description        = json["description"]
     self.last_pushed_at     = Time.parse(json["pushed_at"]) if json["pushed_at"]
     self.github_created_at  = Time.parse(json["created_at"]) if json["created_at"]	
     self.github_pushed_at	= json["pushed_at"]
-    self.readme             = render_readme
+#    self.readme             = render_readme
 #    self.issues            = get_issues
     self.is_fork            = json["fork"]
     self.has_forks           = json["forks"] > 0
@@ -206,11 +157,13 @@ class Repo
   		self.update_ancestry()
   	else
 	    self.followers         = json["followers"]
-		  self.owner_avatar      = get_owner_avatar_url(self.owner)
-		  self.most_recent_commit = get_most_recent_commit
-    end    
+		self.owner_avatar      = get_owner_avatar_url(self.owner)
+		self.most_recent_commit = get_most_recent_commit
+    end 
+    
 	self.deleted = false #in case it was re-added
-	
+	self.check_features
+   
     unless self.save
       errors.each {|e| puts "ERROR: #{e}" }
       return false
@@ -231,8 +184,64 @@ class Repo
   
   def fresher_forks
 	  Repo.all(:not_addon => false, :is_fork => true, :source => self.github_slug).select do |r|
-         r.last_pushed_at > self.last_pushed_at #|| r.followers > self.followers
+         r.last_pushed_at > self.last_pushed_at || r.followers > self.followers
       end
+  end
+
+ def get_owner_avatar_url(owner_name)
+    url = "https://api.github.com/users/#{owner_name}?#$auth_params"
+    result = HTTParty.get(url)
+    if result.success?
+      return result["avatar_url"]
+    else
+      return nil
+    end
+  end
+
+  def check_features
+    url = "https://api.github.com/repos/#{github_slug}/contents?#$auth_params"
+    puts "fetching repo's contents..."
+    content = HTTParty.get(url)
+    self.example_count = 0
+    has_src_folder = false
+#    has_libs_folder = false
+# TODO: Check for stray source files in repo
+    content.each do |c|
+      name = c['name']
+      if name == "addon_config.mk" || name == "addon.make"
+        self.has_makefile = true
+        puts "    Found Makefile!".green
+      elsif name.match(/example/i)
+        puts "    Found Example!".green
+        self.example_count += 1
+      elsif name.match(/src/i)
+        has_src_folder = true
+#      elsif name.match(/libs/i)
+#        has_libs_folder = true
+
+#TODO: Maybe we want it to be ofxaddons_thumb or something very specific?
+      elsif name.match(/thumbnail/i)
+        puts "    Found Thumbnail!".green
+        self.has_thumbnail = true
+      end
+    end
+
+#    if has_src_folder and has_libs_folder
+	if has_src_folder
+      puts "   Has correct folder structure.".green
+      self.has_correct_folder_structure = true
+    else
+      puts "   Has incorrect folder structure.".yellow
+      self.has_correct_folder_structure = false
+    end
+	
+	#JG no need to save again as this is done in the update/create calls now
+    #if self.save
+    #  errors.each {|e| puts "ERROR: #{e}" }
+    #  return false
+    #else
+    #  return true
+    #end
   end
 
   # find currently open issues on the repo whose title

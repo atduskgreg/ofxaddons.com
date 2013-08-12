@@ -44,6 +44,13 @@ class Importer
 	  result = HTTParty.get(url)
 	  if result.success?
 	  	result.each do |r| 
+	  	
+# Shouldn't need this since generally forks are not renamed	  	
+#           if(!r["name"].start_with?('ofx'))
+#   	        puts "Repo #{r["name"]} doesn't start with 'ofx', not saving".red
+# 	        next
+# 	      end
+	  	
 		  if r["pushed_at"] && DateTime.parse(r["pushed_at"]) > DateTime.parse(source_repo.github_pushed_at)
 			  puts "fork pushed at #{DateTime.parse(r["pushed_at"])}, source repo #{DateTime.parse(source_repo.github_pushed_at)}. updating"
 		  	  fork_repo = Repo.first(:owner => r['owner']['login'], :name => r['name'])
@@ -52,12 +59,12 @@ class Importer
 		        puts "creating fork:\t".green + "#{ r['owner']['login'] }/#{ r['name'] }"
 		        #puts "creating fork".green
 		        Repo.create_from_json(r)
-            fork_repo.check_features
+#            fork_repo.check_features #fork is null
 		      else
 		        # update this record
 		        puts "updating fork:\t".green + "#{ r['owner']['login'] }/#{ r['name'] }"
 		        fork_repo.update_from_json(r)
-            fork_repo.check_features
+#            fork_repo.check_features #wouldn't save
 		      end
 		   else
 		  	puts "no more recent commits than source, skipping ".red + "#{ r['owner']['login'] }/#{ r['name'] }"
@@ -113,28 +120,38 @@ class Importer
         puts "no commits, skipping:\t".red + "#{ r['owner'] }/#{ r['name'] }\n"
         next
       end
-  	    
-#  	    puts "looking up repo #{ r['owner'] }/#{ r['name'] }"
-  	    repo = Repo.first(:owner => r['owner'], :name => r['name'])
-  	      	    	    
+      
+      puts "looking up repo #{ r['owner'] }/#{ r['name'] }."
+      
+      if !r["name"].match(/^ofx/i)
+	    puts "Repo #{r['name']} doesn't start with 'ofx', not saving".red
+        next
+      else 
+	    puts "name checks out".green
+      end  	    
+  	  
+  	  puts "starting query"  	    
+  	  
+  	  repo = Repo.first(:owner => r['owner'], :name => r['name'])
+  	      	  
+  	  puts "did query"  	    
 	    # don't bother with non-addons
-	    if repo && repo.not_addon
-	      puts "skipping:\t".red + "#{ r['owner'] }/#{ r['name'] }\n"
-	      next
-	    end
+	  if repo && repo.not_addon
+	    puts "skipping:\t".red + "#{ r['owner'] }/#{ r['name'] }\n"
+	    next
+	  end
 
-	    if !repo
+	  if !repo
 	      # create a new record
-	      puts "creating:\t".green + "#{ r['owner'] }/#{ r['name'] }"
-	      Repo.create_from_json(r)
-        repo.check_features
-	    else
+	    puts "creating:\t".green + "#{ r['owner'] }/#{ r['name'] }"
+	    Repo.create_from_json(r)
+#        repo.check_features
+	  else
 	      # update this record
-	      puts "updating:\t".green + "#{ r['owner'] }/#{ r['name'] }"
-	      repo.update_from_json(r)
-        repo.check_features
-	    end
-	    
+	    puts "updating:\t".green + "#{ r['owner'] }/#{ r['name'] }"
+	    repo.update_from_json(r)
+ #       repo.check_features
+	  end
 	    puts 
 	  	  
     end
