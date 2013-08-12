@@ -95,10 +95,24 @@ a:hover {
   margin: 0;
 }
 
+.repo .bg {
+  height:70px;
+  position: relative;
+  background: url(https://raw.github.com/kikko/ofxSpine/master/addon_thumbnail.png) center center;
+}
+
+.repo .bg .name {
+  position: absolute;
+  display: block;
+  bottom: 0;
+  padding: 0px 6px 0px 4px;
+}
+
 .repo .name {
   font-size: 16px;
-  background: #E6E8EA;
+  background-color: #E6E8EA ;
   word-wrap: break-word;
+  padding: 6px 0px 0px 4px;
 }
 
 .repo .github {
@@ -277,10 +291,6 @@ h1 a:hover{
 
 .repo .name a{
   color: #444;
-}
-
-.repo .name {
-  padding: 6px 0px 0px 4px;
 }
 
 .repo .name a:hover{

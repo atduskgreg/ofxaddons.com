@@ -9,7 +9,16 @@
 
    <div class="repo span-7 append-1 <% if (index+1).divmod(3)[1] == 0 %> last <% end %>" >
       
-      <p class="name github"><a href="<%= repo.github_url %>"><%= repo.name %></a></p>
+    <% if repo.has_thumbnail != nil %>
+      <div class="bg">
+        <p class="name github"><a href="<%= repo.github_url %>"><%= repo.name %></a></p>
+      </div>
+    <% else %>
+        <p class="name github"><a href="<%= repo.github_url %>"><%= repo.name %></a></p>
+    <% end %>
+    
+    <%= repo.has_thumbnail %>
+
       <% if !repo.warning_labels.blank? %>
       <p class="warning-labels">
         <% for warning in repo.warning_labels %>
