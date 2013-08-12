@@ -41,7 +41,7 @@ class Repo
   property :forks, Json
   property :most_recent_commit, Json
   property :issues, Json
-  property :followers, Integer 
+  property :followers, Integer, :default => 0 
 
   property :has_makefile, Boolean, :default => false
   property :example_count, Integer, :default => 0
