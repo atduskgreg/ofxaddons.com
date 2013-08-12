@@ -48,7 +48,7 @@ end
 
 get "/render" do
   @current = "addons"
-  @categorized = Repo.all(:not_addon => false, :incomplete => false, :is_fork => false, :category.not => nil, :order => :name.asc)
+  @categorized = Repo.all(:not_addon => false, :incomplete => false, :is_fork => false, :deleted => false, :category.not => nil, :order => :name.asc)
   @uncategorized = Repo.all(:not_addon => false, :is_fork => false, :deleted => false, :category => nil, :order => :name.asc)
   @repo_count = Repo.count(:conditions => ['not_addon = ? AND is_fork = ? AND deleted = ?', 'false', 'false', 'false'])
   erb :repos
@@ -81,14 +81,14 @@ put "/repos/:repo_id" do
 end
 
 get "/repos/:repo_id" do
-  @uncategorized = Repo.all(:not_addon => false, :is_fork => false, :category => nil, :order => :name.asc)
+  @uncategorized = Repo.all(:not_addon => false, :is_fork => false, :category => nil, :deleted => false, :order => :name.asc)
   @repo = Repo.get(params[:repo_id])
   erb :repo
 end
 
 get "/admin" do
   protected!
-  @not_addons = Repo.all(:not_addon => true, :order => :name.asc)
+  @not_addons = Repo.all(:not_addon => true, :deleted => false, :order => :name.asc)
   repos = Repo.all(:not_addon => false, :is_fork => false, :deleted => false, :order => :name.asc)
 
   @incomplete = repos.select{|r| r.incomplete}
@@ -106,21 +106,21 @@ end
 get "/users/:user_name" do
   @current = "contributors"
   @user = params[:user_name]
-  @user_data = Repo.first(:not_addon => false, :owner => params[:user_name], :is_fork => false)
-  @user_repos = Repo.all(:not_addon => false, :owner => params[:user_name], :order => [:followers.desc], :is_fork => false)
+  @user_data = Repo.first(:owner => params[:user_name], :not_addon => false, :is_fork => false, :deleted => false)
+  @user_repos = Repo.all( :owner => params[:user_name], :not_addon => false, :is_fork => false, :deleted => false, :order => [:followers.desc])
   erb :user
 end
 
 get "/contributors" do
   @current = "contributors"
-  @contributors = Repo.all(:not_addon => false, :is_fork => false, :category.not => nil, :order => :name.asc)
+  @contributors = Repo.all(:not_addon => false, :is_fork => false, :deleted => false, :category.not => nil, :order => :name.asc)
   @contributors = @contributors.uniq {|r| r.owner}
   erb :contributors
 end
 
 get "/unfinished" do
   @current = "unfinished"
-  @uncategorized = Repo.all(:not_addon => false, :is_fork => false, :category => nil, :order => :name.asc)
-  @incomplete = Repo.all(:not_addon => false, :incomplete => true, :is_fork => false, :order => :name.asc)
+  @uncategorized = Repo.all(:category => nil, :not_addon => false, :is_fork => false, :deleted => false, :order => :name.asc)
+  @incomplete = Repo.all(:incomplete => true, :not_addon => false, :is_fork => false, :deleted => false, :order => :name.asc)
   erb :unfinished
 end
