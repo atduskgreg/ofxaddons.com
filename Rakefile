@@ -32,8 +32,6 @@ end
 
 desc "update single repo"
 task :update_specific_repo, :arg1 do |t, args|
-	#puts "Args was: #{args}"
-#	Importer.update_repo(args["arg1"], args.arg2)
 	puts "searching for ofx#{args["arg1"]}"
 	Importer.do_search("ofx#{args["arg1"]}")
 end
