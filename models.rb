@@ -220,7 +220,7 @@ class Repo
 #        has_libs_folder = true
 
 #TODO: Maybe we want it to be ofxaddons_thumb or something very specific?
-      elsif name.match(/thumbnail/i)
+      elsif name.match(/ofxaddon_thumbnail.png/i)
         puts "    Found Thumbnail!".green
         self.has_thumbnail = true
       end
