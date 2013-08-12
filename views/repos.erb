@@ -3,31 +3,35 @@
   <div class="nav_label span-1 append-1">category</div>
   <div id="nav_categories" class="span-10">
     <% for category in @categories %>
-      <div id="c_<%= category.id %>" class="toggle selected"><%= category.name.downcase  %></div>
+      <div value="c_<%= category.id %>" class="cat_toggle toggle selected"><%= category.name.downcase  %></div>
     <% end %>
   </div>
 
+<!--
+  # TODO
   <div class="nav_label span-1 append-1">platform</div>
   <div id="nav_platforms" class="span-3 append-1">
-    <div id="p_0" class="toggle">osx</div>
-    <div id="p_0" class="toggle">windows</div>
-    <div id="p_0" class="toggle">linux</div>
-    <div id="p_0" class="toggle">ios</div>
-    <div id="p_0" class="toggle">android</div>
-    <div id="p_0" class="toggle">rpi</div>
+    <div value="p_0" class="toggle">osx</div>
+    <div value="p_0" class="toggle">windows</div>
+    <div value="p_0" class="toggle">linux</div>
+    <div value="p_0" class="toggle">ios</div>
+    <div value="p_0" class="toggle">android</div>
+    <div value="p_0" class="toggle">rpi</div>
   </div>
+-->
 
   <div class="nav_label span-1">etc</div>
   <div id="nav_other" class="span-4">
-    <div id="e_stars" class="menu">
-      <span id="e_stars_selected">stars</span>
+    <div id="e_stars" class="menu selected">
+      <span id="e_stars_selected">1+ stars</span>
       <div style="display:none" id="stars_menu" class="nav_drop_menu">
         <ul>
-          <li>any</li>
-          <li>5+</li>
-          <li>10+</li>
-          <li>50+</li>
-          <li>100+</li>
+          <li value="0">any</li>
+          <li value="1">1+</li>
+          <li value="5">5+</li>
+          <li value="10">10+</li>
+          <li value="50">50+</li>
+          <li value="100">100+</li>
         </ul>
       </div>
     </div>
@@ -36,25 +40,26 @@
       <div style="display:none" id="updated_menu" class="nav_drop_menu">
         <ul>
           <li>any</li>
-          <li>0.6.1</li>
-          <li>0.6.2</li>
-          <li>0.7.0</li>
-          <li>0.7.1</li>
-          <li>0.7.2</li>
-          <li>0.7.4</li>
-          <li>0.8.0</li>
+          <li value="61">0.6.1</li>
+          <li value="62">0.6.2</li>
+          <li value="70">0.7.0</li>
+          <li value="71">0.7.1</li>
+          <li value="72">0.7.2</li>
+          <li value="73">0.7.3</li>
+          <li value="74">0.7.4</li>
+          <li value="80">0.8.0</li>
         </ul>
       </div>
     </div>
-    <div id="p_0" class="toggle">makefile</div>
-    <div id="p_0" class="toggle">example</div>
+    <div id="e_makefile" class="toggle">makefile</div>
+    <div id="e_example" class="toggle">example</div>
   </div>
 </div>
 
 <div id="body" class="span-26 last" >
   <% index = 0; for repo in @categorized.sort_by{|r| -r.followers.to_i }  %>
     
-    <div class="c_<%= repo.category_id %> repo span-7 append-1 <% if (index+1).divmod(3)[1] == 0 %> last<% end %>" >
+    <div class="c_<%= repo.category_id %> of_<%= repo.get_last_update_of_release %> s_<%= repo.followers.nil? ? 0 : repo.followers %> m_<%= !repo.has_makefile.nil? %> e_<%= !repo.example_count.nil? %> repo span-7 append-1 <% if (index+1).divmod(3)[1] == 0 %> last<% end %>" >
       <p class="name github"><a href="<%= repo.github_url %>"><%= repo.name %></a></p>
 
       <% if !repo.warning_labels.blank? %>
