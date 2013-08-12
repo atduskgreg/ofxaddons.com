@@ -1,29 +1,25 @@
-<div id="body" class="span-26 last indent" >
 
-<% @categories.each_with_index do |category, index| %>
 
-<div class="category span-24">
-<h2 class="span-24"><a name="<%= category.slug %>"><%= category.name %></a> (<%= category.repos.count %>)</h2>
+<div id="body" class="span-26 last" >
+
+  <% index = 0; for repo in @categorized  %>
     
-  <% category.repos.reject{ |r| r.not_addon == true }.sort_by{|r| r.name }.each_with_index do |repo, index| %>
-
-   <div class="repo span-7 append-1 <% if (index+1).divmod(3)[1] == 0 %> last <% end %>" >
-      
+    <div class="c_<%= repo.category_id %> repo span-7 append-1 <% if (index+1).divmod(3)[1] == 0 %> last<% end %>" >
       <p class="name github"><a href="<%= repo.github_url %>"><%= repo.name %></a></p>
-      
+
       <% if !repo.warning_labels.blank? %>
-      <p class="warning-labels">
-        <% for warning in repo.warning_labels %>
-        <span class="warning <%= warning %>">
-          <%= warning.to_s.split("-").last %>
-        </span>
-        <% end %> 
-      </p>
+        <p class="warning-labels">
+          <% for warning in repo.warning_labels %>
+          <span class="warning <%= warning %>">
+            <%= warning.to_s.split("-").last %>
+          </span>
+          <% end %> 
+        </p>
       <% end %>
-      
+
       <p class="description"><%= repo.description %></p>
 
-      <p class="author">
+       <p class="author">
         <% if !repo.owner_avatar.blank?  %>
           <img class="userIcon" src="<%= repo.owner_avatar %>" />
         <% else %>
@@ -35,7 +31,8 @@
           <img class="starImage" src="images/starGray.png" /> <b><%= repo.followers %></b>
         <% end %>
       </p>
-      
+
+
       <% for fork in repo.fresher_forks %>
         <p>
           <% if !fork.owner_avatar.blank?  %>
@@ -49,13 +46,8 @@
         <% end %>
         </p>
       <% end %>
-      
-      
     </div>
-    <% if (index+1).divmod(3)[1] == 0 %><br style="clear:both;" /><% end %>
+
+    <% index = index + 1 %>
   <% end %>
-
 </div>
-<% end %>
-
-  </div>

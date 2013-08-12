@@ -46,6 +46,8 @@ get "/" do
 end
 
 get "/render" do
+
+  @categorized = Repo.all(:not_addon => false, :incomplete => false, :is_fork => false, :category.not => nil, :order => :name.asc)
   @uncategorized = Repo.all(:not_addon => false, :is_fork => false, :category => nil, :order => :name.asc)
   @repo_count = Repo.count(:conditions => ['not_addon = ? AND is_fork = ?', 'false', 'false'])
   erb :repos
