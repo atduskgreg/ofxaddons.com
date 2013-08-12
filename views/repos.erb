@@ -3,7 +3,6 @@
   <div class="nav_label span-1 append-1">category</div>
   <div id="nav_categories" class="span-10">
     <% for category in @categories %>
-
       <div id="c_<%= category.id %>" class="toggle selected"><%= category.name.downcase  %></div>
     <% end %>
   </div>
