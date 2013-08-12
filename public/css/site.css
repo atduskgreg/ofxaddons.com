@@ -22,8 +22,10 @@ body {
   color: #EE3987;
 }
 
-ul{
+ul {
   list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
 
 #nav_links{
@@ -67,7 +69,7 @@ ul{
   font-weight: bold;
 }
 
-.toggle {
+.toggle, .menu {
   color: #EE3987;
   background: none;
   cursor: pointer;
@@ -76,13 +78,31 @@ ul{
   display: inline-block;
 }
 
-.toggle.selected, .toggle:hover {
+.toggle.selected, .toggle:hover, .menu.selected, .menu:hover {
   color: #FFF;
   background: #EE3987;
 
 }
 
+.nav_drop_menu {
+  position: absolute;
+  color: #EE3987;
+  background: white;
+  cursor: pointer;
+  margin: 2px 0 0 -3px;
+  display: inline-block;
+  outline: #EE3987 solid 1px;
+  text-align: left;
+}
 
+.nav_drop_menu li {
+  padding: 2px 4px;
+}
+
+.nav_drop_menu li:hover {
+  color: white;
+  background: #EE3987;
+}
 
 a {
   color: #EE3987;
