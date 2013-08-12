@@ -129,10 +129,38 @@ a:hover {
   margin: 0;
 }
 
+.repo .bg {
+  height:70px;
+  position: relative;
+}
+
+.repo span.feature {
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  padding: 3px;
+  font-size: 11px;
+}
+
+.repo span.makefile {
+  background: #CBB9F8;
+}
+
+.repo span.example {
+  background: #B9D8F8;
+}
+
+.repo .bg .name {
+  position: absolute;
+  display: block;
+  bottom: 0;
+  padding: 0px 6px 0px 4px;
+}
+
 .repo .name {
   font-size: 16px;
-  background: #E6E8EA;
+  background-color: #E6E8EA ;
   word-wrap: break-word;
+  padding: 6px 0px 0px 4px;
 }
 
 .repo .github {
