@@ -5,7 +5,7 @@
 <div class="category span-24">
 <h2 class="span-24"><a name="<%= category.slug %>"><%= category.name %></a> (<%= category.repos.count %>)</h2>
     
-  <% category.repos.reject{ |r| r.deleted || r.not_addon }.sort_by{|r| r.name }.each_with_index do |repo, index| %>
+  <% category.repos.reject{ |r| r.deleted || r.not_addon }.sort_by{|r| -r.followers.to_i }.each_with_index do |repo, index| %>
 
    <div class="repo span-7 append-1 <% if (index+1).divmod(3)[1] == 0 %> last <% end %>" >
       
