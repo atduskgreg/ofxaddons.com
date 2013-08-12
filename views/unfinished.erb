@@ -8,10 +8,11 @@
     
     <div  class="repo span-7 append-1 <% if (index+1).divmod(3)[1] == 0 %> last <% end %>" >
       <p class="name github"><a href="<%= repo.github_url %>"><%= repo.name %></a> </p>
-      <p class="description"><%= repo.description %></p>
+            <p class="description"><%= repo.description %></p>
 
       <p class="author">
-        <a class="github" href="<%repo.github_url%>">created</a> by <% if !repo.owner_avatar.blank?  %>
+        
+        <a class="github" href="<%repo.github_url%>">created</a> by <a href="/users/<%= repo.owner %>"><% if !repo.owner_avatar.blank?  %>
           <img class="userIcon" src="<%= repo.owner_avatar %>" />
         <% else %>
           <img class="userIcon" src="/images/default-gravatar.png">
@@ -20,9 +21,11 @@
           <img class="starImage" src="images/starGray.png" /> <b><%= repo.followers %></b>
         <% end %>
       </p>
-      
+
+
       <% for fork in repo.fresher_forks %>
         <p>
+          
           <a class="github" href="<%fork.github_url%>">fork</a> by <a href="http://github.com/<%= fork.owner %>"><% if !fork.owner_avatar.blank?  %>
             <img class="userIcon" src="<%= fork.owner_avatar %>" />
           <% else %>
@@ -55,7 +58,8 @@
       <p class="description"><%= repo.description %></p>
 
       <p class="author">
-        <a class="github" href="<%repo.github_url%>">created</a> by <% if !repo.owner_avatar.blank?  %>
+        
+        <a class="github" href="<%repo.github_url%>">created</a> by <a href="/users/<%= repo.owner %>"><% if !repo.owner_avatar.blank?  %>
           <img class="userIcon" src="<%= repo.owner_avatar %>" />
         <% else %>
           <img class="userIcon" src="/images/default-gravatar.png">
@@ -64,9 +68,11 @@
           <img class="starImage" src="images/starGray.png" /> <b><%= repo.followers %></b>
         <% end %>
       </p>
-      
+
+
       <% for fork in repo.fresher_forks %>
         <p>
+          
           <a class="github" href="<%fork.github_url%>">fork</a> by <a href="http://github.com/<%= fork.owner %>"><% if !fork.owner_avatar.blank?  %>
             <img class="userIcon" src="<%= fork.owner_avatar %>" />
           <% else %>
