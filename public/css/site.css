@@ -294,7 +294,12 @@ h1 a:hover{
 }
 
 .repo .name {
-  padding: 4px 8px;
+  padding: 6px 0px 0px 4px;
+  /*padding: 4px 8px;*/
+}
+
+.repo .name a{
+  color: #444;
 }
 
 .repo .name a{
@@ -303,4 +308,12 @@ h1 a:hover{
 
 .repo .name a:hover{
   color: #fff;
+}
+
+.userPage h1 a:hover{
+  color: #EE3987;
+}
+
+abbr{
+  border-width: 0px;
 }

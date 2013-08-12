@@ -4,6 +4,7 @@ require 'sinatra'
 require "sinatra/config_file"
 require './models'
 require 'yaml'
+require 'backports'
 
 config_file 'datas/config.yml'
 
@@ -105,14 +106,15 @@ end
 get "/users/:user_name" do
   @current = "contributors"
   @user = params[:user_name]
-  @user_data = Repo.first(:not_addon => false, :owner => params[:user_name])
-  @user_repos = Repo.all(:not_addon => false, :owner => params[:user_name], :order => :name.asc)
+  @user_data = Repo.first(:not_addon => false, :owner => params[:user_name], :is_fork => false)
+  @user_repos = Repo.all(:not_addon => false, :owner => params[:user_name], :order => [:followers.desc], :is_fork => false)
   erb :user
 end
 
 get "/contributors" do
   @current = "contributors"
   @contributors = Repo.all(:not_addon => false, :is_fork => false, :category.not => nil, :order => :name.asc)
+  @contributors = @contributors.uniq {|r| r.owner}
   erb :contributors
 end
 

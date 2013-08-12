@@ -1,25 +1,36 @@
 <div class="span-24 last indent">
 
-	<div class="userPage span-22 last">
+  	<div class="userPage span-22 last">
 
-	<p class="span-3">
-        <a href="http://github.com/<%= @user %>">
-        <% if !@user_data.owner_avatar.blank?  %>
-          <img style="width:100px;" src="<%= @user_data.owner_avatar %>" />
-     	<% else %>
-          <img style="width:100px;" src="/images/default-gravatar.png">
-     	<% end %>
-     	</a>
- 	</p>
- 	<p>
- 		<h1 class="name"><a href="http://github.com/<%= @user %>"><%= @user %></a> (<%= @user_repos.count %>)</h1>
- 	</p>
-</div>
+  	<p class="span-3">
+          <a href="http://github.com/<%= @user %>">
+          <% if !@user_data.owner_avatar.blank?  %>
+            <img style="width:100px;" src="<%= @user_data.owner_avatar %>" />
+       	<% else %>
+            <img style="width:100px;" src="/images/default-gravatar.png">
+       	<% end %>
+       	</a>
+   	</p>
+   	<p>
+   		<h1 class="name" style="margin-top:30px"><a href="http://github.com/<%= @user %>"><%= @user %></a> (<%= @user_repos.count %>)</h1>
+   	</p>
+  </div>
 
-<div class="userPage span-22 last">
-	<% for repo in @user_repos %>
-	<p class="span-4 append-1"><a href="<%= repo.github_url %>"><%= repo.name %></a></p>
-	<% end %>
-</div>
+  <div class=" span-24 last" >
+    <% @user_repos.each_with_index do |repo, index| %>
+  	
+  	<div  class="repo span-7 append-1 <% if (index+1).divmod(3)[1] == 0 %> last <% end %>" >
+      
+      <a href="<%= repo.github_url %>"><b><%= repo.name %></b></a>
+        <% if repo.followers != 0 && !repo.followers.blank? %>
+          <img class="" style="width:14px; vertical-align:top" src="/images/starGray.png" /><b><%= repo.followers %></b>
+        <% end %>
+        <p class="description"><%= repo.description %></p>
+  	</div>
+    
+    <% if (index+1).divmod(3)[1] == 0 %><br style="clear:both;" /><% end %>
+    <% end %>
+
+  </div>
 
 </div>
