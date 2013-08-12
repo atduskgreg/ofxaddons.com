@@ -69,6 +69,12 @@ ul {
   font-weight: bold;
 }
 
+.clear-all, .select-all {
+  color: #EE3987;
+  font-weight: normal;
+  cursor: pointer;
+}
+
 .toggle, .menu {
   color: #EE3987;
   background: none;
