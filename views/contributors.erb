@@ -6,7 +6,7 @@
 
   <% @contributors.each_with_index do |repo, index| %>
     
-    <div  class="repo span-6 append-1 <% if (index+1).divmod(3)[1] == 0 %> last <% end %>" style="">
+    <div  class="repo span-5 append-1<% if (index+1).divmod(4)[1] == 0 %> last <% end %>">
       <p>
       	<% if !repo.owner_avatar.blank?  %>
           <img style="width:30px; vertical-align:middle" src="<%= repo.owner_avatar %>" />
@@ -16,6 +16,7 @@
          <a href="/users/<%= repo.owner %>"><%= repo.owner %></a></p>
     </div>
 
+  <% if (index+1).divmod(4)[1] == 0 %><br style="clear:both;" /><% end %>
   <% end %>
 
 <% end %>

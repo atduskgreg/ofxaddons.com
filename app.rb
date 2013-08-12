@@ -4,7 +4,7 @@ require 'sinatra'
 require "sinatra/config_file"
 require './models'
 require 'yaml'
-require 'backports'
+#require 'backports'
 
 config_file 'datas/config.yml'
 
@@ -47,12 +47,15 @@ get "/" do
 end
 
 get "/render" do
+  @current = "addons"
+  @categorized = Repo.all(:not_addon => false, :incomplete => false, :is_fork => false, :category.not => nil, :order => :name.asc)
   @uncategorized = Repo.all(:not_addon => false, :is_fork => false, :deleted => false, :category => nil, :order => :name.asc)
   @repo_count = Repo.count(:conditions => ['not_addon = ? AND is_fork = ? AND deleted = ?', 'false', 'false', 'false'])
   erb :repos
 end
 
 get "/changes" do  
+  @current = "changes"
   @most_recent = Repo.all(:not_addon => false, :is_fork => false, :deleted => false, :category.not => nil, :order => [:last_pushed_at.desc]) 
   erb :changes
 end
@@ -96,10 +99,12 @@ get "/admin" do
 end
 
 get "/howto" do
+  @current = "howto"
   erb :howto
 end
 
 get "/users/:user_name" do
+  @current = "contributors"
   @user = params[:user_name]
   @user_data = Repo.first(:not_addon => false, :owner => params[:user_name], :is_fork => false)
   @user_repos = Repo.all(:not_addon => false, :owner => params[:user_name], :order => [:followers.desc], :is_fork => false)
@@ -107,15 +112,17 @@ get "/users/:user_name" do
 end
 
 get "/contributors" do
+  @current = "contributors"
   @contributors = Repo.all(:not_addon => false, :is_fork => false, :category.not => nil, :order => :name.asc)
   @contributors = @contributors.uniq {|r| r.owner}
   erb :contributors
 end
 
 get "/unfinished" do
- @uncategorized = Repo.all(:not_addon => false, :is_fork => false, :category => nil, :order => :name.asc)
- @incomplete = Repo.all(:not_addon => false, :incomplete => true, :is_fork => false, :order => :name.asc)
- erb :unfinished
+  @current = "unfinished"
+  @uncategorized = Repo.all(:not_addon => false, :is_fork => false, :category => nil, :order => :name.asc)
+  @incomplete = Repo.all(:not_addon => false, :incomplete => true, :is_fork => false, :order => :name.asc)
+  erb :unfinished
 end
 
 get "/uncategorized" do

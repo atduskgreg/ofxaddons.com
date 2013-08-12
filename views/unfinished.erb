@@ -2,7 +2,7 @@
 
 <% unless @uncategorized.empty? %>
 
-<h2 style="border-bottom:0px">Uncategorized</h2>
+<h2>Uncategorized</h2>
 
   <% @uncategorized.each_with_index do |repo, index| %>
     
@@ -16,7 +16,7 @@
           <img class="userIcon" src="/images/default-gravatar.png">
         <% end %>
         
-        <a class="github" href="<%= repo.github_url %>">created</a> by <a href="/users/<%= repo.owner %>"><%= repo.owner %></a> <br/>updated <abbr class="timeago" title="<%= repo.last_pushed_at.strftime('%Y-%m-%dT%H:%M:%S%z') %>"><%= repo.last_pushed_at.strftime("%m/%e/%y") %></abbr> (<%= repo.get_last_update_of_release %>) 
+        <a class="github" href="<%= repo.github_url %>">created</a> by <a href="/users/<%= repo.owner %>"><%= repo.owner %></a> <br/>updated <abbr class="timeago" title="<%= repo.last_pushed_at.strftime('%Y-%m-%dT%H:%M:%S%z') %>"><%= repo.last_pushed_at.strftime("%m/%e/%y") %></abbr> (~<%= repo.get_last_update_of_release %>) 
         <% if repo.followers != 0 && !repo.followers.blank? %>
           <img class="starImage" src="images/starGray.png" /> <b><%= repo.followers %></b>
         <% end %>
@@ -29,7 +29,7 @@
           <% else %>
             <img class="userIcon" src="/images/default-gravatar.png">
           <% end %>
-          <a class="github" href="<%fork.github_url%>">fork</a> by <a href="http://github.com/<%= fork.owner %>"><%= fork.owner %></a> <br/>updated <abbr class="timeago" title="<%= fork.last_pushed_at.strftime('%Y-%m-%dT%H:%M:%S%z') %>"><%= fork.last_pushed_at.strftime("%m/%e/%y") %></abbr> (<%= fork.get_last_update_of_release %>) 
+          <a class="github" href="<%fork.github_url%>">fork</a> by <a href="http://github.com/<%= fork.owner %>"><%= fork.owner %></a> <br/>updated <abbr class="timeago" title="<%= fork.last_pushed_at.strftime('%Y-%m-%dT%H:%M:%S%z') %>"><%= fork.last_pushed_at.strftime("%m/%e/%y") %></abbr> (~<%= fork.get_last_update_of_release %>) 
         <% if fork.followers != 0 && !fork.followers.blank? %>
           <img class="starImage" src="images/starGray.png" /> <b><%= fork.followers %></b>
         <% end %>
@@ -44,10 +44,10 @@
 <% end %>
 </div>
 
-<div class="span-26 last indent">
+<div class="span-26 last indent" style="clear:both;">
 <% unless @incomplete.empty? %>
 
-<h2 style="border-bottom:0px">Incomplete</h2>
+<h2 style="border-top: 4px solid #E6E8EA;">Incomplete</h2>
 
   <% @incomplete.each_with_index do |repo, index| %>
     
@@ -61,7 +61,7 @@
           <img class="userIcon" src="/images/default-gravatar.png">
         <% end %>
         
-        <a class="github" href="<%= repo.github_url %>">created</a> by <a href="/users/<%= repo.owner %>"><%= repo.owner %></a> <br/>updated <abbr class="timeago" title="<%= repo.last_pushed_at.strftime('%Y-%m-%dT%H:%M:%S%z') %>"><%= repo.last_pushed_at.strftime("%m/%e/%y") %></abbr> (<%= repo.get_last_update_of_release %>) 
+        <a class="github" href="<%= repo.github_url %>">created</a> by <a href="/users/<%= repo.owner %>"><%= repo.owner %></a> <br/>updated <abbr class="timeago" title="<%= repo.last_pushed_at.strftime('%Y-%m-%dT%H:%M:%S%z') %>"><%= repo.last_pushed_at.strftime("%m/%e/%y") %></abbr> (~<%= repo.get_last_update_of_release %>) 
         <% if repo.followers != 0 && !repo.followers.blank? %>
           <img class="starImage" src="images/starGray.png" /> <b><%= repo.followers %></b>
         <% end %>
@@ -74,7 +74,7 @@
           <% else %>
             <img class="userIcon" src="/images/default-gravatar.png">
           <% end %>
-          <a class="github" href="<%fork.github_url%>">fork</a> by <a href="http://github.com/<%= fork.owner %>"><%= fork.owner %></a> <br/>updated <abbr class="timeago" title="<%= fork.last_pushed_at.strftime('%Y-%m-%dT%H:%M:%S%z') %>"><%= fork.last_pushed_at.strftime("%m/%e/%y") %></abbr> (<%= fork.get_last_update_of_release %>) 
+          <a class="github" href="<%fork.github_url%>">fork</a> by <a href="http://github.com/<%= fork.owner %>"><%= fork.owner %></a> <br/>updated <abbr class="timeago" title="<%= fork.last_pushed_at.strftime('%Y-%m-%dT%H:%M:%S%z') %>"><%= fork.last_pushed_at.strftime("%m/%e/%y") %></abbr> (~<%= fork.get_last_update_of_release %>) 
         <% if fork.followers != 0 && !fork.followers.blank? %>
           <img class="starImage" src="images/starGray.png" /> <b><%= fork.followers %></b>
         <% end %>

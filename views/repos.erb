@@ -1,31 +1,77 @@
-<div id="body" class="span-26 last indent" >
 
-<% @categories.each_with_index do |category, index| %>
+<div id="nav" class="span-24 last">
+  <div class="nav_label span-1 append-1">category</div>
+  <div id="nav_categories" class="span-10">
+    <% for category in @categories %>
+      <div id="c_<%= category.id %>" class="toggle selected"><%= category.name.downcase  %></div>
+    <% end %>
+  </div>
 
-<div class="category span-24">
-<h2 class="span-24"><a name="<%= category.slug %>"><%= category.name %></a> (<%= category.repos.count %>)</h2>
+  <div class="nav_label span-1 append-1">platform</div>
+  <div id="nav_platforms" class="span-3 append-1">
+    <div id="p_0" class="toggle">osx</div>
+    <div id="p_0" class="toggle">windows</div>
+    <div id="p_0" class="toggle">linux</div>
+    <div id="p_0" class="toggle">ios</div>
+    <div id="p_0" class="toggle">android</div>
+    <div id="p_0" class="toggle">rpi</div>
+  </div>
+
+  <div class="nav_label span-1">etc</div>
+  <div id="nav_other" class="span-4">
+    <div id="e_stars" class="menu">
+      <span id="e_stars_selected">stars</span>
+      <div style="display:none" id="stars_menu" class="nav_drop_menu">
+        <ul>
+          <li>any</li>
+          <li>5+</li>
+          <li>10+</li>
+          <li>50+</li>
+          <li>100+</li>
+        </ul>
+      </div>
+    </div>
+    <div id="e_updated" class="menu">
+      <span id="e_updated_selected">updated since</span>
+      <div style="display:none" id="updated_menu" class="nav_drop_menu">
+        <ul>
+          <li>any</li>
+          <li>0.6.1</li>
+          <li>0.6.2</li>
+          <li>0.7.0</li>
+          <li>0.7.1</li>
+          <li>0.7.2</li>
+          <li>0.7.4</li>
+          <li>0.8.0</li>
+        </ul>
+      </div>
+    </div>
+    <div id="p_0" class="toggle">makefile</div>
+    <div id="p_0" class="toggle">example</div>
+  </div>
+</div>
+
+<div id="body" class="span-26 last" >
+  <% index = 0; for repo in @categorized.sort_by{|r| -r.followers.to_i }  %>
     
-  <% category.repos.reject{ |r| r.deleted || r.not_addon }.sort_by{|r| r.name }.each_with_index do |repo, index| %>
-
-   <div class="repo span-7 append-1 <% if (index+1).divmod(3)[1] == 0 %> last <% end %>" >
-      
+    <div class="c_<%= repo.category_id %> repo span-7 append-1 <% if (index+1).divmod(3)[1] == 0 %> last<% end %>" >
       <p class="name github"><a href="<%= repo.github_url %>"><%= repo.name %></a></p>
+
       <% if !repo.warning_labels.blank? %>
-      <p class="warning-labels">
-        <% for warning in repo.warning_labels %>
-        <span class="warning <%= warning %>">
-          <%= warning.to_s.split("-").last %>
-        </span>
-        <% end %> 
-      </p>
+        <p class="warning-labels">
+          <% for warning in repo.warning_labels %>
+          <span class="warning <%= warning %>">
+            <%= warning.to_s.split("-").last %>
+          </span>
+          <% end %> 
+        </p>
       <% end %>
-      
+
       <p class="description"><%= repo.description %></p>
 
       <p class="author">
         
-        <a class="github" href="<%= repo.github_url %>">root</a> by <a href="/users/<%= repo.owner %>">
-        <% if !repo.owner_avatar.blank?  %>
+        <a class="github" href="<%repo.github_url%>">created</a> by <% if !repo.owner_avatar.blank?  %>
           <img class="userIcon" src="<%= repo.owner_avatar %>" />
         <% else %>
           <img class="userIcon" src="/images/default-gravatar.png">
@@ -34,7 +80,8 @@
           <img class="starImage" src="images/starGray.png" /> <b><%= repo.followers %></b>
         <% end %>
       </p>
-      
+
+
       <% for fork in repo.fresher_forks %>
         <p>
           
@@ -49,13 +96,10 @@
         <% end %>
         </p>
       <% end %>
-      
-      
     </div>
-    <% if (index+1).divmod(3)[1] == 0 %><br style="clear:both;" /><% end %>
+
+    <% index = index + 1 %>
   <% end %>
-
 </div>
-<% end %>
 
-</div>
+

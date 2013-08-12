@@ -1,38 +1,53 @@
 body {
   font-family: Arial, sans-serif;
-  padding
 }
 
+body {
+
+  padding: 0;
+  margin: 40px 0;
+}
+
+#logo:hover {
+  background: none;
+}
 
 #slogan {
-  margin-bottom:0;
-  margin-top: 18px;
-  /*color: #FDBB1C;*/
+  margin: 10px 0 0 0;
   color: #999;
-  font-size: 20px;
+  font-size: 24px;
 }
 
 #slogan a {
   color: #EE3987;
 }
 
-ul{
+ul {
   list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+#nav_links{
+  font-size: 24px;
+  margin: 40px 0;
+}
+
+#nav_links a {
+  text-decoration: none;
+  font-weight: bold;
+  color: black;
+}
+
+#nav_links a:hover, #nav_links a.current {
+  /*color: #fff;*/
+  color: #EE3987;
+  background: none;
 }
 
 #nav {
-  padding-left: 0;
-  background: #3A3839;
-  padding: 2px;
-  padding-left: 10px;
-  padding-right: 10px;
-  color: #B9BBBD;
-  font-weight: bold;
-
-  font-size:11px;
   width:932px;
-  margin-right: 0;
-  margin-bottom: 10px;
+  margin-bottom: 40px;
 }
 
 #nav a {
@@ -45,29 +60,48 @@ ul{
   background: none;
 }
 
-#howto-nav a {
-  color: #666;
+#nav_categories, #nav_platforms, #nav_other {
+  display: inline-table;
+}
 
-  text-decoration: none;
+
+.nav_label {
   font-weight: bold;
 }
 
-#howto-nav a:hover {
-  /*color: #fff;*/
+.toggle, .menu {
   color: #EE3987;
-
   background: none;
+  cursor: pointer;
+  padding: 2px 4px;
+  margin: 2px;
+  display: inline-block;
 }
 
-#howto-nav{
-  /*background: #e1e1e1;*/
-  /*background: #565455;*/
-  padding-left: 32px;
-  padding-right: 10px;
- /* margin-bottom: 18px;*/
-  margin-bottom: 0px;
-  text-align: right;
-  margin-top: -10px;
+.toggle.selected, .toggle:hover, .menu.selected, .menu:hover {
+  color: #FFF;
+  background: #EE3987;
+
+}
+
+.nav_drop_menu {
+  position: absolute;
+  color: #EE3987;
+  background: white;
+  cursor: pointer;
+  margin: 2px 0 0 -3px;
+  display: inline-block;
+  outline: #EE3987 solid 1px;
+  text-align: left;
+}
+
+.nav_drop_menu li {
+  padding: 2px 4px;
+}
+
+.nav_drop_menu li:hover {
+  color: white;
+  background: #EE3987;
 }
 
 a {
@@ -106,7 +140,7 @@ a:hover {
 }
 
 .repo {
-  margin-bottom: 18px;
+  margin-bottom: 40px;
 }
 
 .warning {
@@ -213,22 +247,6 @@ h1 a:hover{
 
 }
 
-.repoOwner {
-    color: #666;
-    font-style: italic;
-    /*text-align: center;*/
-}
-
-.repoDescription {
-    color: #666;
-    font-style: italic;
-}
-
-.repoName {
-    line-height: 1.2em;
-    font-size: 2.4em;
-    margin-bottom: 0;
-}
 
 .commitMessage {
     background: #eee;
@@ -272,11 +290,16 @@ h1 a:hover{
 
 .description{
     font-style: italic;
-    padding-bottom: 5px;
+    padding: 6px 0;
 }
 
 .repo .name {
   padding: 6px 0px 0px 4px;
+  /*padding: 4px 8px;*/
+}
+
+.repo .name a{
+  color: #444;
 }
 
 .repo .name a{

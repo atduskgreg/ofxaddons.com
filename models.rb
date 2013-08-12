@@ -13,7 +13,7 @@ require 'nokogiri'
 
 require './auth'
 
-DataMapper::Logger.new(STDOUT, :debug)
+#DataMapper::Logger.new(STDOUT, :debug)
 DataMapper.setup(:default, ENV['DATABASE_URL'] || 'postgres://localhost/ofxaddons')
 
 class Category
@@ -41,7 +41,7 @@ class Repo
   property :forks, Json
   property :most_recent_commit, Json
   property :issues, Json
-  property :followers, Integer 
+  property :followers, Integer, :default => 0 
 
   property :has_makefile, Boolean, :default => false
   property :example_count, Integer, :default => 0
