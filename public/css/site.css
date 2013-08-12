@@ -144,10 +144,38 @@ a:hover {
   margin: 0;
 }
 
+.repo .bg {
+  height:70px;
+  position: relative;
+}
+
+.repo span.feature {
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  padding: 3px;
+  font-size: 11px;
+}
+
+.repo span.makefile {
+  background: #CBB9F8;
+}
+
+.repo span.example {
+  background: #B9D8F8;
+}
+
+.repo .bg .name {
+  position: absolute;
+  display: block;
+  bottom: 0;
+  padding: 0px 6px 0px 4px;
+}
+
 .repo .name {
   font-size: 16px;
-  background: #E6E8EA;
+  background-color: #E6E8EA ;
   word-wrap: break-word;
+  padding: 6px 0px 0px 4px;
 }
 
 .repo .github {
@@ -170,9 +198,9 @@ h2 {
   /*border-bottom: 14px solid #B9BBBD;*/
 }
 
-#howto h2 {
+/*#howto h2 {
   border-bottom: 14px solid #B9BBBD;
-}
+}*/
 
 h1 a {
   color: #000;
@@ -303,6 +331,18 @@ h1 a:hover{
   border-bottom: 4px solid #E6E8EA;
 }
 
+#howto{
+  font-size: 13px;
+}
+
+#howto li{
+  padding-bottom: 8px;
+}
+
+.howtoSide li{
+  padding-bottom: 8px;
+}
+
 .description{
     font-style: italic;
     padding: 6px 0;
@@ -332,3 +372,4 @@ h1 a:hover{
 abbr{
   border-width: 0px;
 }
+
