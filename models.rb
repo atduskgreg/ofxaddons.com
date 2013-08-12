@@ -13,7 +13,7 @@ require 'nokogiri'
 
 require './auth'
 
-DataMapper::Logger.new(STDOUT, :debug)
+#DataMapper::Logger.new(STDOUT, :debug)
 DataMapper.setup(:default, ENV['DATABASE_URL'] || 'postgres://localhost/ofxaddons')
 
 class Category
