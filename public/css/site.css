@@ -78,10 +78,15 @@ ul {
   display: inline-block;
 }
 
-.toggle.selected, .toggle:hover, .menu.selected, .menu:hover {
+.toggle.selected, .menu.selected{
   color: #FFF;
-  background: #EE3987;
+  background: #EE3987 !important;
 
+}
+
+.toggle:hover, .menu:hover {
+  color: #FFF;
+  background: #F2B9D3;
 }
 
 .nav_drop_menu {
@@ -123,6 +128,10 @@ a:hover {
 
 #body h2 a:hover {
   background: none;
+}
+
+.clear {
+  clear: both;
 }
 
 .repo p{
