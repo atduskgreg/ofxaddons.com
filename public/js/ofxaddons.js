@@ -112,8 +112,6 @@ function selectAllCats() {
 }
 
 function filter(){
-	console.log("fitler");
-	console.log(window.location.pathname);
 	if (window.location.pathname == "/" || window.location.pathname == "/render") {
 		var n = 0;
 		$('.repo').each(function(i,e){
