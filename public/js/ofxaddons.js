@@ -3,7 +3,7 @@
 
 var includedCategories = [];
 var includedPlatforms = [];
-var requiresMakefile, requiresExample, requiredVersion, requiredStars=1;
+var requiresMakefile, requiresExample, requiredVersion, requiredStars=0;
 
 $(window).load(function () {
 	$('.toggle').click(function(e) {
@@ -13,6 +13,10 @@ $(window).load(function () {
 	// STARS
 	$('#e_stars').click(function(e) {
 		$('#stars_menu').show();
+	});
+
+	$('#e_stars').mouseleave(function(e) {
+		$('#stars_menu').hide();
 	});
 
 	$('#stars_menu').mouseleave(function(e) {
@@ -36,6 +40,10 @@ $(window).load(function () {
 	// RELEASE
 	$('#e_updated').click(function(e) {
 		$('#updated_menu').show();
+	});
+
+	$('#e_updated').mouseleave(function(e) {
+		$('#updated_menu').hide();
 	});
 
 	$('#updated_menu').mouseleave(function(e) {
