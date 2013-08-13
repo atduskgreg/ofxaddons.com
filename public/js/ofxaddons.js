@@ -3,7 +3,7 @@
 
 var includedCategories = [];
 var includedPlatforms = [];
-var requiresMakefile, requiresExample, requiredVersion, requiredStars=1;
+var requiresMakefile, requiresExample, requiredVersion, requiredStars=0;
 
 $(window).load(function () {
 	$('.toggle').click(function(e) {
