@@ -1,7 +1,8 @@
 require './models'
 require 'colorize'
 require 'pony'
-require './auth'
+#require './auth'
+require './auth_live'
 
 class Importer
 
@@ -172,7 +173,7 @@ class Importer
 
    	  #puts "repo #{i} : #{url}"
    	  was_deleted = repo.deleted
-	if result["message"].eql?("Not Found")
+	if !result.success? || result["message"].eql?("Not Found")
    	  puts "[#{i+1}/#{count}] https://api.github.com/repos/#{repo.github_slug} was deleted".red
    	  repo.deleted = true
     else 
