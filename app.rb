@@ -36,7 +36,7 @@ before do
 end
 
 def bake_html
-  File.open('public/index.html', 'w') do |f|
+  File.open('tmp/index.html', 'w') do |f|
     request = Rack::MockRequest.new(Sinatra::Application)
     f.write request.get('/render').body
   end
@@ -54,7 +54,7 @@ get "/api/v1/all.json" do
 end
 
 get "/" do
-  send_file File.join(settings.public_folder, 'index.html')
+  send_file 'tmp/index.html'
 end
 
 get "/render" do
