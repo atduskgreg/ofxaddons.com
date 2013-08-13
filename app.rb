@@ -8,6 +8,12 @@ require 'backports'
 
 config_file 'datas/config.yml'
 
+configure :development do  
+  enable :logging
+  DataMapper.auto_upgrade! 
+  puts "dev :)".yellow
+end
+
 helpers do
 
   def protected!

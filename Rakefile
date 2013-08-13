@@ -19,6 +19,7 @@ task :cron do
   puts num_new
   Importer.send_report("Cron job ran successfully. #{num_new} addons were created.\nlog in here to categorize them: http://ofxaddons.com/admin")
   rescue Exception => e
+    puts e
     Importer.send_report("Something went horribly wrong with the cron job:\n#{e}.")
   end
 end
