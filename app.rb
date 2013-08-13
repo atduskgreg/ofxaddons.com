@@ -7,7 +7,11 @@ require 'yaml'
 require 'backports'
 require 'aws/s3'
 
-require './auth'
+if ENV['GITHUB_TOKEN']
+	require './auth_live'
+else 
+	require './auth'
+end
 
 config_file 'datas/config.yml'
 
