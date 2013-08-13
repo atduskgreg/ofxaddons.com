@@ -11,22 +11,36 @@ require 'github/markup'
 require 'httparty'
 require 'nokogiri'
 
-require './auth'
+#require './auth'
+require './auth_live'
 
-#DataMapper::Logger.new(STDOUT, :debug)
+DataMapper::Logger.new(STDOUT, :debug)
 DataMapper.setup(:default, ENV['DATABASE_URL'] || 'postgres://localhost/ofxaddons')
 
 class Category
   include DataMapper::Resource
 
   property :id, Serial
-  property :name, String
+  property :name, Text
+  property :avatar_url, Text
   
   has n, :repos
   
   def slug
     name.downcase.gsub(/\W/, '')
   end
+end
+
+class Contributor
+  include DataMapper::Resource
+
+  property :id, Serial
+  property :login, Text, :required => true, :unique => true
+  property :name, Text
+  property :avatar_url, Text
+  property :location, Text
+
+  has n, :repos
 end
 
 class Repo
@@ -69,6 +83,7 @@ class Repo
   property :deleted, Boolean, :default => false  
 
   belongs_to :category, :required => false
+  belongs_to :contributor, :required => false
 
     
   def to_json_hash
@@ -98,22 +113,25 @@ class Repo
 #       return false
 #     end
 
-    r                  = self.new 
+    r                    = self.new 
     r.name               = json["name"]
     r.is_fork            = json["fork"]
     r.has_forks          = json["forks"] > 0
     if r.is_fork
-        r.owner              = json["owner"]['login']
-		r.owner_avatar       = json["owner"]["avatar_url"]
-  		r.github_slug        = "#{json['full_name']}"
-  		r.followers          = json["watchers"]		
-	    r.update_ancestry()		
+      r.contributor        = get_contributor json["owner"]['login']
+      r.owner              = json["owner"]['login']
+      r.owner_avatar       = json["owner"]["avatar_url"]
+      r.github_slug        = "#{json['full_name']}"
+      r.followers          = json["watchers"]		
+      r.update_ancestry()		
     else
-        r.owner              = json["owner"]
-        r.owner_avatar       = r.get_owner_avatar_url(r.owner)
-    	r.github_slug        = "#{json['owner']}/#{json['name']}"
-    	r.most_recent_commit = r.get_most_recent_commit
-    	r.followers          = json["followers"]
+      puts json["owner"]
+      r.contributor        = get_contributor json["owner"]
+      r.owner              = json["owner"]
+      r.owner_avatar       = r.get_owner_avatar_url(r.owner)
+      r.github_slug        = "#{json['owner']}/#{json['name']}"
+      r.most_recent_commit = r.get_most_recent_commit
+      r.followers          = json["followers"]
     end
 
     r.description        = json["description"]
@@ -121,14 +139,32 @@ class Repo
     r.github_created_at  = Time.parse(json["created_at"]) if json["created_at"]
     r.github_pushed_at	 = json["pushed_at"]
 #    r.readme             = r.render_readme
-	r.deleted 		 	 = false	
-	r.check_features
-	
+    r.deleted 		 	 = false	
+    r.check_features
+
     unless r.save
       r.errors.each {|e| puts e.inspect }
       return false
     end
     return true
+  end
+
+  def get_contributor user_login
+    user = Contributor.first :login => user_login
+    if !user
+      url = "https://api.github.com/users/#{user_login}?#$auth_params"
+      result = HTTParty.get(url)
+      if result.success?
+        user = Contributor.new
+        user.login = result["login"]
+        user.name = result["name"]
+        user.avatar_url = result["avatar_url"]
+        unless user.save
+          user.errors.each {|e| puts e.inspect }
+        end
+      end
+    end
+    return user
   end
   
   # def self.search(term)
@@ -152,10 +188,12 @@ class Repo
     self.is_fork            = json["fork"]
     self.has_forks           = json["forks"] > 0
     if self.is_fork
+      self.contributor       = get_contributor json["owner"]["login"]
   		self.followers         = json["watchers"]
   		self.owner_avatar      = json["owner"]["avatar_url"]
   		self.update_ancestry()
   	else
+      self.contributor       = get_contributor json["owner"]
 	    self.followers         = json["followers"]
 		self.owner_avatar      = get_owner_avatar_url(self.owner)
 		self.most_recent_commit = get_most_recent_commit
