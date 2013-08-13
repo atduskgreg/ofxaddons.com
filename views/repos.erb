@@ -85,7 +85,7 @@
       <% if repo.has_makefile || !repo.example_count.nil? %>
         <p class="features">
           <% if repo.has_makefile %>
-            <span title="This addon has a Makefile" class="feature makefile">Makefile</span>
+            <span title="This addon has a Makefile" class="feature makefile">makefile</span>
           <% end %>
           <% if !repo.example_count.nil? && repo.example_count > 0 %>
             <span title="This has examples" class="feature example"> <%= repo.example_count.to_s + " example" + (repo.example_count > 1 ? "s" : "") %> </span>
