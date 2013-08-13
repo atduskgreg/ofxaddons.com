@@ -1,4 +1,4 @@
-<div class="span-26 last indent">
+<div class="span-26 last">
 
 <% unless @uncategorized.empty? %>
 
@@ -46,11 +46,11 @@
 <% end %>
 </div>
 
-<div class="span-26 last indent" style="clear:both;">
+<div class="span-23 last" style="clear:both;">
 <% unless @incomplete.empty? %>
 
-<h2 style="border-top: 4px solid #E6E8EA;">Incomplete</h2>
-<p class="unfinishedSlogan">These addons have been tagged as incomplete.</p> 
+<h2 style="border-top: 4px solid #E6E8EA;">Not an addon</h2>
+<p class="unfinishedSlogan">These repositories don't match the addon format described <a href="/howto/">here</a>.</p> 
   <% @incomplete.each_with_index do |repo, index| %>
     
     <div  class="repo span-7 append-1 <% if (index+1).divmod(3)[1] == 0 %> last <% end %>" >
