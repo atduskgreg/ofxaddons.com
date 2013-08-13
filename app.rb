@@ -5,6 +5,9 @@ require "sinatra/config_file"
 require './models'
 require 'yaml'
 require 'backports'
+require 'aws/s3'
+
+require './auth'
 
 config_file 'datas/config.yml'
 
@@ -36,10 +39,32 @@ before do
 end
 
 def bake_html
-  File.open('tmp/index.html', 'w') do |f|
-    request = Rack::MockRequest.new(Sinatra::Application)
-    f.write request.get('/render').body
-  end
+#  File.open('tmp/index.html', 'w') do |f|
+#   request = Rack::MockRequest.new(Sinatra::Application)
+#   f.write request.get('/render').body
+#  end
+
+  AWS::S3::Base.establish_connection!(
+    :access_key_id     => $aws_key,
+    :secret_access_key => $aws_secret
+  )
+  
+  puts "caching main page"
+  request = Rack::MockRequest.new(Sinatra::Application)
+  AWS::S3::S3Object.create('index.html',  request.get('/render').body, 'ofxaddons', :access => :public_read );
+
+  puts "caching changes"  
+  request = Rack::MockRequest.new(Sinatra::Application)
+  AWS::S3::S3Object.create('changes.html',  request.get('/changes/render').body, 'ofxaddons', :access => :public_read );
+
+  puts "caching contributors"
+  request = Rack::MockRequest.new(Sinatra::Application)
+  AWS::S3::S3Object.create('contributors.html',  request.get('/contributors/render').body, 'ofxaddons', :access => :public_read );
+
+  puts "caching unsorted"
+  request = Rack::MockRequest.new(Sinatra::Application)
+  AWS::S3::S3Object.create('unsorted.html',  request.get('/unsorted/render').body, 'ofxaddons', :access => :public_read );
+  
 end
 
 get "/bake" do
@@ -54,8 +79,18 @@ get "/api/v1/all.json" do
 end
 
 get "/" do
-  send_file File.join(settings.public_folder, 'index.html')
-  #send_file 'tmp/index.html'
+
+  data = open("https://s3.amazonaws.com/ofxaddons/index.html")
+  response.write(data.read)
+  
+  #old way
+  #send_file File.join(settings.public_folder, 'index.html')
+  
+ #doesn't work 
+ # open("https://s3.amazonaws.com/ofxaddons/index.html") do | chunk |
+ #	  response.write( chunk )
+ # end
+ 
 end
 
 get "/render" do
@@ -66,7 +101,12 @@ get "/render" do
   erb :repos
 end
 
-get "/changes" do  
+get "/changes" do 
+  data = open("https://s3.amazonaws.com/ofxaddons/changes.html")
+  response.write(data.read)
+end
+
+get "/changes/render" do  
   @current = "changes"
   @most_recent = Repo.all(:not_addon => false, :is_fork => false, :deleted => false, :category.not => nil, :order => [:last_pushed_at.desc]) 
   erb :changes
@@ -98,7 +138,7 @@ get "/repos/:repo_id" do
   erb :repo
 end
 
-get "/admin" do
+get "/admin/" do
   protected!
   @not_addons = Repo.all(:not_addon => true, :deleted => false, :order => :name.asc)
   repos = Repo.all(:not_addon => false, :is_fork => false, :deleted => false, :order => :name.asc)
@@ -124,15 +164,26 @@ get "/users/:user_name" do
 end
 
 get "/contributors" do
+  data = open("https://s3.amazonaws.com/ofxaddons/changes.html")
+  response.write(data.read)
+end
+
+get "/contributors/render" do
   @current = "contributors"
   @contributors = Repo.all(:not_addon => false, :is_fork => false, :deleted => false, :category.not => nil, :order => :name.asc)
   @contributors = @contributors.uniq {|r| r.owner}
   erb :contributors
 end
 
-get "/unfinished" do
-  @current = "unfinished"
+get "/unsorted" do
+	 puts "getting unsorted"
+  data = open("https://s3.amazonaws.com/ofxaddons/unsorted.html")
+  response.write(data.read)
+end
+
+get "/unsorted/render" do
+  @current = "unsorted"
   @uncategorized = Repo.all(:category => nil, :not_addon => false, :is_fork => false, :deleted => false, :order => :name.asc)
   @incomplete = Repo.all(:incomplete => true, :not_addon => false, :is_fork => false, :deleted => false, :order => :name.asc)
-  erb :unfinished
+  erb :unsorted
 end

@@ -12,8 +12,6 @@ task :cron do
   Importer.update_source_for_uncategorized_repos
   Importer.update_forks
   Importer.purge_deleted_repos
-  
-  bake_html
 
   num_new = Repo.count(:not_addon => false, :is_fork => false, :category => nil, :deleted => false) - before
   puts num_new
@@ -22,6 +20,10 @@ task :cron do
     puts e
     Importer.send_report("Something went horribly wrong with the cron job:\n#{e}.")
   end
+  
+	#update cache
+	 bake_html
+  
 end
 
 desc "update un-categorized"
@@ -40,4 +42,9 @@ end
 desc "purge deleted repos"
 task :purge_deleted_repos do 
 	Importer.purge_deleted_repos
+end
+
+desc "update cache"
+task :update_cache do
+	bake_html
 end

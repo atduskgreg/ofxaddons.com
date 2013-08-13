@@ -11,8 +11,8 @@ require 'github/markup'
 require 'httparty'
 require 'nokogiri'
 
-#require './auth'
-require './auth_live'
+require './auth'
+#require './auth_live'
 
 #DataMapper::Logger.new(STDOUT, :debug)
 DataMapper.setup(:default, ENV['DATABASE_URL'] || 'postgres://localhost/ofxaddons')

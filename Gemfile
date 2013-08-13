@@ -20,11 +20,7 @@ gem 'RedCloth'          # renders textile for readme files
 gem 'wikicloth'         # renders wiki markup for readme files
 gem 'pony'
 gem 'thin'
+gem 'aws-s3'
+gem "dm-postgres-adapter"
 
-group :development do
-  gem "dm-postgres-adapter"
-end
 
-group :production do
-  gem "dm-postgres-adapter"
-end
