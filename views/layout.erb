@@ -31,7 +31,7 @@
   </head>
   <body>
     <div class="container">
-      <div id="header" class="span-24 last">
+      <div id="header" class="span-23 last">
         <a id="logo" class="span-2 append-1" href="/"><img style="width:100px;padding-top:20px" src="<%settings.root%>/images/ofxlogo.png"/></a>
 
         <p id="slogan" class="span-18">
@@ -39,13 +39,27 @@
         </p>
       </div>
 
-      <div id="nav_links" class="span-26 last" style="border-bottom: 4px solid #999;">
+      <div id="nav_links" class="span-23 last" style="border-bottom: 4px solid #999;">
         <a id="link_addons" href="/">addons</a> // <a  id="link_changes" href="/changes">freshest</a> //   <a  id="link_unfinished" href="/unfinished">unsorted</a> //   <a  id="link_contributors" href="/contributors">contributors</a> // <a id="link_howto" href="/howto/">make your own!</a>  
       </div>
 
       <%= yield %>
-      <div id="footer" class="span-24 last">
-        <p>Created by <a href="http://www.jamesgeorge.org/">James George</a>, <a href="http://gregborenstein.com">Greg Borenstein</a> and <a href="http://www.virtualjames.com">James Hughes</a>.</p>
+      <div id="footer" class="span-23 last">
+        <p>Created by <a href="http://www.jamesgeorge.org/">James George</a>, <a href="http://gregborenstein.com">Greg Borenstein</a> with 
+        	<a href="https://github.com/atduskgreg/ofxaddons.com/graphs/contributors">contributions</a> from 
+
+        	<% contributors = { 
+        		"Lauren McCarthy" => "http://lauren-mccarthy.com/",
+	        	"James Hughes" => "http://www.virtualjames.com/",
+	        	"Cyril Diagne" => "http://kikko.fr/home",
+	        	"Chris Sugrue" => "http://csugrue.com/"
+        	};
+        	contributors = Hash[contributors.to_a.shuffle]
+        	contributors.each do |contributor, website| %>
+        		<%=  "<a href=\"" + website + "\">" + contributor + "</a>" %>
+        	<% end %>
+        	<br/>
+        </p>
         <p>Have questions? Don't see your addon? <a href="mailto:james@jamesgeorge.org">Email us</a>.</p>
         
       </div>
