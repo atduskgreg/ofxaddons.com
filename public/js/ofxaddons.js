@@ -151,20 +151,20 @@ function filter(){
 
 function shown(e){
 	// check cats
-	if (includedCategories.length == 0) return false;
+	if (includedCategories.length) {
 
-	var include = false;
-	for (var i=0; i<includedCategories.length; i++) {
-		if (e.hasClass( includedCategories[i] )) {
-			include = true;
-			break;
+		var include = false;
+		for (var i=0; i<includedCategories.length; i++) {
+			if (e.hasClass( includedCategories[i] )) {
+				include = true;
+				break;
+			}
 		}
-	}
-	if (!include) {
-		//console.log("no included category " + e.attr('class') );
-		return false;
-	}
-	
+		if (!include) {
+			//console.log("no included category " + e.attr('class') );
+			return false;
+		}
+	}	
 	/*
 	//TODO
 		// check plats
