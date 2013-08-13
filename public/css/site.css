@@ -153,11 +153,20 @@ h2 a:hover {
   position: relative;
 }
 
+.description{
+    font-style: italic;
+    padding: 6px 0;
+}
+
 .repo span.feature {
   -moz-border-radius: 2px;
   border-radius: 2px;
   padding: 3px;
   font-size: 11px;
+}
+
+.repo .features {
+  margin-bottom: 6px;
 }
 
 .repo span.makefile {
@@ -182,6 +191,17 @@ h2 a:hover {
   padding: 4px 0px 2px 6px;
 }
 
+
+.repo .name a{
+  color: #444;
+}
+
+
+.repo .name a:hover{
+  color: #fff;
+}
+
+
 .repo .github {
   font-weight: bold;
 }
@@ -197,6 +217,8 @@ h2 a:hover {
   color: #fff;
   font-weight: bold;
 }
+
+
 
 h2 {
   /*border-bottom: 14px solid #B9BBBD;*/
@@ -347,27 +369,6 @@ h1 a:hover{
   padding-bottom: 8px;
 }
 
-.description{
-    font-style: italic;
-    padding: 6px 0;
-}
-
-.repo .name {
-  padding: 6px 0px 0px 4px;
-  /*padding: 4px 8px;*/
-}
-
-.repo .name a{
-  color: #444;
-}
-
-.repo .name a{
-  color: #444;
-}
-
-.repo .name a:hover{
-  color: #fff;
-}
 
 .userPage h1 a:hover{
   color: #EE3987;
