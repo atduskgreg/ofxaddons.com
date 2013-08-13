@@ -1,49 +1,67 @@
-<div class="repo_page span-20 push-2 last">
-  <h2><%= @repo.name %> <% if @repo.category %><span class="repo_category"><a href="/#<%= @repo.category.slug %>"><%= @repo.category.name %></a></span><% end %> <span class="download"><a href="<%= @repo.github_url %>/zipball/master">⇣</a></span></h2> 
+    
+<!--
+<% unless @repo.contributor.nil? %>
+  <p style="color:red; font-size:25px;"><%= @repo.contributor.name %></p>
+<% end %>
+-->
 
-<% if !@repo.warning_labels.empty? %>
-  <p class="warning-labels">
-    <span style="color: #f00; font-weight: bold">Issues:</span> 
-        <% for warning in @repo.warning_labels %>
-        <span class="warning <%= warning %>">
-          <%= warning.to_s.split("-").last %>
-        </span>
-        <% end %> 
-        (<a href="<%= @repo.github_url %>/issues">view issues on github</a>)
-  </p>
+<div class="c_<%= @repo.category_id %> of_<%= @repo.get_last_update_of_release %> s_<%= @repo.followers.nil? ? 0 : @repo.followers %> m_<%= !@repo.has_makefile.nil? %> e_<%= @repo.example_count.nil? || @repo.example_count != 0 %> repo span-7 append-1 <% if (@index+1).divmod(3)[1] == 0 %> last<% end %>" >
+  
+<% if @repo.has_thumbnail != nil %>
+  <div class="bg" style="background: url(https://raw.github.com/<%= @repo.github_slug %>/master/ofxaddons_thumbnail.png) center center;">
+    <p class="name github"><a href="<%= @repo.github_url %>"><%= @repo.name %></a></p>
+  </div>
+<% else %>
+    <p class="name github"><a href="<%= @repo.github_url %>"><%= @repo.name %></a></p>
+<% end %>
+
+  <% if !@repo.warning_labels.blank? %>
+    <p class="warning-labels">
+      <% for warning in @repo.warning_labels %>
+      <span class="warning <%= warning %>">
+        <%= warning.to_s.split("-").last %>
+      </span>
+      <% end %> 
+    </p>
   <% end %>
 
-  <h3>by <a href="<%= @repo.github_url %>"><%= @repo.owner %></a> </h3>
-  
-  <p><a href="<%= @repo.github_url %>">view on Github</a></p>
-  
-  <p>
-    <em><%= @repo.description %></em>
-  </p>
-  
-  <div class="repo_details">
-    <p>
-      <b>Originally created:</b> <%= @repo.github_created_at.strftime("%e %B, %Y") %>
+  <p class="description"><% if !@repo.category.nil? %>[<%= @repo.category.name.downcase %>] <% end %><%= @repo.description %></p> 
+  <% if @repo.has_makefile || !@repo.example_count.nil? %>
+    <p class="features">
+      <% if @repo.has_makefile %>
+        <span title="This addon has a Makefile" class="feature makefile">makefile</span>
+      <% end %>
+      <% if !@repo.example_count.nil? && @repo.example_count > 0 %>
+        <span title="This has examples" class="feature example"> <%= @repo.example_count.to_s + " example" + (@repo.example_count > 1 ? "s" : "") %> </span>
+      <% end %>
     </p>
-    <p>
-      <b>Last updated:</b> <%= @repo.last_pushed_at.strftime("%e %B, %Y") %>
-    </p>
-  </div>
-  <br/>
-  <% unless @repo.fresher_forks.empty? %>
-    <h2>Fresher Forks</h2>
-    <% for fork in @repo.fresher_forks %>
-      <p>by <a href="http://github.com/<%= fork.owner %>"><%= fork.owner %></a></p>
- 	  <p><a href="http://github.com/<%= fork.github_slug %>">view on Github</a></p> 
-      <p>last pushed: <%= fork.last_pushed_at %></p>
-      <!-- DateTime.parse(fork.last_pushed_at).strftime("%e %B, %Y")  -->
-    <% end %>
-  <%end %>
+  <% end %>
 
-  <% unless @repo.readme.nil? %>  
-    <h2>README</h2>
-    <div class="repo_readme">
-      <%= @repo.readme %>
-    </div>
-  <%end %>
+  <p class="author">
+    
+    <a class="github" href="<%= @repo.github_url%>">created</a> by <a href="/users/<%= @repo.owner %>"><% if !@repo.owner_avatar.blank?  %>
+      <img class="userIcon" src="<%= @repo.owner_avatar %>" />
+    <% else %>
+      <img class="userIcon" src="/images/default-gravatar.png">
+    <% end %><%= @repo.owner %></a> <br/>updated <abbr class="timeago" title="<%= @repo.last_pushed_at.strftime('%Y-%m-%dT%H:%M:%S%z') %>"><%= @repo.last_pushed_at.strftime("%m/%e/%y") %></abbr> (~<%= @repo.get_last_update_of_release %>) 
+    <% if @repo.followers != 0 && !@repo.followers.blank? %>
+      <img class="starImage" src="images/starGray.png" /> <b><%= @repo.followers %></b>
+    <% end %>
+  </p>
+
+
+  <% for fork in @repo.fresher_forks %>
+    <p>
+      
+      <a class="github" href="<%= fork.github_url%>">fork</a> by <a href="/users/<%= fork.owner %>"><% if !fork.owner_avatar.blank?  %>
+        <img class="userIcon" src="<%= fork.owner_avatar %>" />
+      <% else %>
+        <img class="userIcon" src="/images/default-gravatar.png">
+      <% end %>
+      <%= fork.owner %></a> <br/>updated <abbr class="timeago" title="<%= fork.last_pushed_at.strftime('%Y-%m-%dT%H:%M:%S%z') %>"><%= fork.last_pushed_at.strftime("%m/%e/%y") %></abbr> (~<%= fork.get_last_update_of_release %>) 
+    <% if fork.followers != 0 && !fork.followers.blank? %>
+      <img class="starImage" src="images/starGray.png" /> <b><%= fork.followers %></b>
+    <% end %>
+    </p>
+  <% end %>
 </div>
