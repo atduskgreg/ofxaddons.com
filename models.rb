@@ -118,7 +118,7 @@ class Repo
     r.is_fork            = json["fork"]
     r.has_forks          = json["forks"] > 0
     if r.is_fork
-      r.contributor        = get_contributor json["owner"]['login']
+      r.contributor        = r.get_contributor json["owner"]['login']
       r.owner              = json["owner"]['login']
       r.owner_avatar       = json["owner"]["avatar_url"]
       r.github_slug        = "#{json['full_name']}"
@@ -126,7 +126,7 @@ class Repo
       r.update_ancestry()		
     else
       puts json["owner"]
-      r.contributor        = get_contributor json["owner"]
+      r.contributor        = r.get_contributor json["owner"]
       r.owner              = json["owner"]
       r.owner_avatar       = r.get_owner_avatar_url(r.owner)
       r.github_slug        = "#{json['owner']}/#{json['name']}"
