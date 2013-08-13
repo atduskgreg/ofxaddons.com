@@ -172,11 +172,12 @@ h2 a:hover {
 }
 
 .repo span.makefile {
-  background: #CBB9F8;
+  background: rgba(203, 185, 248, 0.45);
 }
 
 .repo span.example {
   background: #B9D8F8;
+  background: rgba(185, 216, 248, 0.45);
 }
 
 .repo .bg .name {
