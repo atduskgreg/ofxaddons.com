@@ -14,7 +14,6 @@ require 'nokogiri'
 if ENV['GITHUB_TOKEN']
 	require './auth_live'
 else 
-	puts "using dev variabls"
 	require './auth'
 end
 
