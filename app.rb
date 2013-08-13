@@ -8,6 +8,12 @@ require 'backports'
 
 config_file 'datas/config.yml'
 
+configure :development do  
+  enable :logging
+  DataMapper.auto_upgrade! 
+  puts "dev :)".yellow
+end
+
 helpers do
 
   def protected!
@@ -30,7 +36,7 @@ before do
 end
 
 def bake_html
-  File.open('public/index.html', 'w') do |f|
+  File.open('tmp/index.html', 'w') do |f|
     request = Rack::MockRequest.new(Sinatra::Application)
     f.write request.get('/render').body
   end
@@ -49,13 +55,14 @@ end
 
 get "/" do
   send_file File.join(settings.public_folder, 'index.html')
+  #send_file 'tmp/index.html'
 end
 
 get "/render" do
   @current = "addons"
   @categorized = Repo.all(:not_addon => false, :incomplete => false, :is_fork => false, :deleted => false, :category.not => nil, :order => :name.asc)
   @uncategorized = Repo.all(:not_addon => false, :is_fork => false, :deleted => false, :category => nil, :order => :name.asc)
-  @repo_count = Repo.count(:conditions => ['not_addon = ? AND is_fork = ? AND deleted = ?', 'false', 'false', 'false'])
+  @repo_count = Repo.count(:conditions => ['not_addon = ? AND is_fork = ? AND deleted = ? AND incomplete = ? AND category_id IS NOT NULL', 'false', 'false', 'false', 'false'])
   erb :repos
 end
 
