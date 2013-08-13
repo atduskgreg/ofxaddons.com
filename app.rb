@@ -129,11 +129,11 @@ put "/repos/update_all" do
 end
 
 put "/repos/:repo_id" do
-  protected!
-  @repo = Repo.get(params[:repo_id])
-  @repo.update(params[:repo])
-  bake_html
-  redirect "/admin"
+#  protected!
+#  @repo = Repo.get(params[:repo_id])
+#  @repo.update(params[:repo])
+#  bake_html
+#  redirect "/admin"
 end
 
 get "/repos/:repo_id" do
@@ -142,10 +142,10 @@ get "/repos/:repo_id" do
   erb :repo
 end
 
-get "/admin/" do
+get "/admin" do
   protected!
-  @not_addons = Repo.all(:not_addon => true, :deleted => false, :order => :name.asc)
-  repos = Repo.all(:not_addon => false, :is_fork => false, :deleted => false, :order => :name.asc)
+  @not_addons = Repo.all(:not_addon => true,  :is_fork => false, :deleted => false, :order => :name.asc)
+  repos 	  = Repo.all(:not_addon => false, :is_fork => false, :deleted => false, :order => :name.asc)
 
   @incomplete = repos.select{|r| r.incomplete}
   @uncategorized = repos.select{|r| r.category.nil? and not r.incomplete}
