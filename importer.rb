@@ -1,8 +1,12 @@
 require './models'
 require 'colorize'
 require 'pony'
-require './auth'
-#require './auth_live'
+
+if ENV['GITHUB_TOKEN']
+	require './auth_live'
+else 
+	require './auth'
+end
 
 class Importer
 

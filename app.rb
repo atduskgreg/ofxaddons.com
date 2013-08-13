@@ -164,7 +164,7 @@ get "/users/:user_name" do
 end
 
 get "/contributors" do
-  data = open("https://s3.amazonaws.com/ofxaddons/changes.html")
+  data = open("https://s3.amazonaws.com/ofxaddons/contributors.html")
   response.write(data.read)
 end
 
@@ -176,7 +176,6 @@ get "/contributors/render" do
 end
 
 get "/unsorted" do
-	 puts "getting unsorted"
   data = open("https://s3.amazonaws.com/ofxaddons/unsorted.html")
   response.write(data.read)
 end
