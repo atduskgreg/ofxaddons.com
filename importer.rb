@@ -1,7 +1,8 @@
 require './models'
 require 'colorize'
 require 'pony'
-require './auth'
+#require './auth'
+require './auth_live'
 
 class Importer
 
