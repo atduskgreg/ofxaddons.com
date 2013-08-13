@@ -3,7 +3,7 @@
 <% unless @uncategorized.empty? %>
 
 <h2>Uncategorized</h2>
-
+<p class="unfinishedSlogan">These addons have not yet been tagged with a category in our database, but are still worth checking out!</p> 
   <% @uncategorized.each_with_index do |repo, index| %>
     
     <div  class="repo span-7 append-1 <% if (index+1).divmod(3)[1] == 0 %> last <% end %>" >
@@ -50,7 +50,7 @@
 <% unless @incomplete.empty? %>
 
 <h2 style="border-top: 4px solid #E6E8EA;">Incomplete</h2>
-
+<p class="unfinishedSlogan">These addons have been tagged as incomplete.</p> 
   <% @incomplete.each_with_index do |repo, index| %>
     
     <div  class="repo span-7 append-1 <% if (index+1).divmod(3)[1] == 0 %> last <% end %>" >

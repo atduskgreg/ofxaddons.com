@@ -54,13 +54,14 @@
     <div id="e_makefile" class="toggle">makefile</div>
     <div id="e_example" class="toggle">example</div>
   </div>
+  <div class="nav_label span-1  prepend-1" id="repo_count">#<%= @repo_count %> </div>
 </div>
 
 
 <div id="body" class="span-26 last" >
   <% index = 0; for repo in @categorized.sort_by{|r| -r.followers.to_i }  %>
     
-    <div class="c_<%= repo.category_id %> of_<%= repo.get_last_update_of_release %> s_<%= repo.followers.nil? ? 0 : repo.followers %> m_<%= !repo.has_makefile.nil? %> e_<%= !repo.example_count.nil? %> repo span-7 append-1 <% if (index+1).divmod(3)[1] == 0 %> last<% end %>" >
+    <div class="c_<%= repo.category_id %> of_<%= repo.get_last_update_of_release %> s_<%= repo.followers.nil? ? 0 : repo.followers %> m_<%= !repo.has_makefile.nil? %> e_<%= repo.example_count.nil? || repo.example_count != 0 %> repo span-7 append-1 <% if (index+1).divmod(3)[1] == 0 %> last<% end %>" >
       
     <% if repo.has_thumbnail != nil %>
       <div class="bg" style="background: url(https://raw.github.com/<%= repo.github_slug %>/master/ofxaddons_thumbnail.png) center center;">

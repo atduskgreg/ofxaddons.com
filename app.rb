@@ -36,6 +36,11 @@ def bake_html
   end
 end
 
+get "/bake" do
+  protected!
+  bake_html
+end
+
 get "/api/v1/all.json" do
   content_type :json
   repos = Repo.all(:not_addon => false, :is_fork => false, :category.not => nil, :deleted => false, :order => :name.asc)

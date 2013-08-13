@@ -112,7 +112,9 @@ function selectAllCats() {
 }
 
 function filter(){
-	if (window.location.pathname == "/") {
+	console.log("fitler");
+	console.log(window.location.pathname);
+	if (window.location.pathname == "/" || window.location.pathname == "/render") {
 		var n = 0;
 		$('.repo').each(function(i,e){
 			if( shown($(e)) ){
@@ -135,6 +137,8 @@ function filter(){
 			}
 			//console.log( "class is " + $(e).class() );
 		});
+
+		$('#repo_count').text("#"+n);
 	}
 }
 
@@ -151,7 +155,7 @@ function shown(e){
 		}
 	}
 	if (!include) {
-		console.log("no included category " + e.attr('class') );
+		//console.log("no included category " + e.attr('class') );
 		return false;
 	}
 	
@@ -171,12 +175,12 @@ function shown(e){
 	*/
 
 	if(requiresMakefile && e.hasClass('m_false')){
-		console.log("no make file! " + e.attr('class') );
+		//console.log("no make file! " + e.attr('class') );
 		return false;  
 	} 
 
 	if(requiresExample && e.hasClass('e_false')) {
-		console.log("no example! " + e.attr('class') );
+		//console.log("no example! " + e.attr('class') );
 		return false;
 	}
 
@@ -184,18 +188,18 @@ function shown(e){
 	var stars = parseInt(re.exec(e.attr('class'))[1], 10);
 	
 	if(stars < requiredStars){
-		console.log("not popular enough =( " + e.attr('class') );
+		//console.log("not popular enough =( " + e.attr('class') );
 		return false;
 	} 
 
 	re = /.*of_([0-9]\.[0-9]\.[0-9]).*/g;
 	var version = parseInt( re.exec(e.attr('class'))[1].split(".").join(""), 10 );
 	if(version < requiredVersion){
-		console.log("toooo oooolldd " + e.attr('class') );		
+		//console.log("toooo oooolldd " + e.attr('class') );		
 		return false;
 	} 
 
-	console.log("passed " + e.attr('class') );
+	//console.log("passed " + e.attr('class') );
 	return true;//!
 }
 
