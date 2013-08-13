@@ -179,7 +179,7 @@ h2 a:hover {
   font-size: 16px;
   background-color: #E6E8EA ;
   word-wrap: break-word;
-  padding: 6px 0px 0px 4px;
+  padding: 4px 0px 2px 6px;
 }
 
 .repo .github {
