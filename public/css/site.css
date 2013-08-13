@@ -69,6 +69,12 @@ ul {
   font-weight: bold;
 }
 
+.clear-all, .select-all {
+  color: #EE3987;
+  font-weight: normal;
+  cursor: pointer;
+}
+
 .toggle, .menu {
   color: #EE3987;
   background: none;
@@ -79,14 +85,18 @@ ul {
 }
 
 .toggle.selected, .menu.selected{
-  color: #FFF;
+  color: #FFF !important;
   background: #EE3987 !important;
+  border: none !important;
+  margin: 2px !important;
 
 }
 
 .toggle:hover, .menu:hover {
-  color: #FFF;
-  background: #F2B9D3;
+  color: #EE3987;
+  background: none;
+  border: #EE3987 solid 1px;
+  margin: 1px;
 }
 
 .nav_drop_menu {
@@ -121,12 +131,12 @@ a:hover {
 
 }
 
-#body h2 a {
+h2 a {
   color: #000;
   text-decoration: none;
 }
 
-#body h2 a:hover {
+h2 a:hover {
   background: none;
 }
 
@@ -169,7 +179,7 @@ a:hover {
   font-size: 16px;
   background-color: #E6E8EA ;
   word-wrap: break-word;
-  padding: 6px 0px 0px 4px;
+  padding: 4px 0px 2px 6px;
 }
 
 .repo .github {

@@ -1,6 +1,6 @@
 
 <div id="nav" class="span-24 last">
-  <div class="nav_label span-1 append-1">category</div>
+  <div class="nav_label span-1 append-1">category<br><span class="clear-all">clear</span><br><span class="select-all">all</span></div>
   <div id="nav_categories" class="span-10">
     <% for category in @categories %>
       <div value="c_<%= category.id %>" class="cat_toggle toggle selected"><%= category.name.downcase  %></div>
