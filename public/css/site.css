@@ -108,6 +108,7 @@ ul {
   display: inline-block;
   outline: #EE3987 solid 1px;
   text-align: left;
+  z-index: 1;
 }
 
 .nav_drop_menu li {
@@ -137,6 +138,7 @@ h2 a {
 }
 
 h2 a:hover {
+  color: #000;
   background: none;
 }
 
