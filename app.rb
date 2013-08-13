@@ -61,7 +61,7 @@ get "/render" do
   @current = "addons"
   @categorized = Repo.all(:not_addon => false, :incomplete => false, :is_fork => false, :deleted => false, :category.not => nil, :order => :name.asc)
   @uncategorized = Repo.all(:not_addon => false, :is_fork => false, :deleted => false, :category => nil, :order => :name.asc)
-  @repo_count = Repo.count(:conditions => ['not_addon = ? AND is_fork = ? AND deleted = ?', 'false', 'false', 'false'])
+  @repo_count = Repo.count(:conditions => ['not_addon = ? AND is_fork = ? AND deleted = ? AND incomplete = ? AND category_id IS NOT NULL', 'false', 'false', 'false', 'false'])
   erb :repos
 end
 

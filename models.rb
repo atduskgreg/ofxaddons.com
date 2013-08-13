@@ -11,7 +11,8 @@ require 'github/markup'
 require 'httparty'
 require 'nokogiri'
 
-require './auth'
+#require './auth'
+require './auth_live'
 
 DataMapper::Logger.new(STDOUT, :debug)
 DataMapper.setup(:default, ENV['DATABASE_URL'] || 'postgres://localhost/ofxaddons')
@@ -124,6 +125,7 @@ class Repo
       r.followers          = json["watchers"]		
       r.update_ancestry()		
     else
+      puts json["owner"]
       r.contributor        = get_contributor json["owner"]
       r.owner              = json["owner"]
       r.owner_avatar       = r.get_owner_avatar_url(r.owner)
