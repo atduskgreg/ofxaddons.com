@@ -136,7 +136,7 @@ function filter(){
 			//console.log( "class is " + $(e).class() );
 		});
 
-		$('#repo_count').text("#"+n);
+		$('#repo_count').text("found "+n+" addons");
 	}
 }
 
