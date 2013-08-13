@@ -12,7 +12,7 @@
 
       <p class="author">
         
-        <a class="github" href="<%repo.github_url%>">created</a> by <a href="/users/<%= repo.owner %>"><% if !repo.owner_avatar.blank?  %>
+        <a class="github" href="<%= repo.github_url%>">created</a> by <a href="/users/<%= repo.owner %>"><% if !repo.owner_avatar.blank?  %>
           <img class="userIcon" src="<%= repo.owner_avatar %>" />
         <% else %>
           <img class="userIcon" src="/images/default-gravatar.png">
@@ -26,7 +26,7 @@
       <% for fork in repo.fresher_forks %>
         <p>
           
-          <a class="github" href="<%fork.github_url%>">fork</a> by <a href="http://github.com/<%= fork.owner %>"><% if !fork.owner_avatar.blank?  %>
+          <a class="github" href="<%= fork.github_url%>">fork</a> by <a href="/users/<%= fork.owner %>"><% if !fork.owner_avatar.blank?  %>
             <img class="userIcon" src="<%= fork.owner_avatar %>" />
           <% else %>
             <img class="userIcon" src="/images/default-gravatar.png">
@@ -59,7 +59,7 @@
 
       <p class="author">
         
-        <a class="github" href="<%repo.github_url%>">created</a> by <a href="/users/<%= repo.owner %>"><% if !repo.owner_avatar.blank?  %>
+        <a class="github" href="<%= repo.github_url%>">created</a> by <a href="/users/<%= repo.owner %>"><% if !repo.owner_avatar.blank?  %>
           <img class="userIcon" src="<%= repo.owner_avatar %>" />
         <% else %>
           <img class="userIcon" src="/images/default-gravatar.png">
@@ -73,7 +73,7 @@
       <% for fork in repo.fresher_forks %>
         <p>
           
-          <a class="github" href="<%fork.github_url%>">fork</a> by <a href="http://github.com/<%= fork.owner %>"><% if !fork.owner_avatar.blank?  %>
+          <a class="github" href="<%= fork.github_url%>">fork</a> by <a href="/users/<%= fork.owner %>"><% if !fork.owner_avatar.blank?  %>
             <img class="userIcon" src="<%= fork.owner_avatar %>" />
           <% else %>
             <img class="userIcon" src="/images/default-gravatar.png">
