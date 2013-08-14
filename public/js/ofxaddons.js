@@ -26,7 +26,7 @@ $(window).load(function () {
 	$('#stars_menu li').click(function(e) {
 		var val = parseInt(e.target.getAttribute('value'), 10);
 		if (val > 0) {
-			$('#e_stars_selected').text(e.target.innerText+' stars');
+			$('#e_stars_selected').text(val+' stars');
 			$('#e_stars').addClass('selected');
 		} else {
 			$('#e_stars_selected').text('stars');
