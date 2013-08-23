@@ -50,7 +50,7 @@
   </p>
 
 
-  <% for fork in @repo.fresher_forks %>
+  <% for fork in @repo.fresher_forks.sort_by(&:last_pushed_at).reverse %>
     <p>
       
       <a class="github" href="<%= fork.github_url%>">fork</a> by <a href="/users/<%= fork.owner %>"><% if !fork.owner_avatar.blank?  %>
