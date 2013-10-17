@@ -30,7 +30,7 @@ desc "update un-categorized"
 task :update_repos do
 	Importer.update_source_for_uncategorized_repos
 	Importer.update_forks
-	Importer.purge_deleted_repos	
+#	Importer.purge_deleted_repos	
 end
 
 desc "update single repo"
