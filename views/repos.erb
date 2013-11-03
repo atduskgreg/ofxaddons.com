@@ -53,8 +53,19 @@
     </div>
     <div id="e_makefile" class="toggle">config file</div>
     <div id="e_example" class="toggle">example</div>
+    <div id="e_sort_by" class="menu">
+      <span id="e_sort_by_selected">sort by stars</span>
+      <div style="display:none" id="sort_by_menu" class="nav_drop_menu">
+        <ul>
+          <li value="star-sort">sort by stars</li>
+          <li value="alpha-sort">sort by name</li>
+        </ul>
+      </div>
+    </div>
   </div>
-  <div class="nav_label span-3  prepend-1" id="repo_count">found <%= @repo_count %> addons</div>
+  <div class="nav_label span-3  prepend-1">
+    <span id="repo_count">found <%= @repo_count %> addons</span>
+  </div>
 </div>
 
 
