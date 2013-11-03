@@ -11,7 +11,7 @@ task :cron do
 #  Importer.update_issues_for_all_repos
   Importer.update_source_for_uncategorized_repos
   Importer.update_forks
-  Importer.purge_deleted_repos
+  #Importer.purge_deleted_repos #pend: this needs to be fixed
 
   num_new = Repo.count(:not_addon => false, :is_fork => false, :category => nil, :deleted => false) - before
   puts num_new
@@ -30,7 +30,7 @@ desc "update un-categorized"
 task :update_repos do
 	Importer.update_source_for_uncategorized_repos
 	Importer.update_forks
-	Importer.purge_deleted_repos	
+	#Importer.purge_deleted_repos #pend: this needs to be fixed
 end
 
 desc "update single repo"
