@@ -4,6 +4,7 @@
 var includedCategories = [];
 var includedPlatforms = [];
 var requiresMakefile, requiresExample, requiredVersion, requiredStars=0;
+var sortBy = "star-sort";
 
 $(window).load(function () {
 	$('.toggle').click(function(e) {
@@ -61,6 +62,30 @@ $(window).load(function () {
 		}
 		$('#updated_menu').hide();
 		requiredVersion = val;
+		filter();
+	});
+
+
+	// SORT BY
+	$('#e_sort_by').click(function(e) {
+		$('#sort_by_menu').show();
+	});
+
+	$('#e_sort_by').mouseleave(function(e) {
+		$('#sort_by_menu').hide();
+	});
+
+	$('#sort_by_menu').mouseleave(function(e) {
+		$('#sort_by_menu').hide();
+	});
+
+	$('#sort_by_menu li').click(function(e) {
+		var val = e.target.getAttribute('value');
+		$('#e_sort_by_selected').text(e.target.innerText);
+		$('#e_sort_by').addClass('selected');
+
+		$('#sort_by_menu').hide();
+		sortBy = val;
 		filter();
 	});
 
@@ -122,7 +147,9 @@ function selectAllCats() {
 function filter(){
 	if (window.location.pathname == "/" || window.location.pathname == "/render") {
 		var n = 0;
-		$('.repo').each(function(i,e){
+		console.log(sortBy);
+		var repos = (sortBy == "alpha-sort") ? $('.repo').sort(repoAlphaSort) : $('.repo').sort(repoStarSort);
+		repos.each(function(i,e){
 			if( shown($(e)) ){
 				$(e).fadeIn();
 				if (n%3 == 0) {
@@ -142,12 +169,35 @@ function filter(){
 				$(e).fadeOut();	
 			}
 			//console.log( "class is " + $(e).class() );
+			$('#body').append($(e));
 		});
-
 		$('#repo_count').text("found "+n+" addons");
 	}
 }
 
+
+function repoAlphaSort(a, b) {
+	var id_a = $(a).attr('id').toLowerCase();
+	var id_b = $(b).attr('id').toLowerCase();
+	var val;
+	if (id_a < id_b) val = -1;
+	else if (id_a > id_b) val = 1;
+	else val = 0;
+	return val;
+}
+
+
+function repoStarSort(a, b) {
+	var re = /.*s_([0-9]*).*/g;
+	console.log($(a).attr('class')+" "+$(b).attr('class'));
+
+	var stars_a = parseInt(re.exec($(a).attr('class'))[1], 10);
+	re.lastIndex = 0;
+	var stars_b = parseInt(re.exec($(b).attr('class'))[1], 10);
+	re.lastIndex = 0;
+	console.log(stars_a+" "+stars_b);
+	return stars_b - stars_a;
+}
 
 function shown(e){
 	// check cats
