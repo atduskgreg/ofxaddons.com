@@ -7,17 +7,13 @@ require 'yaml'
 require 'backports'
 require 'aws/s3'
 
-if ENV['GITHUB_TOKEN']
-	require './auth_live'
-else 
-	require './auth'
-end
+# github auth stuff moved into github_api.rb
 
 config_file 'datas/config.yml'
 
-configure :development do  
+configure :development do
   enable :logging
-  DataMapper.auto_upgrade! 
+  DataMapper.auto_upgrade!
   puts "dev :)".yellow
 end
 
@@ -52,12 +48,12 @@ def bake_html
     :access_key_id     => $aws_key,
     :secret_access_key => $aws_secret
   )
-  
+
   puts "caching main page"
   request = Rack::MockRequest.new(Sinatra::Application)
   AWS::S3::S3Object.create('index.html',  request.get('/render').body, 'ofxaddons', :access => :public_read );
 
-  puts "caching changes"  
+  puts "caching changes"
   request = Rack::MockRequest.new(Sinatra::Application)
   AWS::S3::S3Object.create('changes.html',  request.get('/changes/render').body, 'ofxaddons', :access => :public_read );
 
@@ -68,7 +64,7 @@ def bake_html
   puts "caching unsorted"
   request = Rack::MockRequest.new(Sinatra::Application)
   AWS::S3::S3Object.create('unsorted.html',  request.get('/unsorted/render').body, 'ofxaddons', :access => :public_read );
-  
+
 end
 
 get "/bake" do
@@ -79,22 +75,22 @@ end
 get "/api/v1/all.json" do
   content_type :json
   repos = Repo.all(:not_addon => false, :is_fork => false, :category.not => nil, :deleted => false, :order => :name.asc)
-  {"repos" => repos.collect{|r| r.to_json_hash}}.to_json  
+  {"repos" => repos.collect{|r| r.to_json_hash}}.to_json
 end
 
 get "/" do
 
   data = open("https://s3.amazonaws.com/ofxaddons/index.html")
   response.write(data.read)
-  
+
   #old way
   #send_file File.join(settings.public_folder, 'index.html')
-  
- #doesn't work 
+
+ #doesn't work
  # open("https://s3.amazonaws.com/ofxaddons/index.html") do | chunk |
  #	  response.write( chunk )
  # end
- 
+
 end
 
 get "/render" do
@@ -105,14 +101,14 @@ get "/render" do
   erb :repos
 end
 
-get "/changes" do 
+get "/changes" do
   data = open("https://s3.amazonaws.com/ofxaddons/changes.html")
   response.write(data.read)
 end
 
-get "/changes/render" do  
+get "/changes/render" do
   @current = "changes"
-  @most_recent = Repo.all(:not_addon => false, :is_fork => false, :deleted => false, :category.not => nil, :order => [:last_pushed_at.desc]) 
+  @most_recent = Repo.all(:not_addon => false, :is_fork => false, :deleted => false, :category.not => nil, :order => [:last_pushed_at.desc])
   erb :changes
 end
 
@@ -150,7 +146,7 @@ get "/admin" do
   @incomplete = repos.select{|r| r.incomplete}
   @uncategorized = repos.select{|r| r.category.nil? and not r.incomplete}
   @categorized = repos.partition{|r| not r.category.nil? and not r.incomplete}
-  
+
   erb :admin
 end
 
