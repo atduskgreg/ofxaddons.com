@@ -83,7 +83,7 @@ class Importer
   # end
 
   def self.send_report(msg)
-    Pony.mail :to => ['greg.borenstein@gmail.com', 'james@jamesgeorge.org'],
+    Pony.mail :to => ['greg.borenstein@gmail.com', 'james@jamesgeorge.org', 'james@virtualjames.com'],
     :from => 'greg.borenstein@gmail.com',
     :subject => 'ofxaddons report',
     :body => msg,
