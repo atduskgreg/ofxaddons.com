@@ -1,21 +1,17 @@
 require 'rubygems'
-require "bundler/setup"
-require "colorize"
-require 'dm-aggregates'
-require 'dm-core'
-require 'dm-migrations'
-require 'dm-types'
-require 'dm-validations'
-require 'dm-zone-types'
-require 'github/markup'
-require 'httparty'
-require 'nokogiri'
-
-if ENV['GITHUB_TOKEN']
-	require './auth_live'
-else 
-	require './auth'
-end
+require 'bundler/setup'
+Bundler.require(:default)
+# require 'colorize'
+# require 'dm-aggregates'
+# require 'dm-core'
+# require 'dm-migrations'
+# require 'dm-types'
+# require 'dm-validations'
+# require 'dm-zone-types'
+# require 'github/markup'
+# require 'httparty'
+# require 'nokogiri'
+require './github_api'
 
 #DataMapper::Logger.new(STDOUT, :debug)
 DataMapper.setup(:default, ENV['DATABASE_URL'] || 'postgres://localhost/ofxaddons')
@@ -26,9 +22,9 @@ class Category
   property :id, Serial
   property :name, Text
   property :avatar_url, Text
-  
+
   has n, :repos
-  
+
   def slug
     name.downcase.gsub(/\W/, '')
   end
@@ -37,131 +33,124 @@ end
 class Contributor
   include DataMapper::Resource
 
-  property :id, Serial
-  property :login, Text, :required => true, :unique => true
-  property :name, Text
+  property :id,         Serial
+  property :login,      Text,  :required => true, :unique => true
+  property :name,       Text
   property :avatar_url, Text
-  property :location, Text
+  property :location,   Text
 
   has n, :repos
 end
 
 class Repo
   include DataMapper::Resource
-  
-  property :id, Serial
-  property :name, Text
-  property :owner, Text
-  property :owner_avatar, Text 
-  property :description, Text
-  property :readme, Text
-  property :forks, Json
-  property :most_recent_commit, Json
-  property :issues, Json
-  property :followers, Integer, :default => 0 
 
-  property :has_makefile, Boolean, :default => false
-  property :example_count, Integer, :default => 0
-  property :has_correct_folder_structure, Boolean, :default => false
-  property :has_thumbnail, Boolean, :default => false
+  # TODO: rename github_slug -> full_name
+  # TODO: rename followers   -> watcher_count
+  # TODO: remove has_forks, add fork_count propery and method has_forks?()
+  # TODO: remove is_fork, duplicated by 'source', add method is_fork?
+  # TODO: remove user_id (only in the db, but obviously not used anymore)
+  # TODO: remove owner, it duplicates the functionality of contributor
+  # TODO: remove owver_avatar, it duplicates the functionality of contributor
+  # TODO: last_pushed_at & github_pushed_at... pick one, delete the other?
 
-  property :last_pushed_at, ZonedTime, :required => true
-  property :github_created_at, ZonedTime
-  property :github_pushed_at, Text
+  property :deleted,                      Boolean,   :default => false
+  property :description,                  Text
+  property :example_count,                Integer,   :default => 0
+  property :followers,                    Integer,   :default => 0
+  property :forks,                        Json
+  property :github_created_at,            ZonedTime
+  property :github_pushed_at,             Text
+  property :github_slug,                  Text                          # to uniquely specify a repo
+  property :has_correct_folder_structure, Boolean,   :default => false
+  property :has_forks,                    Boolean,   :default => false
+  property :has_makefile,                 Boolean,   :default => false
+  property :has_thumbnail,                Boolean,   :default => false
+  property :id,                           Serial
+  property :incomplete,                   Boolean,   :default => false  # not a fully baked addon yet
+  property :is_fork,                      Boolean,   :default => false
+  property :issues,                       Json
+  property :last_pushed_at,               ZonedTime, :required => true
+  property :most_recent_commit,           Json
+  property :name,                         Text
+  property :not_addon,                    Boolean,   :default => false  # not OF-related at all
+  property :owner,                        Text
+  property :owner_avatar,                 Text
+  property :parent,                       Text                          # the repo this fork is directly forked from
+  property :readme,                       Text
+  property :source,                       Text                          # the origial repo from which all forks descend
+  property :updated,                      Boolean,   :default => false  # utility flag for the importer
 
-  # github source graph
-  property :source, Text
-  property :parent, Text
-
-  property :is_fork, Boolean, :default => false
-  property :has_forks, Boolean, :default => false
-
-  # to uniquely specify a repo
-  property :github_slug, Text
-  # not OF related, these don't show up on any public page
-  property :not_addon, Boolean, :default => false
-  # not finished, not real OF addon, these show up on unfinished page
-  property :incomplete, Boolean, :default => false
-  
-  property :deleted, Boolean, :default => false  
-
-  belongs_to :category, :required => false
+  belongs_to :category,    :required => false
   belongs_to :contributor, :required => false
 
-    
-  def to_json_hash
-    result = {
-     :name => name,
-     :owner => owner,
-     :description =>  description,
-     :last_pushed_at => last_pushed_at,
-     :github_created_at => github_created_at,
-     :category => category.name,
-     :homepage => "https://github.com/#{github_slug}",
-     :clone_url => "https://github.com/#{github_slug}.git",
-     :warning_labels => warning_labels
-    }
-
-
-  end
 
   def self.exists?(params={})
     Repo.first(:github_slug => "#{params['owner']}/#{params['name']}")
   end
-  
+
+  # TODO: move this to the importer, or a service object
   def self.create_from_json(json)
-# JG: moving this to the Importer
-#     if(!json["name"].start_with?('ofx'))
-#       puts "Repo's name not starting with 'ofx', not saving"
-#       return false
-#     end
-
-    r                    = self.new 
-    r.name               = json["name"]
-    r.is_fork            = json["fork"]
-    r.has_forks          = json["forks"] > 0
-    if r.is_fork
-      r.contributor        = r.get_contributor json["owner"]['login']
-      r.owner              = json["owner"]['login']
-      r.owner_avatar       = json["owner"]["avatar_url"]
-      r.github_slug        = "#{json['full_name']}"
-      r.followers          = json["watchers"]		
-      r.update_ancestry()		
-    else
-      puts json["owner"]
-      r.contributor        = r.get_contributor json["owner"]
-      r.owner              = json["owner"]
-      r.owner_avatar       = r.get_owner_avatar_url(r.owner)
-      r.github_slug        = "#{json['owner']}/#{json['name']}"
-      r.most_recent_commit = r.get_most_recent_commit
-      r.followers          = json["followers"]
-    end
-
-    r.description        = json["description"]
-    r.last_pushed_at     = Time.parse(json["pushed_at"]) if json["pushed_at"]
-    r.github_created_at  = Time.parse(json["created_at"]) if json["created_at"]
-    r.github_pushed_at	 = json["pushed_at"]
-#    r.readme             = r.render_readme
-    r.deleted 		 	 = false	
-    r.check_features
-
-    unless r.save
-      r.errors.each {|e| puts e.inspect }
-      return false
-    end
-    return true
+    repo = self.new
+    repo.update_from_json(json)
   end
 
-  def get_contributor user_login
+  def self.set_all_updated_false
+    DataMapper.repository(:default).adapter.execute("UPDATE repos SET updated = 'f'")
+  end
+
+  # TODO: move this to the importer, or a service object
+  def update_from_json(json)
+    self.check_features
+    self.contributor        = self.get_contributor json['owner']['login']
+    self.deleted 		 	= false
+    self.description        = json['description']
+    self.followers          = json['watchers_count']
+    self.github_created_at  = Time.parse(json['created_at']) if json['created_at']
+    self.github_pushed_at	= json['pushed_at']
+    self.github_slug        = json['full_name']
+    self.has_forks          = json['forks_count'] > 0
+    self.is_fork            = json['fork']
+    self.last_pushed_at     = Time.parse(json['pushed_at']) if json['pushed_at']
+    self.name               = json['name']
+    self.owner              = json['owner']['login']
+    self.owner_avatar       = json['owner']['avatar_url']
+    self.parent             = json['parent']
+    self.source             = json['source']
+    # self.readme             = self.render_readme
+
+    self.most_recent_commit = self.get_most_recent_commit
+
+    # flag this repository as updated
+    self.updated            = true
+
+    if self.save
+      return true
+    else
+      self.errors.each {|e| puts e.inspect }
+      return false
+    end
+  end
+
+  # TODO: move this to the importer, or a service object
+  # TODO: this should either be a class method, or make use of the fact that it's an instance method
+  def get_contributor(user_login)
     user = Contributor.first :login => user_login
-    if !user
-      url = "https://api.github.com/users/#{user_login}?#$auth_params"
-      result = HTTParty.get(url)
-      if result.success?
-        user = Contributor.new
-        user.login = result["login"]
-        user.name = result["name"]
-        user.avatar_url = result["avatar_url"]
+    unless user
+      begin
+        response = GithubApi::user(user_login)
+      rescue => ex
+        puts "Failed to get user: #{ex.message} (#{ex.class})"
+        puts self.inspect
+        puts ex.backtrace
+      end
+
+      if response.success?
+        data            = response.parsed_response
+        user            = Contributor.new
+        user.login      = data["login"]
+        user.name       = data["name"]
+        user.avatar_url = data["avatar_url"]
         unless user.save
           user.errors.each {|e| puts e.inspect }
         end
@@ -169,110 +158,83 @@ class Repo
     end
     return user
   end
-  
-  # def self.search(term)
-  #   url = "http://github.com/api/v2/json/repos/search/#{term}"
-  #   json = HTTParty.get(url)
-  #   json["repositories"].each do |r|
-  #     if !Repo.exists?(:owner => r["owner"], :name => r["name"])
-  #       Repo.create_from_json( r )
-  #     end
-  #   end
-  # end
 
-  def update_from_json(json)
-  
-    self.description        = json["description"]
-    self.last_pushed_at     = Time.parse(json["pushed_at"]) if json["pushed_at"]
-    self.github_created_at  = Time.parse(json["created_at"]) if json["created_at"]	
-    self.github_pushed_at	= json["pushed_at"]
-#    self.readme             = render_readme
-#    self.issues            = get_issues
-    self.is_fork            = json["fork"]
-    self.has_forks           = json["forks"] > 0
-    if self.is_fork
-      self.contributor       = get_contributor json["owner"]["login"]
-  		self.followers         = json["watchers"]
-  		self.owner_avatar      = json["owner"]["avatar_url"]
-  		self.update_ancestry()
-  	else
-      self.contributor       = get_contributor json["owner"]
-	    self.followers         = json["followers"]
-		self.owner_avatar      = get_owner_avatar_url(self.owner)
-		self.most_recent_commit = get_most_recent_commit
-    end 
-    
-	self.deleted = false #in case it was re-added
-	self.check_features
-   
-    unless self.save
-      errors.each {|e| puts "ERROR: #{e}" }
-      return false
-    end
-    return true
+  def to_json_hash
+    {
+      :name => name,
+      :owner => owner,
+      :description =>  description,
+      :last_pushed_at => last_pushed_at,
+      :github_created_at => github_created_at,
+      :category => category.name,
+      :homepage => "https://github.com/#{github_slug}",
+      :clone_url => "https://github.com/#{github_slug}.git",
+      :warning_labels => warning_labels
+    }
   end
 
   def get_most_recent_commit
-    url = "https://api.github.com/repos/#{self.github_slug}/commits?#$auth_params"
-    puts "fetching most recent commit: #{ url }"
-    result = HTTParty.get(url)
-    if result.success?
-      return result[0]
+    raise "need an owner and a name for this repository to fetch its commits" unless self.name && self.owner
+
+    begin
+      response = GithubApi::repository_commits(self.owner, self.name)
+    rescue => ex
+      puts "Failed to get recent commit: #{ex.message} (#{ex.class})"
+      puts ex.backtrace
+    end
+
+    if response.success?
+      return response.parsed_response[0]
     else
       return nil
     end
   end
-  
-  def fresher_forks
-	  Repo.all(:not_addon => false, :is_fork => true, :source => self.github_slug).select do |r|
-         r.last_pushed_at > self.last_pushed_at || (r.followers > self.followers unless r.followers.nil?)
-      end
-  end
 
- def get_owner_avatar_url(owner_name)
-    url = "https://api.github.com/users/#{owner_name}?#$auth_params"
-    result = HTTParty.get(url)
-    if result.success?
-      return result["avatar_url"]
-    else
-      return nil
+  def fresher_forks
+    Repo.all(:not_addon => false, :is_fork => true, :source => self.github_slug).select do |r|
+      r.last_pushed_at > self.last_pushed_at || (r.followers > self.followers unless r.followers.nil?)
     end
   end
 
   def check_features
-    url = "https://api.github.com/repos/#{github_slug}/contents?#$auth_params"
-    puts "fetching repo's contents..."
-    
-    content = HTTParty.get(url)
-    unless content.success?
-    	puts "empty repository".red
-    	return
+    begin
+      response = GithubApi::repository_contents(self.owner, self.name)
+    rescue => ex
+      puts "Failed to get repository contents: #{ex.message} (#{ex.class})"
+      puts self.inspect
+      puts ex.backtrace
+    end
+
+    unless response.success?
+      puts response.inspect.to_s.red
+      return
 	end
-	
+
     self.example_count = 0
     has_src_folder = false
-    content.each do |c|
+
+    response.parsed_response.each do |c|
       name = c['name']
       if name == "addon_config.mk" || name == "addon.make"
         self.has_makefile = true
-        puts "    Found Makefile!".green
+        puts "\t- Found Makefile!".green
       elsif name.match(/example/i)
-        puts "    Found Example!".green
+        puts "\t- Found Example!".green
         self.example_count += 1
       elsif name.match(/src/i)
         has_src_folder = true
-#TODO: Maybe we want it to be ofxaddons_thumb or something very specific?
+        #TODO: Maybe we want it to be ofxaddons_thumb or something very specific?
       elsif name.match(/ofxaddons_thumbnail.png/i)
-        puts "    Found Thumbnail!".green
+        puts "\t- Found Thumbnail!".green
         self.has_thumbnail = true
       end
     end
 
 	if has_src_folder
-      puts "   Has correct folder structure.".green
+      puts "\t- Has correct folder structure.".green
       self.has_correct_folder_structure = true
     else
-      puts "   Has incorrect folder structure.".yellow
+      puts "\t- Has incorrect folder structure.".yellow
       self.has_correct_folder_structure = false
     end
 
@@ -288,8 +250,8 @@ class Repo
     our_labels = ["ofx-incomplete", "ofx-osx", "ofx-win", "ofx-linux"]
     relevant_labels = []
     if issues
-      issues.select{|issue| issue["state"] == "open"  }.each do |issue| 
-        our_labels.each do |l| 
+      issues.select{|issue| issue["state"] == "open"  }.each do |issue|
+        our_labels.each do |l|
           if Regexp.new(l) =~ issue["title"]
             relevant_labels << l
           end
@@ -299,14 +261,15 @@ class Repo
     relevant_labels
   end
 
-  def get_issues
-    result = HTTParty.get("https://api.github.com/repos/#{github_slug}/issues?#$auth_params")
-    if result.success?
-      result.parsed_response
-    else
-      return nil
-    end
-  end
+  # TODO: fixme, need to be updated to work with Github API V3
+  # def get_issues
+  #   result = HTTParty.get("https://api.github.com/repos/#{github_slug}/issues?#$auth_params")
+  #   if result.success?
+  #     result.parsed_response
+  #   else
+  #     return nil
+  #   end
+  # end
 
   def get_last_update_of_release
     last = settings.ofreleases[0]['version']
@@ -319,16 +282,21 @@ class Repo
     return last
   end
 
-  def update_ancestry
-    if self.is_fork
-      result = HTTParty.get("https://api.github.com/repos/#{github_slug}?#$auth_params")
-	  if result.success? && result["source"]
-         self.source = result["source"]["full_name"]
-         puts "source of #{self.github_slug} is #{self.source}"
-		 self.save
-      end
-    end
+  def is_fork?
+    !self.source.nil?
   end
+
+  # TODO: fixme, need to be updated to work with Github API V3
+  # def update_ancestry
+  #   if is_fork?
+  #     result = HTTParty.get("https://api.github.com/repos/#{github_slug}?#$auth_params")
+  #     if result.success? && result["source"]
+  #       self.source = result["source"]["full_name"]
+  #       puts "source of #{self.github_slug} is #{self.source}"
+  #       self.save
+  #     end
+  #   end
+  # end
 
   def source_repo
     Repo.first :github_slug => self.source
@@ -353,32 +321,33 @@ class Repo
     end
   end
 
+  # TODO: fixme, need to be updated to work with Github API V3
   # gets the url to the raw readme file on github
-  def scrape_github_readme_url
-    result = HTTParty.get(github_url)
-    return nil unless result.success?
+  # def scrape_github_readme_url
+  #   result = HTTParty.get(github_url)
+  #   return nil unless result.success?
 
-    # fetch the main github page for this repo and parse it
-    doc = Nokogiri::HTML(result)
+  #   # fetch the main github page for this repo and parse it
+  #   doc = Nokogiri::HTML(result)
 
-    # grab the table of files in the repo
-    files = doc.css('.js-rewrite-sha')
+  #   # grab the table of files in the repo
+  #   files = doc.css('.js-rewrite-sha')
 
-    # filter out everthing except the readmes. the "blob" bit needs
-    # to be in there to filter out directories named "readme"
-    files = files.select {|file| file["href"] =~ /\/.+\/blob\/.+\/readme.*/i }
+  #   # filter out everthing except the readmes. the "blob" bit needs
+  #   # to be in there to filter out directories named "readme"
+  #   files = files.select {|file| file["href"] =~ /\/.+\/blob\/.+\/readme.*/i }
 
-    # bail - no readme
-    return nil if files.empty?
+  #   # bail - no readme
+  #   return nil if files.empty?
 
-    # if there are multiples, then grab the last one
-    readme = files.last
+  #   # if there are multiples, then grab the last one
+  #   readme = files.last
 
-    # munge the url to get the raw file url
-    url = readme["href"].sub("/blob/", "/raw/")
+  #   # munge the url to get the raw file url
+  #   url = readme["href"].sub("/blob/", "/raw/")
 
-    return "http://github.com#{url}"
-  end
+  #   return "http://github.com#{url}"
+  # end
 
   # fetches the actual readme from github
   def get_github_readme
@@ -392,7 +361,7 @@ class Repo
     # from time to time we get an empty readme
     body = get_github_readme
     return nil if body.nil? || body.empty?
-    
+
     # render the readme
     if plaintext?(github_readme_filename)
       return "<pre>#{ body }</pre>"
@@ -407,7 +376,7 @@ class Repo
     begin
       result = HTTParty.get(github_readme_url)
       return nil unless result.success?
-      
+
       # github returns the readme as a binary file type, so we need to
       # set it's encoding explicitly
       body = result.parsed_response.force_encoding("ISO-8859-1")
@@ -419,7 +388,7 @@ class Repo
 
       # there are very likely unicode characters
       body = body.encode("UTF-8")
-      
+
       return body
     rescue
       return nil
