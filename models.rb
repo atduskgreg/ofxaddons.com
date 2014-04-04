@@ -143,6 +143,7 @@ class Repo
         puts "Failed to get user: #{ex.message} (#{ex.class})"
         puts self.inspect
         puts ex.backtrace
+        return
       end
 
       if response.success?
@@ -181,6 +182,7 @@ class Repo
     rescue => ex
       puts "Failed to get recent commit: #{ex.message} (#{ex.class})"
       puts ex.backtrace
+      return
     end
 
     if response.success?
@@ -203,6 +205,7 @@ class Repo
       puts "Failed to get repository contents: #{ex.message} (#{ex.class})"
       puts self.inspect
       puts ex.backtrace
+      return
     end
 
     unless response.success?
