@@ -21,5 +21,5 @@ gem 'redcarpet'                               # renders markdown for readme file
 gem 'RedCloth'                                # renders textile for readme files
 gem 'sinatra'
 gem 'sinatra-contrib'	                      # used for YAML config files http://www.sinatrarb.com/contrib/config_file.html
-gem 'thin'
+gem 'unicorn'
 gem 'wikicloth'                               # renders wiki markup for readme files
