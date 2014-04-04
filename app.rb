@@ -43,10 +43,14 @@ def bake_html
 #   request = Rack::MockRequest.new(Sinatra::Application)
 #   f.write request.get('/render').body
 #  end
+  unless ENV['AWS_ACCESS_KEY_ID']
+    puts 'missing AWS credentials, so cannot bake'.red
+    return
+  end
 
   AWS::S3::Base.establish_connection!(
-    :access_key_id     => $aws_key,
-    :secret_access_key => $aws_secret
+    :access_key_id     => ENV['AWS_ACCESS_KEY_ID'],
+    :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
   )
 
   puts "caching main page"
