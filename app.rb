@@ -53,26 +53,32 @@ def bake_html
     :secret_access_key => $aws_secret
   )
   
-  puts "caching main page"
-  request = Rack::MockRequest.new(Sinatra::Application)
-  AWS::S3::S3Object.create('index.html',  request.get('/render').body, 'ofxaddons', :access => :public_read );
+  # puts "caching main page"
+  # request = Rack::MockRequest.new(Sinatra::Application)
+  # AWS::S3::S3Object.create('index.html',  request.get('/render').body, 'ofxaddons', :access => :public_read );
 
-  puts "caching popular"  
-  request = Rack::MockRequest.new(Sinatra::Application)
-  AWS::S3::S3Object.create('popular.html',  request.get('/popular/render').body, 'ofxaddons', :access => :public_read );
+  # puts "caching popular"  
+  # request = Rack::MockRequest.new(Sinatra::Application)
+  # AWS::S3::S3Object.create('popular.html',  request.get('/popular/render').body, 'ofxaddons', :access => :public_read );
 
-  puts "caching changes"  
-  request = Rack::MockRequest.new(Sinatra::Application)
-  AWS::S3::S3Object.create('changes.html',  request.get('/changes/render').body, 'ofxaddons', :access => :public_read );
+  # puts "caching changes"  
+  # request = Rack::MockRequest.new(Sinatra::Application)
+  # AWS::S3::S3Object.create('changes.html',  request.get('/changes/render').body, 'ofxaddons', :access => :public_read );
 
-  puts "caching contributors"
-  request = Rack::MockRequest.new(Sinatra::Application)
-  AWS::S3::S3Object.create('contributors.html',  request.get('/contributors/render').body, 'ofxaddons', :access => :public_read );
+  # puts "caching contributors"
+  # request = Rack::MockRequest.new(Sinatra::Application)
+  # AWS::S3::S3Object.create('contributors.html',  request.get('/contributors/render').body, 'ofxaddons', :access => :public_read );
 
-  puts "caching unsorted"
-  request = Rack::MockRequest.new(Sinatra::Application)
-  AWS::S3::S3Object.create('unsorted.html',  request.get('/unsorted/render').body, 'ofxaddons', :access => :public_read );
+  # puts "caching unsorted"
+  # request = Rack::MockRequest.new(Sinatra::Application)
+  # AWS::S3::S3Object.create('unsorted.html',  request.get('/unsorted/render').body, 'ofxaddons', :access => :public_read );
   
+  puts "caching categories"
+  for c in Category.all()
+    request = Rack::MockRequest.new(Sinatra::Application)
+    AWS::S3::S3Object.create('#{c}.html',  request.get('/category/render/#{c}').body, 'ofxaddons', :access => :public_read );
+  end
+
 end
 
 get "/bake" do
@@ -124,6 +130,13 @@ get "/popular/render" do
   @current = "popular"
   @categorized = Repo.all(:not_addon => false, :incomplete => false, :is_fork => false, :deleted => false, :category.not => nil, :order => :name.asc)
   erb :popular
+end
+
+get "/category/render/:category_id" do  
+
+  @cat = params[:category_id]
+  @repos = Repo.all(:not_addon => false, :incomplete => false, :is_fork => false, :deleted => false, :category => params[:category_id], :order => :name.asc)
+  erb :category
 end
 
 get "/changes/render" do  

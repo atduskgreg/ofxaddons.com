@@ -75,7 +75,7 @@
 
   <% for category in @categories %>
     <div id="<%= category.name.downcase %>" class="span-24 last">
-      <div class="cat_heading"><%= category.name.downcase  %></div>
+      <a href="/category/<%= category.name.downcase %>" ><div class="cat_heading"><%= category.name.downcase  %></div></a>
       <% index = 0; for repo in category.repos.sort_by{|r| r.name }  %>
         <% if repo.followers.to_i != 0 %>
           <%= @repo = repo; @index = index; erb :repo %>
