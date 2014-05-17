@@ -146,6 +146,14 @@ h2 a:hover {
   clear: both;
 }
 
+.cat_heading {
+  background: #EE3987;
+  color: #fff;
+  font-size: 16px;
+  padding: 4px 0px 2px 6px;
+  margin: 0 40px 16px 0;
+}
+
 .repo p{
   margin: 0;
 }
