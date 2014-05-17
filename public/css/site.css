@@ -229,7 +229,9 @@ h2 a:hover {
   font-weight: bold;
 }
 
-
+.first {
+  clear: both;
+}
 
 h2 {
   /*border-bottom: 14px solid #B9BBBD;*/
