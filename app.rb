@@ -57,6 +57,10 @@ def bake_html
   request = Rack::MockRequest.new(Sinatra::Application)
   AWS::S3::S3Object.create('index.html',  request.get('/render').body, 'ofxaddons', :access => :public_read );
 
+  puts "caching popular"  
+  request = Rack::MockRequest.new(Sinatra::Application)
+  AWS::S3::S3Object.create('popular.html',  request.get('/popular/render').body, 'ofxaddons', :access => :public_read );
+
   puts "caching changes"  
   request = Rack::MockRequest.new(Sinatra::Application)
   AWS::S3::S3Object.create('changes.html',  request.get('/changes/render').body, 'ofxaddons', :access => :public_read );
@@ -106,9 +110,20 @@ get "/render" do
   erb :repos
 end
 
+get "/popular" do 
+  data = open("https://s3.amazonaws.com/ofxaddons/popular.html")
+  response.write(data.read)
+end
+
 get "/changes" do 
   data = open("https://s3.amazonaws.com/ofxaddons/changes.html")
   response.write(data.read)
+end
+
+get "/popular/render" do  
+  @current = "popular"
+  @categorized = Repo.all(:not_addon => false, :incomplete => false, :is_fork => false, :deleted => false, :category.not => nil, :order => :name.asc)
+  erb :popular
 end
 
 get "/changes/render" do  
