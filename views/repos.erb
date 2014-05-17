@@ -1,4 +1,5 @@
 
+<!--
 <div id="nav" class="span-24 last">
   <div class="nav_label span-1 append-1">category<br><span class="clear-all">clear</span><br><span class="select-all">all</span></div>
   <div id="nav_categories" class="span-10">
@@ -6,7 +7,7 @@
       <div value="c_<%= category.id %>" class="cat_toggle toggle"><%= category.name.downcase  %></div>
     <% end %>
   </div>
-
+-->
 <!--
   # TODO
   <div class="nav_label span-1 append-1">platform</div>
@@ -20,6 +21,7 @@
   </div>
 -->
 
+<!--
   <div class="nav_label span-1">etc</div>
   <div id="nav_other" class="span-4">
     <div id="e_stars" class="menu">
@@ -67,13 +69,22 @@
     <span id="repo_count">found <%= @repo_count %> addons</span>
   </div>
 </div>
-
+-->
 
 <div id="body" class="span-26 last" >
-  <% index = 0; for repo in @categorized.sort_by{|r| -r.followers.to_i }  %>
-    <%= @repo = repo; @index = index; erb :repo %>
-    <% index = index + 1 %>
+
+  <% for category in @categories %>
+    <div id="<%= category.name.downcase  %>" class="span-24 last">
+      <div class="cat_heading"><%= category.name.downcase  %></div>
+      <% index = 0; for repo in category.repos.sort_by{|r| r.name }  %>
+        <% if repo.followers.to_i != 0 %>
+          <%= @repo = repo; @index = index; erb :repo %>
+          <% index = index + 1 %>
+        <% end %>
+      <% end %> 
+    </div>
   <% end %>
+
 </div>
 
 

@@ -133,8 +133,8 @@ $(window).load(function () {
 
 
 	// STARTUP
-	selectAllCats();
-	filter();
+	// selectAllCats();
+	// filter();
 
 });
 
