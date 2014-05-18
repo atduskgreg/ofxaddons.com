@@ -25,7 +25,7 @@ class GithubApi
     def repository_commits(owner, name, options={})
       raise "owner and name cannot be nil" unless owner && name
 
-      base  = "/repos/#{owner}/#{name}/commits"
+      base  = base_uri + "/repos/#{owner}/#{name}/commits"
       url   = add_querystring_params(base, options.merge(CREDENTIALS))
       puts "Github::repository_commits: ".yellow + "fetching #{url} ..."
       get(url, HTTP_OPTIONS)
@@ -35,7 +35,7 @@ class GithubApi
       raise "owner and name cannot be nil" unless owner && name
 
       path  = options.delete(:path)
-      base  = "/repos/#{owner}/#{name}/contents#{path}"
+      base  = base_uri + "/repos/#{owner}/#{name}/contents#{path}"
       url   = add_querystring_params(base, options.merge(CREDENTIALS))
       puts "Github::repository_contents: ".yellow + "fetching #{url} ..."
       get(url, HTTP_OPTIONS)
@@ -69,7 +69,7 @@ class GithubApi
       # opts = { :q => "#{ term }+in:name+fork:true" }
       opts = { :q => "#{ term }+in:name" }
       opts.merge!(CREDENTIALS)
-      url = add_querystring_params("/search/repositories", options.merge(opts))
+      url = add_querystring_params(base_uri + "/search/repositories", options.merge(opts))
       puts "Github::search_repositories: ".yellow + "fetching #{url} ..."
       get(url, HTTP_OPTIONS)
     end
@@ -77,7 +77,7 @@ class GithubApi
     def user(user, options={})
       raise "user cannot be nil" unless user
 
-      base  = "/users/#{user}"
+      base  = base_uri + "/users/#{user}"
       url   = add_querystring_params(base, options.merge(CREDENTIALS))
       puts "Github::repository_contents: ".yellow + "fetching #{url} ..."
       get(url, HTTP_OPTIONS)
