@@ -5,6 +5,7 @@ desc "This task is called by the Heroku cron add-on"
 task :cron do
   begin
 
+
     before = Repo.count(:not_addon => false, :is_fork => false, :category => nil, :deleted => false)
 
     Repo.set_all_updated_false
@@ -30,10 +31,10 @@ end
 desc "update un-categorized"
 task :update_repos do
 
-  # Importer.update_source_for_uncategorized_repos
-  Importer.update_forks
-  #needs fix
-  #	Importer.purge_deleted_repos
+# Importer.update_source_for_uncategorized_repos
+Importer.update_forks
+#needs fix
+#	Importer.purge_deleted_repos
 
 end
 

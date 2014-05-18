@@ -52,12 +52,17 @@ def bake_html
     :access_key_id     => ENV['AWS_ACCESS_KEY_ID'],
     :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
   )
-
+  
   puts "caching main page"
   request = Rack::MockRequest.new(Sinatra::Application)
   AWS::S3::S3Object.create('index.html',  request.get('/render').body, 'ofxaddons', :access => :public_read );
 
-  puts "caching changes"
+  puts "caching popular"  
+  request = Rack::MockRequest.new(Sinatra::Application)
+  AWS::S3::S3Object.create('popular.html',  request.get('/popular/render').body, 'ofxaddons', :access => :public_read );
+
+
+  puts "caching changes"  
   request = Rack::MockRequest.new(Sinatra::Application)
   AWS::S3::S3Object.create('changes.html',  request.get('/changes/render').body, 'ofxaddons', :access => :public_read );
 
@@ -68,6 +73,12 @@ def bake_html
   puts "caching unsorted"
   request = Rack::MockRequest.new(Sinatra::Application)
   AWS::S3::S3Object.create('unsorted.html',  request.get('/unsorted/render').body, 'ofxaddons', :access => :public_read );
+  
+  # puts "caching categories"
+  # for c in Category.all()
+  #   request = Rack::MockRequest.new(Sinatra::Application)
+  #   AWS::S3::S3Object.create('#{c}.html',  request.get('/category/render/#{c}').body, 'ofxaddons', :access => :public_read );
+  # end
 
 end
 
@@ -99,18 +110,39 @@ end
 
 get "/render" do
   @current = "addons"
+  @categories = Category.all(:order => :name.asc)
   @categorized = Repo.all(:not_addon => false, :incomplete => false, :is_fork => false, :deleted => false, :category.not => nil, :order => :name.asc)
   @uncategorized = Repo.all(:not_addon => false, :is_fork => false, :deleted => false, :category => nil, :order => :name.asc)
   @repo_count = Repo.count(:conditions => ['not_addon = ? AND is_fork = ? AND deleted = ? AND incomplete = ? AND category_id IS NOT NULL', 'false', 'false', 'false', 'false'])
   erb :repos
 end
 
-get "/changes" do
+get "/popular" do 
+  data = open("https://s3.amazonaws.com/ofxaddons/popular.html")
+  response.write(data.read)
+end
+
+get "/changes" do 
   data = open("https://s3.amazonaws.com/ofxaddons/changes.html")
   response.write(data.read)
 end
 
-get "/changes/render" do
+get "/popular/render" do  
+  @current = "popular"
+  @categorized = Repo.all(:not_addon => false, :incomplete => false, :is_fork => false, :deleted => false, :category.not => nil, :order => :name.asc)
+  erb :popular
+end
+
+get "/category/:category_id" do  
+#get "/category/render/:category_id" do  
+
+  @cat = params[:category_id]
+  @repos = Repo.all(:not_addon => false, :incomplete => false, :is_fork => false, :deleted => false, :category => params[:category_id], :order => :name.asc)
+  erb :category
+end
+
+get "/changes/render" do  
+
   @current = "changes"
   @most_recent = Repo.all(:not_addon => false, :is_fork => false, :deleted => false, :category.not => nil, :order => [:last_pushed_at.desc])
   erb :changes
