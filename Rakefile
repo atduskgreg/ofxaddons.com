@@ -9,7 +9,13 @@ task :cron do
     before = Repo.count(:not_addon => false, :is_fork => false, :category => nil, :deleted => false)
 
     Repo.set_all_updated_false
-    Importer.import_from_search("ofx")
+
+    # search github in smaller chunks to avoid 1000 max results limitation
+    alphabet = "0123456789abcdefghijklmnopqrstuvwxyz".split("")  
+    alphabet.each do |letter|
+      Importer.import_from_search("ofx" + letter)
+    end
+
     # Importer.update_issues_for_all_repos
     # Importer.update_source_for_uncategorized_repos
     # Importer.update_forks
