@@ -3,6 +3,7 @@ credentials.yml
 *.dat
 .DS_Store
 .rvmrc
+.env
 heroku
 
 /config.rb
