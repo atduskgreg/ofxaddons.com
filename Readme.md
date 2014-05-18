@@ -27,11 +27,11 @@ The central place to discover openFrameworks addons.
 
 1. Set up the database.
 
-    **NOTE**: At the moment there's not a current copy of the database schema in the repository, so it would be tough to start from scratch.
-
-  **WARNING**: the database `ofxaddons` must not exist locally before you do this!
+  **NOTE**: At the moment there's not a current copy of the database schema in the repository, so it would be tough to start from scratch.
 
   Copy the production database to your local machine:
+
+  **WARNING**: the database `ofxaddons` must not exist locally before you do this!
 
     `$ heroku login`
 
@@ -46,7 +46,7 @@ The central place to discover openFrameworks addons.
 ### Crawling
 
 ####API Keys
-If you want to avoid rate limiting (hint: you _do_) with the Github API then you need to [register a new application](https://github.com/settings/applications/new) and get some API keys.
+If you want to avoid rate limiting with the Github API (hint: you _do_) then you need to [register a new application](https://github.com/settings/applications/new) and get some API keys.
 
 There are several ways to set up your environment, but here's one way using Foreman.
 
