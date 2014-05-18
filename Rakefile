@@ -5,14 +5,15 @@ desc "This task is called by the Heroku cron add-on"
 task :cron do
   begin
 
-  before = Repo.count(:not_addon => false, :is_fork => false, :category => nil, :deleted => false)
-  
-  Importer.do_search("ofx")
-#  Importer.update_issues_for_all_repos
-  Importer.update_source_for_uncategorized_repos
-  Importer.update_forks
-  #Importer.purge_deleted_repos #pend: this needs to be fixed
 
+    before = Repo.count(:not_addon => false, :is_fork => false, :category => nil, :deleted => false)
+
+    Repo.set_all_updated_false
+    Importer.import_from_search("ofx")
+    # Importer.update_issues_for_all_repos
+    # Importer.update_source_for_uncategorized_repos
+    # Importer.update_forks
+    # Importer.purge_deleted_repos
 
     num_new = Repo.count(:not_addon => false, :is_fork => false, :category => nil, :deleted => false) - before
     puts num_new
@@ -29,9 +30,11 @@ end
 
 desc "update un-categorized"
 task :update_repos do
-	Importer.update_source_for_uncategorized_repos
-	Importer.update_forks
-	#Importer.purge_deleted_repos #pend: this needs to be fixed
+
+# Importer.update_source_for_uncategorized_repos
+Importer.update_forks
+#needs fix
+#	Importer.purge_deleted_repos
 
 end
 
