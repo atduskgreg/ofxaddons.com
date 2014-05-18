@@ -45,14 +45,18 @@ The central place to discover openFrameworks addons.
 
 ### Crawling
 
-####API Keys
-If you want to avoid rate limiting with the Github API (hint: you _do_) then you need to [register a new application](https://github.com/settings/applications/new) and get some API keys.
+#### API Keys
+If you want to avoid rate limiting (hint: you _do_) with the Github API then you need to [register a new application](https://github.com/settings/applications/new) and get some API keys.
 
-There are several ways to set up your environment, but here's one way using Foreman.
+API keys are strictly optional. If you don't use them, the app will run fine, but you'll be subject to rate limiting. After you make a few thousand requests Github will start rejecting your requests.
+
+Once you've got your API keys, there are several ways to set up your environment, but here's one way using Foreman.
 
 1. Create a `.env` file in the repository root
 
     `$ touch .env`
+
+   WARNING: Never check in the `.env` file. It will screw up the production environment.
 
 1. Add your API key and secret to the file:
 
@@ -60,8 +64,6 @@ There are several ways to set up your environment, but here's one way using Fore
     GITHUB_CLIENT_SECRET=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 1. Restart Foreman
-
-**WARNING**: Never check in the `.env` file. It will screw up the production environment.
 
 Further reading on [using foreman for config vars](https://devcenter.heroku.com/articles/config-vars#using-foreman).
 
