@@ -175,6 +175,7 @@ class Repo
     }
   end
 
+  # TODO: move this to the importer, or a service object
   def get_most_recent_commit
     raise "need an owner and a name for this repository to fetch its commits" unless self.name && self.owner
 
@@ -199,6 +200,7 @@ class Repo
     end
   end
 
+  # TODO: move this to the importer, or a service object
   def check_features
     begin
       response = GithubApi::repository_contents(self.owner, self.name)
@@ -265,6 +267,7 @@ class Repo
     relevant_labels
   end
 
+  # TODO: move this to the importer, or a service object
   # TODO: fixme, need to be updated to work with Github API V3
   # def get_issues
   #   result = HTTParty.get("https://api.github.com/repos/#{github_slug}/issues?#$auth_params")
@@ -290,6 +293,7 @@ class Repo
     !self.source.nil?
   end
 
+  # TODO: move this to the importer, or a service object
   # TODO: fixme, need to be updated to work with Github API V3
   # def update_ancestry
   #   if is_fork?
@@ -325,6 +329,7 @@ class Repo
     end
   end
 
+  # TODO: move this to the importer, or a service object
   # TODO: fixme, need to be updated to work with Github API V3
   # gets the url to the raw readme file on github
   # def scrape_github_readme_url
@@ -360,6 +365,7 @@ class Repo
     return http_get_utf8(github_readme_url)
   end
 
+  # TODO: move this to the importer, or a service object
   # renders the readme using the proper markup engine
   def render_readme
     # from time to time we get an empty readme
