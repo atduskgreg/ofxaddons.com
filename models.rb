@@ -8,10 +8,11 @@ Bundler.require(:default)
 # require 'dm-types'
 # require 'dm-validations'
 # require 'dm-zone-types'
-# require 'github/markup'
-# require 'httparty'
-# require 'nokogiri'
-require './github_api'
+
+# require 'github/markup'   # TODO: remove this dependency from the models, this should be in some kind of service object
+# require 'httparty'        # TODO: remove this dependency from the models, this should be in some kind of service object
+# require 'nokogiri'        # TODO: remove this dependency from the models, this should be in some kind of service object
+require './github_api'      # TODO: remove this dependency from the models, this should be in some kind of service object
 
 #DataMapper::Logger.new(STDOUT, :debug)
 DataMapper.setup(:default, ENV['DATABASE_URL'] || 'postgres://localhost/ofxaddons')
