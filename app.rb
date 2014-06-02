@@ -2,6 +2,7 @@ require 'rubygems'
 require 'bundler/setup'
 require 'sinatra'
 require "sinatra/config_file"
+require 'newrelic_rpm'
 require './models'
 require 'yaml'
 require 'aws/s3'
