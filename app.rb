@@ -4,7 +4,6 @@ require 'sinatra'
 require "sinatra/config_file"
 require './models'
 require 'yaml'
-require 'backports' # TODO: remove this when we move to ruby 2.0.0
 require 'aws/s3'
 
 # github auth stuff moved into github_api.rb
