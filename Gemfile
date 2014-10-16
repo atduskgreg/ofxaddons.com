@@ -17,7 +17,6 @@ gem 'dm-migrations'                             # database migrations
 gem 'dm-postgres-adapter'                       # postgres connection adapter
 gem 'dm-types'                                  # extended database types (noteably JSON)
 gem 'dm-validations'                            # gives us usefull errors for datamapper pukes
-gem 'dm-zone-types'                             # timezone support for the db
 gem 'i18n'                                      # used by activesupport, which is installed by dm-zone-types
 
 # development, importer
@@ -36,3 +35,5 @@ gem 'rdoc', '3.6.1'                             # renders rdoc for readme files
 gem 'redcarpet'                                 # renders markdown for readme files
 gem 'RedCloth'                                  # renders textile for readme files
 gem 'wikicloth'                                 # renders wiki markup for readme files
+
+gem 'byebug'

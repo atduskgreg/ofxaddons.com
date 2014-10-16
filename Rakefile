@@ -25,10 +25,11 @@ task :cron do
 
     num_new = Repo.count(:not_addon => false, :is_fork => false, :category => nil, :deleted => false) - before
     puts num_new
-    Importer.send_report("Cron job ran successfully. #{num_new} addons were created.\nlog in here to categorize them: http://ofxaddons.com/admin")
+    #Importer.send_report("Cron job ran successfully. #{num_new} addons were created.\nlog in here to categorize them: http://ofxaddons.com/admin")
   rescue Exception => e
     puts e
-    Importer.send_report("Something went horribly wrong with the cron job:\n#{e}.")
+    puts e.backtrace.join("\n")
+    #Importer.send_report("Something went horribly wrong with the cron job:\n#{e}.\n\n#{e.backtrace.join("\n")}")
   end
 
   #update cache

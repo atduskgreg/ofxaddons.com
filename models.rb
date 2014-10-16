@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'bundler/setup'
 Bundler.require(:default)
+require 'time'
 # require 'colorize'
 # require 'dm-aggregates'
 # require 'dm-core'
@@ -60,7 +61,7 @@ class Repo
   property :example_count,                Integer,   :default => 0
   property :followers,                    Integer,   :default => 0
   property :forks,                        Json
-  property :github_created_at,            ZonedTime
+  property :github_created_at,            DateTime
   property :github_pushed_at,             Text
   property :github_slug,                  Text                          # to uniquely specify a repo
   property :has_correct_folder_structure, Boolean,   :default => false
@@ -71,7 +72,7 @@ class Repo
   property :incomplete,                   Boolean,   :default => false  # not a fully baked addon yet
   property :is_fork,                      Boolean,   :default => false
   property :issues,                       Json
-  property :last_pushed_at,               ZonedTime, :required => true
+  property :last_pushed_at,               DateTime, :required => true
   property :most_recent_commit,           Json
   property :name,                         Text
   property :not_addon,                    Boolean,   :default => false  # not OF-related at all
@@ -107,12 +108,12 @@ class Repo
     self.deleted 		 	= false
     self.description        = json['description']
     self.followers          = json['watchers_count']
-    self.github_created_at  = Time.parse(json['created_at']) if json['created_at']
+    self.github_created_at  = DateTime.parse(json['created_at']) unless json['created_at'].blank?
     self.github_pushed_at	= json['pushed_at']
     self.github_slug        = json['full_name']
     self.has_forks          = json['forks_count'] > 0
     self.is_fork            = json['fork']
-    self.last_pushed_at     = Time.parse(json['pushed_at']) if json['pushed_at']
+    self.last_pushed_at     = DateTime.parse(json['pushed_at']) unless json['pushed_at'].blank?
     self.name               = json['name']
     self.owner              = json['owner']['login']
     self.owner_avatar       = json['owner']['avatar_url']
@@ -125,11 +126,17 @@ class Repo
     # flag this repository as updated
     self.updated            = true
 
-    if self.save
-      return true
-    else
-      self.errors.each {|e| puts e.inspect }
-      return false
+    begin
+      if self.save
+        return true
+      else
+        self.errors.each {|e| puts e.inspect }
+        return false
+      end
+    rescue => e
+      puts self.inspect
+      puts
+      raise e
     end
   end
 
