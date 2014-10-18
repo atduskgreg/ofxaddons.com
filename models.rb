@@ -2,17 +2,6 @@ require 'rubygems'
 require 'bundler/setup'
 Bundler.require(:default)
 require 'time'
-# require 'colorize'
-# require 'dm-aggregates'
-# require 'dm-core'
-# require 'dm-migrations'
-# require 'dm-types'
-# require 'dm-validations'
-# require 'dm-zone-types'
-
-# require 'github/markup'   # TODO: remove this dependency from the models, this should be in some kind of service object
-# require 'httparty'        # TODO: remove this dependency from the models, this should be in some kind of service object
-# require 'nokogiri'        # TODO: remove this dependency from the models, this should be in some kind of service object
 require './github_api'      # TODO: remove this dependency from the models, this should be in some kind of service object
 
 #DataMapper::Logger.new(STDOUT, :debug)
@@ -286,9 +275,9 @@ class Repo
   # end
 
   def get_last_update_of_release
-    last = settings.ofreleases[0]['version']
-    settings.ofreleases.each do |r|
-      if(r['date'] > self.last_pushed_at)
+    last = OfxAddons.settings.ofreleases[0]['version']
+    OfxAddons.settings.ofreleases.each do |r|
+      if(r['date'].to_datetime > self.last_pushed_at)
         return last
       end
       last = r['version']
