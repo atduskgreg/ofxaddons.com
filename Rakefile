@@ -38,7 +38,7 @@ end
 
 desc "update static cache"
 task :bake_html do
-  ofxAddons.bake_html
+  OfxAddons.bake_html
 end
 
 desc "update un-categorized"
