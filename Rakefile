@@ -32,9 +32,13 @@ task :cron do
     #Importer.send_report("Something went horribly wrong with the cron job:\n#{e}.\n\n#{e.backtrace.join("\n")}")
   end
 
-  #update cache
-  bake_html
+  Rake::Task["bake_html"].invoke
 
+end
+
+desc "update static cache"
+task :bake_html do
+  ofxAddons.bake_html
 end
 
 desc "update un-categorized"
