@@ -41,7 +41,7 @@ class OfxAddons < Sinatra::Base
     @categories = Category.all(:order => :name.asc)
   end
 
-  def bake_html
+  def self.bake_html
     #  File.open('tmp/index.html', 'w') do |f|
     #   request = Rack::MockRequest.new(Sinatra::Application)
     #   f.write request.get('/render').body
