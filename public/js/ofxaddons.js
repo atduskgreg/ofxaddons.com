@@ -1,14 +1,16 @@
-
-
-
 var includedCategories = [];
 var includedPlatforms = [];
 var requiresMakefile, requiresExample, requiredVersion, requiredStars=0;
 var sortBy = "star-sort";
 
+$(document).ready(function() {
+    $("img.lazy").lazy();
+});
+
 $(window).load(function () {
+
 	$('.toggle').click(function(e) {
-    $(this).toggleClass('selected');
+	    $(this).toggleClass('selected');
 	});
 
 	// STARS
@@ -166,7 +168,7 @@ function filter(){
 				n++;
 			}
 			else{
-				$(e).fadeOut();	
+				$(e).fadeOut();
 			}
 			//console.log( "class is " + $(e).class() );
 			$('#body').append($(e));
@@ -214,7 +216,7 @@ function shown(e){
 			//console.log("no included category " + e.attr('class') );
 			return false;
 		}
-	}	
+	}
 	/*
 	//TODO
 		// check plats
@@ -232,8 +234,8 @@ function shown(e){
 
 	if(requiresMakefile && e.hasClass('m_false')){
 		//console.log("no make file! " + e.attr('class') );
-		return false;  
-	} 
+		return false;
+	}
 
 	if(requiresExample && e.hasClass('e_false')) {
 		//console.log("no example! " + e.attr('class') );
@@ -242,21 +244,19 @@ function shown(e){
 
 	var re = /.*s_([0-9]*).*/g;
 	var stars = parseInt(re.exec(e.attr('class'))[1], 10);
-	
+
 	if(stars < requiredStars){
 		//console.log("not popular enough =( " + e.attr('class') );
 		return false;
-	} 
+	}
 
 	re = /.*of_([0-9]\.[0-9]\.[0-9]).*/g;
 	var version = parseInt( re.exec(e.attr('class'))[1].split(".").join(""), 10 );
 	if(version < requiredVersion){
-		//console.log("toooo oooolldd " + e.attr('class') );		
+		//console.log("toooo oooolldd " + e.attr('class') );
 		return false;
-	} 
+	}
 
 	//console.log("passed " + e.attr('class') );
 	return true;//!
 }
-
-
