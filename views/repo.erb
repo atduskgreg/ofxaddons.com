@@ -13,7 +13,9 @@
     <p class="name github"><a href="<%= @repo.github_url %>"><%= @repo.name %></a></p>
   </div>
 <% else %>
+  <div class="bg">
     <p class="name github"><a href="<%= @repo.github_url %>"><%= @repo.name %></a></p>
+  </div>
 <% end %>
 
   <% if !@repo.warning_labels.blank? %>
