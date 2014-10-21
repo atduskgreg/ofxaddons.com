@@ -55,11 +55,13 @@ class GithubApi
         next_page = nil
 
         # look at the link headers and find the next page of the collection
-        response.headers["link"].split(",").each do |link|
-          next unless link.index("rel=\"next\"")
-          /page=([0-9]+)/ =~ link
-          next_page = $1.to_i
-          break
+        if response.headers && response.headers["link"]
+          response.headers["link"].split(",").each do |link|
+            next unless link.index("rel=\"next\"")
+            /page=([0-9]+)/ =~ link
+            next_page = $1.to_i
+            break
+          end
         end
       end while(next_page)
     end

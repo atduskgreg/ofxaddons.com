@@ -1,3 +1,4 @@
+require './environment'
 require './importer'
 require './app.rb'
 
@@ -10,6 +11,13 @@ task :cron do
 
     Repo.set_all_updated_false
     Importer.import_from_search("ofx")
+
+    # search github in smaller chunks to avoid 1000 max results limitation
+    alphabet = "0123456789abcdefghijklmnopqrstuvwxyz".split("")
+    alphabet.each do |letter|
+      Importer.import_from_search("ofx" + letter)
+    end
+
     # Importer.update_issues_for_all_repos
     # Importer.update_source_for_uncategorized_repos
     # Importer.update_forks
@@ -17,15 +25,20 @@ task :cron do
 
     num_new = Repo.count(:not_addon => false, :is_fork => false, :category => nil, :deleted => false) - before
     puts num_new
-    Importer.send_report("Cron job ran successfully. #{num_new} addons were created.\nlog in here to categorize them: http://ofxaddons.com/admin")
+    #Importer.send_report("Cron job ran successfully. #{num_new} addons were created.\nlog in here to categorize them: http://ofxaddons.com/admin")
   rescue Exception => e
     puts e
-    Importer.send_report("Something went horribly wrong with the cron job:\n#{e}.")
+    puts e.backtrace.join("\n")
+    #Importer.send_report("Something went horribly wrong with the cron job:\n#{e}.\n\n#{e.backtrace.join("\n")}")
   end
 
-  #update cache
-  bake_html
+  Rake::Task["bake_html"].invoke
 
+end
+
+desc "update static cache"
+task :bake_html do
+  OfxAddons.bake_html
 end
 
 desc "update un-categorized"
