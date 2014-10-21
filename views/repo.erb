@@ -40,7 +40,7 @@
   <p class="author">
 
     <a class="github" href="<%= @repo.github_url%>">created</a> by <a href="/users/<%= @repo.owner %>"><% if !@repo.owner_avatar.blank?  %>
-      <img class="userIcon" src="<%= @repo.owner_avatar %>" />
+      <img class="userIcon" src="<%= @repo.owner_avatar %>&amp;s=16" />
     <% else %>
       <img class="userIcon" src="/images/default-gravatar.png">
     <% end %><%= @repo.owner %></a> <br/>updated <abbr class="timeago" title="<%= @repo.last_pushed_at.strftime('%Y-%m-%dT%H:%M:%S%z') %>"><%= @repo.last_pushed_at.strftime("%m/%e/%y") %></abbr> (~<%= @repo.get_last_update_of_release %>)
@@ -54,7 +54,7 @@
     <p>
 
       <a class="github" href="<%= fork.github_url%>">fork</a> by <a href="/users/<%= fork.owner %>"><% if !fork.owner_avatar.blank?  %>
-        <img class="userIcon" src="<%= fork.owner_avatar %>" />
+        <img class="userIcon" src="<%= fork.owner_avatar %>&amp;s=16" />
       <% else %>
         <img class="userIcon" src="/images/default-gravatar.png">
       <% end %>
