@@ -1,17 +1,7 @@
 require 'rubygems'
 require 'bundler/setup'
 Bundler.require(:default)
-# require 'colorize'
-# require 'dm-aggregates'
-# require 'dm-core'
-# require 'dm-migrations'
-# require 'dm-types'
-# require 'dm-validations'
-# require 'dm-zone-types'
-
-# require 'github/markup'   # TODO: remove this dependency from the models, this should be in some kind of service object
-# require 'httparty'        # TODO: remove this dependency from the models, this should be in some kind of service object
-# require 'nokogiri'        # TODO: remove this dependency from the models, this should be in some kind of service object
+require 'time'
 require './github_api'      # TODO: remove this dependency from the models, this should be in some kind of service object
 
 #DataMapper::Logger.new(STDOUT, :debug)
@@ -60,7 +50,7 @@ class Repo
   property :example_count,                Integer,   :default => 0
   property :followers,                    Integer,   :default => 0
   property :forks,                        Json
-  property :github_created_at,            ZonedTime
+  property :github_created_at,            DateTime
   property :github_pushed_at,             Text
   property :github_slug,                  Text                          # to uniquely specify a repo
   property :has_correct_folder_structure, Boolean,   :default => false
@@ -71,7 +61,7 @@ class Repo
   property :incomplete,                   Boolean,   :default => false  # not a fully baked addon yet
   property :is_fork,                      Boolean,   :default => false
   property :issues,                       Json
-  property :last_pushed_at,               ZonedTime, :required => true
+  property :last_pushed_at,               DateTime, :required => true
   property :most_recent_commit,           Json
   property :name,                         Text
   property :not_addon,                    Boolean,   :default => false  # not OF-related at all
@@ -107,12 +97,12 @@ class Repo
     self.deleted 		 	= false
     self.description        = json['description']
     self.followers          = json['watchers_count']
-    self.github_created_at  = Time.parse(json['created_at']) if json['created_at']
+    self.github_created_at  = DateTime.parse(json['created_at']) unless json['created_at'].blank?
     self.github_pushed_at	= json['pushed_at']
     self.github_slug        = json['full_name']
     self.has_forks          = json['forks_count'] > 0
     self.is_fork            = json['fork']
-    self.last_pushed_at     = Time.parse(json['pushed_at']) if json['pushed_at']
+    self.last_pushed_at     = DateTime.parse(json['pushed_at']) unless json['pushed_at'].blank?
     self.name               = json['name']
     self.owner              = json['owner']['login']
     self.owner_avatar       = json['owner']['avatar_url']
@@ -125,11 +115,17 @@ class Repo
     # flag this repository as updated
     self.updated            = true
 
-    if self.save
-      return true
-    else
-      self.errors.each {|e| puts e.inspect }
-      return false
+    begin
+      if self.save
+        return true
+      else
+        self.errors.each {|e| puts e.inspect }
+        return false
+      end
+    rescue => e
+      puts self.inspect
+      puts
+      raise e
     end
   end
 
@@ -175,6 +171,7 @@ class Repo
     }
   end
 
+  # TODO: move this to the importer, or a service object
   def get_most_recent_commit
     raise "need an owner and a name for this repository to fetch its commits" unless self.name && self.owner
 
@@ -199,6 +196,7 @@ class Repo
     end
   end
 
+  # TODO: move this to the importer, or a service object
   def check_features
     begin
       response = GithubApi::repository_contents(self.owner, self.name)
@@ -265,6 +263,7 @@ class Repo
     relevant_labels
   end
 
+  # TODO: move this to the importer, or a service object
   # TODO: fixme, need to be updated to work with Github API V3
   # def get_issues
   #   result = HTTParty.get("https://api.github.com/repos/#{github_slug}/issues?#$auth_params")
@@ -276,9 +275,9 @@ class Repo
   # end
 
   def get_last_update_of_release
-    last = settings.ofreleases[0]['version']
-    settings.ofreleases.each do |r|
-      if(r['date'] > self.last_pushed_at)
+    last = OfxAddons.settings.ofreleases[0]['version']
+    OfxAddons.settings.ofreleases.each do |r|
+      if(r['date'].to_datetime > self.last_pushed_at)
         return last
       end
       last = r['version']
@@ -290,6 +289,7 @@ class Repo
     !self.source.nil?
   end
 
+  # TODO: move this to the importer, or a service object
   # TODO: fixme, need to be updated to work with Github API V3
   # def update_ancestry
   #   if is_fork?
@@ -325,6 +325,7 @@ class Repo
     end
   end
 
+  # TODO: move this to the importer, or a service object
   # TODO: fixme, need to be updated to work with Github API V3
   # gets the url to the raw readme file on github
   # def scrape_github_readme_url
@@ -360,6 +361,7 @@ class Repo
     return http_get_utf8(github_readme_url)
   end
 
+  # TODO: move this to the importer, or a service object
   # renders the readme using the proper markup engine
   def render_readme
     # from time to time we get an empty readme
