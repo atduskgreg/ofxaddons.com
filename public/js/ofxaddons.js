@@ -6,9 +6,15 @@ var includedPlatforms = [];
 var requiresMakefile, requiresExample, requiredVersion, requiredStars=0;
 var sortBy = "star-sort";
 
+$(document).ready(function() {
+    $("img.lazy").lazy();
+});
+
+
 $(window).load(function () {
+
 	$('.toggle').click(function(e) {
-    $(this).toggleClass('selected');
+	    $(this).toggleClass('selected');
 	});
 
 	// STARS

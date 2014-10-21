@@ -161,6 +161,7 @@ h2 a:hover {
 .repo .bg {
   height:70px;
   position: relative;
+  overflow: hidden;
 }
 
 .description{

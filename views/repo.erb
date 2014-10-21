@@ -8,7 +8,8 @@
 <div id="<%= @repo.name %>" class="c_<%= @repo.category_id %> of_<%= @repo.get_last_update_of_release %> s_<%= @repo.followers.nil? ? 0 : @repo.followers %> m_<%= !@repo.has_makefile.nil? %> e_<%= @repo.example_count.nil? || @repo.example_count != 0 %> repo span-7 append-1 <% if (@index).divmod(3)[1] == 0 %> first<% end %> <% if (@index+1).divmod(3)[1] == 0 %> last<% end %>" >
 
 <% if @repo.has_thumbnail != nil %>
-  <div class="bg" style="background: url(https://raw.github.com/<%= @repo.github_slug %>/master/ofxaddons_thumbnail.png) center center;">
+  <div class="bg">
+    <img class="lazy" data-src="https://raw.github.com/<%= @repo.github_slug %>/master/ofxaddons_thumbnail.png" width="270">
     <p class="name github"><a href="<%= @repo.github_url %>"><%= @repo.name %></a></p>
   </div>
 <% else %>
@@ -40,7 +41,7 @@
   <p class="author">
 
     <a class="github" href="<%= @repo.github_url%>">created</a> by <a href="/users/<%= @repo.owner %>"><% if !@repo.owner_avatar.blank?  %>
-      <img class="userIcon" src="<%= @repo.owner_avatar %>&amp;s=16" />
+      <img class="userIcon lazy" data-src="<%= @repo.owner_avatar %>&amp;s=16" width="16" />
     <% else %>
       <img class="userIcon" src="/images/default-gravatar.png">
     <% end %><%= @repo.owner %></a> <br/>updated <abbr class="timeago" title="<%= @repo.last_pushed_at.strftime('%Y-%m-%dT%H:%M:%S%z') %>"><%= @repo.last_pushed_at.strftime("%m/%e/%y") %></abbr> (~<%= @repo.get_last_update_of_release %>)
@@ -54,9 +55,9 @@
     <p>
 
       <a class="github" href="<%= fork.github_url%>">fork</a> by <a href="/users/<%= fork.owner %>"><% if !fork.owner_avatar.blank?  %>
-        <img class="userIcon" src="<%= fork.owner_avatar %>&amp;s=16" />
+	<img class="userIcon" data-src="<%= fork.owner_avatar %>&amp;s=16" />
       <% else %>
-        <img class="userIcon" src="/images/default-gravatar.png">
+	<img class="userIcon" src="/images/default-gravatar.png">
       <% end %>
       <%= fork.owner %></a> <br/>updated <abbr class="timeago" title="<%= fork.last_pushed_at.strftime('%Y-%m-%dT%H:%M:%S%z') %>"><%= fork.last_pushed_at.strftime("%m/%e/%y") %></abbr> (~<%= fork.get_last_update_of_release %>)
     <% if fork.followers != 0 && !fork.followers.blank? %>
