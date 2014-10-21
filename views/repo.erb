@@ -55,7 +55,7 @@
     <p>
 
       <a class="github" href="<%= fork.github_url%>">fork</a> by <a href="/users/<%= fork.owner %>"><% if !fork.owner_avatar.blank?  %>
-	<img class="userIcon" data-src="<%= fork.owner_avatar %>&amp;s=16" />
+	<img class="userIcon lazy" data-src="<%= fork.owner_avatar %>&amp;s=16" />
       <% else %>
 	<img class="userIcon" src="/images/default-gravatar.png">
       <% end %>
