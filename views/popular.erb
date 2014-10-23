@@ -1,8 +1,0 @@
-<div id="body" class="span-26 last" >
-  <% index = 0; for repo in @categorized.sort_by{|r| -r.followers.to_i }  %>
-    <% if index < 30 %>
-      <%= @repo = repo; @index = index; erb :repo %>
-      <% index = index + 1 %>
-    <% end %>
-  <% end %>
-</div>

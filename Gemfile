@@ -1,39 +1,27 @@
-source "http://rubygems.org"
+source 'https://rubygems.org'
+ruby "2.1.3"
 
-ruby "2.0.0"
-# TODO: make some bundler groups so we don't require everything in every process
+gem "rails", "4.1.6"
+gem "passenger"                                 # web server
+gem "pg"                                        # database driver
+gem "sorcery"                                   # authentication
 
-# web app
-gem 'sinatra'                                   # web application framework
-gem 'sinatra-contrib'	                        # used for YAML config files http://www.sinatrarb.com/contrib/config_file.html
-gem 'unicorn'                                   # web server
-gem 'newrelic_rpm'
+group :bin do
+  gem "httparty"                                # http connection library
+  gem "nokogiri"                                # used for scraping readme files
+end
 
-# web app, importer
-gem 'aws-s3'                                    # Amazon S3 client
-gem 'dm-aggregates'                             # count/min/max/avg/sum functions for db collections
-gem 'dm-core'                                   # ORM library
-gem 'dm-migrations'                             # database migrations
-gem 'dm-postgres-adapter'                       # postgres connection adapter
-gem 'dm-types'                                  # extended database types (noteably JSON)
-gem 'dm-validations'                            # gives us usefull errors for datamapper pukes
-gem 'i18n'                                      # used by activesupport, which is installed by dm-zone-types
-
-# development, importer
-gem 'awesome_print'                             # pretty print ruby objects
-gem 'colorize'                                  # colorized console output
-gem 'dotenv'                                    # loads environment from .env file in development mode
-
-# importer
-gem 'creole'                                    # renders creole for readme files
-gem 'github-markup', require: 'github/markup'   # renders readme files to HTML
-gem 'httparty'                                  # http connection library
-gem 'nokogiri'                                  # used for scraping readme files
-gem 'pony'                                      # SMTP client
-gem 'rake'                                      # Make-like program
-gem 'rdoc', '3.6.1'                             # renders rdoc for readme files
-gem 'redcarpet'                                 # renders markdown for readme files
-gem 'RedCloth'                                  # renders textile for readme files
-gem 'wikicloth'                                 # renders wiki markup for readme files
-
-gem 'byebug'
+group :development do
+  gem "autoprefixer-rails"
+  gem "awesome_print"                           # pretty print ruby objects
+  gem "bootstrap-sass"
+  gem "byebug"                                  # debugger
+  gem "coffee-rails", "~> 4.0.0"                # coffeescript asset pipeline integration
+  gem "colorize"                                # colorized console output
+  gem "dotenv"                                  # loads environment from .env file in development mode
+  gem "foreman"                                 # Procfile-based app manager
+  gem "jquery-rails"                            # jQuery integration for rails
+  gem "sass-rails", "~> 4.0.3"                  # SASS support for rails
+  gem "spring"                                  # rails preloader
+  gem "uglifier", ">= 1.3.0"                    # javascript compressor
+end

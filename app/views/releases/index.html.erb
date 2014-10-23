@@ -1,0 +1,27 @@
+<h1>Listing releases</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Version</th>
+      <th>Released at</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @releases.each do |release| %>
+      <tr>
+        <td><%= release.version %></td>
+        <td><%= release.released_at %></td>
+        <td><%= link_to 'Show', release %></td>
+        <td><%= link_to 'Edit', edit_release_path(release) %></td>
+        <td><%= link_to 'Destroy', release, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Release', new_release_path %>
