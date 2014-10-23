@@ -16,7 +16,6 @@ class ReposController < ApplicationController
 
   # GET /repos/1
   def show
-    @repo = Repo.includes(:categories, :estimated_release => :release)
   end
 
   # GET /repos/1/edit
@@ -52,7 +51,7 @@ class ReposController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_repo
-      @repo = Repo.find(params[:id])
+      @repo = Repo.includes(:categories, :estimated_release => :release).find(params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.

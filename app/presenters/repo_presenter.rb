@@ -10,7 +10,17 @@ class RepoPresenter < Presenter
   end
 
   def estimated_release
-    object.estimated_release.release.version
+    begin
+      object.estimated_release.release.version
+    rescue => e
+      Rails.logger.debug object.inspect
+      Rails.logger.debug
+      Rails.logger.debug object.estimated_release.inspect
+      Rails.logger.debug
+      Rails.logger.debug object.estimated_release.release.inspect
+      Rails.logger.debug
+      raise e
+    end
   end
 
   def example_count
