@@ -96,6 +96,32 @@ class OfxAddons < Sinatra::Base
     {"repos" => repos.collect{|r| r.to_json_hash}}.to_json
   end
 
+  get "/api/v2/addons" do 
+    content_type :json
+    repos = Repo.all(:not_addon => false, :is_fork => false, :category.not => nil, :deleted => false, :order => :name.asc)
+    repos.collect{|r| r.to_json_hash}.to_json
+  end
+
+  get "/api/v2/addon/:addonName/full" do 
+    content_type :json
+    repos = Repo.all(:conditions => ["lower(name) = ?", params[:addonName].downcase], :not_addon => false, :is_fork => false, :category.not => nil, :deleted => false)
+    repos.to_json
+  end
+
+  get "/api/v2/addon/:ownerName/:addonName" do 
+    content_type :json
+    repos = Repo.all(:conditions => ["lower(name) = ? AND lower(owner) = ?", params[:addonName].downcase, params[:ownerName].downcase],  :not_addon => false, :category.not => nil, :deleted => false)
+    repos.collect{|r| r.to_json_hash}.first.to_json
+  end
+
+  get "/api/v2/addon/:addonName" do 
+    content_type :json
+    repos = Repo.all(:conditions => ["lower(name) = ?", params[:addonName].downcase], :not_addon => false, :is_fork => false, :category.not => nil, :deleted => false)
+    repos.collect{|r| r.to_json_hash}.first.to_json
+  end
+
+ 
+
   get "/" do
 
     data = open("https://s3.amazonaws.com/ofxaddons/index.html")

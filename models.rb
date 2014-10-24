@@ -168,6 +168,22 @@ class Repo
       :homepage => "https://github.com/#{github_slug}",
       :clone_url => "https://github.com/#{github_slug}.git",
       :warning_labels => warning_labels
+
+  def to_json_hash_v2
+    {
+      :name => name,
+      :owner => owner,
+      :description =>  description,
+      :github_created_at => github_created_at,
+      :category => category.name,
+      :homepage => "https://github.com/#{github_slug}",
+      :clone_url => "https://github.com/#{github_slug}.git",
+      :warning_labels => warning_labels,
+      :latest_commit => { 
+        :sha => (most_recent_commit.nil?) ? "" :  most_recent_commit['sha'], 
+        :date => last_pushed_at, 
+        :message => (most_recent_commit.nil?) ? "" : most_recent_commit['commit']['message'] 
+      }
     }
   end
 
