@@ -168,7 +168,9 @@ class Repo
       :homepage => "https://github.com/#{github_slug}",
       :clone_url => "https://github.com/#{github_slug}.git",
       :warning_labels => warning_labels
-
+    }
+  end
+  
   def to_json_hash_v2
     {
       :name => name,
