@@ -96,29 +96,69 @@ class OfxAddons < Sinatra::Base
     {"repos" => repos.collect{|r| r.to_json_hash}}.to_json
   end
 
-  get "/api/v2/addons" do 
+  # General purpose search (all params optional)
+  # /api/v1/search?repo=xxx&username=xxx&category=xxx  
+  get "/api/v1/search/?:repo_name?/?:username?/?:category?" do
+    content_type :json
+
+    search = {
+      :not_addon => false, :category.not => nil, :deleted => false,
+    }
+
+    if params[:repo_name] && params[:username]
+      search[:conditions] = ["lower(name) = ? AND lower(owner) = ?", params[:repo_name].downcase, params[:username].downcase]
+    elsif params[:repo_name]
+      search[:conditions] = ["lower(name) = ?", params[:repo_name].downcase]
+    elsif params[:username]
+      search[:conditions] = ["lower(owner) = ?", params[:username].downcase]
+    end 
+
+    if params[:category]
+      search[:category] = {:name => params[:category]}
+    end
+
+    repos = Repo.all(search)
+    repos.collect{|r| r.to_json_hash_v2}.to_json
+  end
+
+  # Get info about a user
+  get "/api/v1/users/:username" do 
+    content_type :json
+    contributor = Contributor.all(:conditions => ["lower(login) = ?", params[:username].downcase])
+    contributor.collect{|c| c.to_json_hash}.first.to_json
+  end
+  # Get a user's repositories
+  get "/api/v1/users/:username/repos" do 
+    content_type :json
+    repos = Repo.all(:conditions => ["lower(owner) = ?", params[:username].downcase ],  :not_addon => false, :category.not => nil, :deleted => false)
+    repos.collect{|r| r.to_json_hash_v2}.to_json
+  end
+
+
+  # Get a single repository from a user
+  get "/api/v1/users/:username/repos/:repo_name" do 
+    content_type :json
+    repos = Repo.all(:conditions => ["lower(name) = ? AND lower(owner) = ?", params[:repo_name].downcase, params[:username].downcase],  :not_addon => false, :category.not => nil, :deleted => false)
+    repos.collect{|r| r.to_json_hash_v2}.first.to_json
+  end
+
+  # Get all repositories
+  get "/api/v1/repos" do 
     content_type :json
     repos = Repo.all(:not_addon => false, :is_fork => false, :category.not => nil, :deleted => false, :order => :name.asc)
-    repos.collect{|r| r.to_json_hash}.to_json
+    repos.collect{|r| r.to_json_hash_v2}.to_json
   end
 
-  get "/api/v2/addon/:addonName/full" do 
+  # Get specific repositories by name
+  get "/api/v1/repos/:repo_name" do 
     content_type :json
-    repos = Repo.all(:conditions => ["lower(name) = ?", params[:addonName].downcase], :not_addon => false, :is_fork => false, :category.not => nil, :deleted => false)
-    repos.to_json
+    repos = Repo.all(:conditions => ["lower(name) = ?", params[:repo_name].downcase], :not_addon => false, :is_fork => false, :category.not => nil, :deleted => false)
+    repos.collect{|r| r.to_json_hash_v2}.to_json
   end
 
-  get "/api/v2/addon/:ownerName/:addonName" do 
-    content_type :json
-    repos = Repo.all(:conditions => ["lower(name) = ? AND lower(owner) = ?", params[:addonName].downcase, params[:ownerName].downcase],  :not_addon => false, :category.not => nil, :deleted => false)
-    repos.collect{|r| r.to_json_hash}.first.to_json
-  end
+  
 
-  get "/api/v2/addon/:addonName" do 
-    content_type :json
-    repos = Repo.all(:conditions => ["lower(name) = ?", params[:addonName].downcase], :not_addon => false, :is_fork => false, :category.not => nil, :deleted => false)
-    repos.collect{|r| r.to_json_hash}.first.to_json
-  end
+  
 
  
 

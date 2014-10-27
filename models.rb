@@ -31,6 +31,17 @@ class Contributor
   property :location,   Text
 
   has n, :repos
+
+  def to_json_hash
+    {
+      :id => id,
+      :username => login,
+      :name => name,
+      :avatar_url => avatar_url,
+      :location =>  location
+    }
+  end
+
 end
 
 class Repo
@@ -170,7 +181,7 @@ class Repo
       :warning_labels => warning_labels
     }
   end
-  
+
   def to_json_hash_v2
     {
       :name => name,
