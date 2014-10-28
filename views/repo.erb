@@ -16,7 +16,7 @@
     <p class="name github"><a href="<%= @repo.github_url %>"><%= @repo.name %></a></p>
 <% end %>
 
-  <% if !@repo.warning_labels.blank? %>
+  <% unless @repo.warning_labels.nil? || @repo.warning_labels.empty? %>
     <p class="warning-labels">
       <% for warning in @repo.warning_labels %>
       <span class="warning <%= warning %>">
@@ -40,12 +40,12 @@
 
   <p class="author">
 
-    <a class="github" href="<%= @repo.github_url%>">created</a> by <a href="/users/<%= @repo.owner %>"><% if !@repo.owner_avatar.blank?  %>
+    <a class="github" href="<%= @repo.github_url%>">created</a> by <a href="/users/<%= @repo.owner %>"><% if !!@repo.owner_avatar  %>
       <img class="userIcon lazy" data-src="<%= @repo.owner_avatar %>&amp;s=16" width="16" />
     <% else %>
       <img class="userIcon" src="/images/default-gravatar.png">
     <% end %><%= @repo.owner %></a> <br/>updated <abbr class="timeago" title="<%= @repo.last_pushed_at.strftime('%Y-%m-%dT%H:%M:%S%z') %>"><%= @repo.last_pushed_at.strftime("%m/%e/%y") %></abbr> (~<%= @repo.get_last_update_of_release %>)
-    <% if @repo.followers != 0 && !@repo.followers.blank? %>
+    <% if @repo.followers && @repo.followers > 0 %>
       <img class="starImage" src="/images/starGray.png" /> <b><%= @repo.followers %></b>
     <% end %>
   </p>
@@ -54,13 +54,13 @@
   <% for fork in @repo.fresher_forks.sort_by(&:last_pushed_at).reverse %>
     <p>
       <a class="github" href="<%= fork.github_url%>">fork</a> by <a href="/users/<%= fork.owner %>">
-      <% if !fork.owner_avatar.blank?  %>
+      <% if !!fork.owner_avatar  %>
 	  <img class="userIcon lazy" data-src="<%= fork.owner_avatar %>&amp;s=16" />
       <% else %>
 	  <img class="userIcon" src="/images/default-gravatar.png">
       <% end %>
       <%= fork.owner %></a> <br/>updated <abbr class="timeago" title="<%= fork.last_pushed_at.strftime('%Y-%m-%dT%H:%M:%S%z') %>"><%= fork.last_pushed_at.strftime("%m/%e/%y") %></abbr> (~<%= fork.get_last_update_of_release %>)
-    <% if fork.followers != 0 && !fork.followers.blank? %>
+    <% if !!fork.followers && fork.followers > 0 %>
       <img class="starImage" src="/images/starGray.png" /> <b><%= fork.followers %></b>
     <% end %>
     </p>

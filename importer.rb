@@ -1,3 +1,6 @@
+require 'rubygems'
+require 'bundler'
+Bundler.setup(:default, :importer)
 require './github_api'
 require './models'
 require 'colorize'

@@ -1,11 +1,12 @@
-require 'rubygems'
-require 'bundler/setup'
-require 'sinatra'
+require "rubygems"
+require "bundler"
+Bundler.setup(:default)
+require "aws/s3"
+require "newrelic_rpm"
+require "sinatra"
 require "sinatra/config_file"
-require 'newrelic_rpm'
-require './models'
-require 'yaml'
-require 'aws/s3'
+require "yaml"
+require "./models"
 
 # github auth stuff moved into github_api.rb
 
@@ -17,7 +18,7 @@ class OfxAddons < Sinatra::Base
   configure :development do
     enable :logging
     DataMapper.auto_upgrade!
-    puts "dev :)".yellow
+    puts "=== Running in DEV mode :) ==="
   end
 
   helpers do
@@ -82,7 +83,17 @@ class OfxAddons < Sinatra::Base
     #   request = Rack::MockRequest.new(OfxAddons)
     #   AWS::S3::S3Object.create('#{c}.html',  request.get('/category/render/#{c}').body, 'ofxaddons', :access => :public_read );
     # end
+  end
 
+  get "/" do
+    data = open("https://s3.amazonaws.com/ofxaddons/index.html")
+    response.write(data.read)
+  end
+
+  get "/category/:category_name" do
+    @category = Category.first(:conditions => [ "lower(name) = ?", params[:category_name].downcase ])
+    @repos = Repo.all(:not_addon => false, :incomplete => false, :is_fork => false, :deleted => false, :category_id => @category.id, :order => :name.asc)
+    erb :category
   end
 
   get "/bake" do
@@ -96,20 +107,7 @@ class OfxAddons < Sinatra::Base
     {"repos" => repos.collect{|r| r.to_json_hash}}.to_json
   end
 
-  get "/" do
 
-    data = open("https://s3.amazonaws.com/ofxaddons/index.html")
-    response.write(data.read)
-
-    #old way
-    #send_file File.join(settings.public_folder, 'index.html')
-
-    #doesn't work
-    # open("https://s3.amazonaws.com/ofxaddons/index.html") do | chunk |
-    #	  response.write( chunk )
-    # end
-
-  end
 
   get "/render" do
     @current = "addons"
@@ -136,16 +134,7 @@ class OfxAddons < Sinatra::Base
     erb :popular
   end
 
-  get "/category/:category_id" do
-    #get "/category/render/:category_id" do
-
-    @cat = params[:category_id]
-    @repos = Repo.all(:not_addon => false, :incomplete => false, :is_fork => false, :deleted => false, :category => params[:category_id], :order => :name.asc)
-    erb :category
-  end
-
   get "/changes/render" do
-
     @current = "changes"
     @most_recent = Repo.all(:not_addon => false, :is_fork => false, :deleted => false, :category.not => nil, :order => [:last_pushed_at.desc])
     erb :changes
@@ -161,14 +150,6 @@ class OfxAddons < Sinatra::Base
     end
 
     redirect "/admin"
-  end
-
-  put "/repos/:repo_id" do
-    #  protected!
-    #  @repo = Repo.get(params[:repo_id])
-    #  @repo.update(params[:repo])
-    #  bake_html
-    #  redirect "/admin"
   end
 
   get "/repos/:repo_id" do

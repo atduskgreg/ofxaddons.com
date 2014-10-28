@@ -1,12 +1,11 @@
 <div id="body" class="span-26 last" >
 
-  <div id="<%= @cat.downcase  %>" class="span-24 last">
-    <div class="cat_heading"><%= @cat.downcase  %></div>
+  <div id="<%= @category.name  %>" class="span-24 last">
+    <div class="cat_heading"><%= @category.name  %></div>
     <% index = 0; for repo in @repos.sort_by{|r| r.name }  %>
       <%= @repo = repo; @index = index; erb :repo %>
       <% index = index + 1 %>
-    <% end %> 
+    <% end %>
   </div>
 
 </div>
-
