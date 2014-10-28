@@ -8,7 +8,7 @@
 
     <div  class="span-5 append-1<% if (index+1).divmod(4)[1] == 0 %> last <% end %> ">
       <p>
-      	<% if !repo.owner_avatar.blank?  %>
+      	<% if !!repo.owner_avatar  %>
           <img style="width:30px; vertical-align:middle" src="<%= repo.owner_avatar %>" />
         <% else %>
           <img style="width:30px; vertical-align:middle" src="/images/default-gravatar.png">

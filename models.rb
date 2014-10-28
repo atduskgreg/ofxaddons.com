@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'bundler/setup'
+require 'bundler'
 Bundler.require(:default)
 require 'time'
 require './github_api'      # TODO: remove this dependency from the models, this should be in some kind of service object

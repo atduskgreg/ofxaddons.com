@@ -3,14 +3,14 @@ require './importer'
 require './app.rb'
 
 desc "This task is called by the Heroku cron add-on"
-task :cron do
+task :cron => ["import", "bake_html"]
+
+desc "add/update all the repos we can find on github"
+task :import do
   begin
-
-
     before = Repo.count(:not_addon => false, :is_fork => false, :category => nil, :deleted => false)
 
     Repo.set_all_updated_false
-    Importer.import_from_search("ofx")
 
     # search github in smaller chunks to avoid 1000 max results limitation
     alphabet = "0123456789abcdefghijklmnopqrstuvwxyz".split("")
@@ -31,9 +31,6 @@ task :cron do
     puts e.backtrace.join("\n")
     #Importer.send_report("Something went horribly wrong with the cron job:\n#{e}.\n\n#{e.backtrace.join("\n")}")
   end
-
-  Rake::Task["bake_html"].invoke
-
 end
 
 desc "update static cache"
@@ -43,12 +40,10 @@ end
 
 desc "update un-categorized"
 task :update_repos do
-
-# Importer.update_source_for_uncategorized_repos
-Importer.update_forks
-#needs fix
-#	Importer.purge_deleted_repos
-
+  # Importer.update_source_for_uncategorized_repos
+  Importer.update_forks
+  #needs fix
+  #	Importer.purge_deleted_repos
 end
 
 desc "update single repo"
