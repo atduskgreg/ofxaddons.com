@@ -1,0 +1,16 @@
+$navbar-default-bg: #fff;
+$navbar-default-link-color: #EE3987;
+$navbar-default-link-hover-color: #fff;
+$navbar-default-link-hover-bg: #EE3987;
+
+// "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
+@import "bootstrap-sprockets";
+@import "bootstrap-custom";
+
+h1, h2, h3, nav {
+  font-family: 'Questrial', "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.navbar-brand-logo {
+  margin-right: 0.5em
+}

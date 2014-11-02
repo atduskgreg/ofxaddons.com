@@ -4,7 +4,14 @@ Rails.application.routes.draw do
 
   root 'repos#index'
 
-  resources :repos, only: [:index, :show]
+  resources :categories,   only: [:index]
+  resources :contributors, only: [:index]
+  resources :repos,        only: [:index, :show]
+
+  get "freshest", to: "freshest#index", as: :freshest
+  get "popular",  to: "popular#index",  as: :popular
+  get "unsorted", to: "unsorted#index", as: :unsorted
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
