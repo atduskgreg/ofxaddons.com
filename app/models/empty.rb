@@ -1,4 +1,4 @@
 # this is using single table inheritance to subclass the repos table
-class RepoDeleted < Repo
+class Empty < Repo
 
 end

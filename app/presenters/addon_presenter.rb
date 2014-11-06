@@ -1,4 +1,4 @@
-class RepoPresenter < Presenter
+class AddonPresenter < Presenter
 
   def categories?
     object.categorizations.count > 0
@@ -10,16 +10,10 @@ class RepoPresenter < Presenter
   end
 
   def estimated_release
-    begin
-      object.estimated_release.release.version
-    rescue => e
-      Rails.logger.debug object.inspect
-      Rails.logger.debug
-      Rails.logger.debug object.estimated_release.inspect
-      Rails.logger.debug
-      Rails.logger.debug object.estimated_release.release.inspect
-      Rails.logger.debug
-      raise e
+    if object.estimated_release
+      "(~#{object.estimated_release.release.version})"
+    else
+      nil
     end
   end
 
@@ -60,6 +54,13 @@ class RepoPresenter < Presenter
     !owner_avatar.blank?
   end
 
+  def thumbnail
+    if thumbnail?
+      url = "https://raw.github.com/#{github_slug}/master/ofxaddons_thumbnail.png"
+      h.image_tag("", class:"lazy addon-thumb", data:{ src: url }, width:"270px")
+    end
+  end
+
   def thumbnail?
     !!object.has_thumbnail
   end
@@ -82,7 +83,7 @@ class RepoPresenter < Presenter
       our_labels = ["ofx-incomplete", "ofx-osx", "ofx-win", "ofx-linux"]
       relevant_labels = []
       if object.issues
-        object.issues.select{|issue| issue["state"] == "open"  }.each do |issue|
+        JSON.parse(object.issues).select{|issue| issue["state"] == "open"  }.each do |issue|
           our_labels.each do |l|
             if Regexp.new(l) =~ issue["title"]
               relevant_labels << l

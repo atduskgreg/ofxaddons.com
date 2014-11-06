@@ -12,4 +12,12 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require bootstrap/collapse
+//= require jquery.lazy
+//= require jquery.timeago
+//= require bootstrap
+
+
+$(document).ready(function() {
+  $("img.lazy").lazy();
+  $("abbr.timeago").timeago();
+});

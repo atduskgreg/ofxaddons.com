@@ -19,9 +19,13 @@ group :development do
   gem "coffee-rails", "~> 4.0.0"                # coffeescript asset pipeline integration
   gem "colorize"                                # colorized console output
   gem "dotenv"                                  # loads environment from .env file in development mode
+  gem "foreigner"                               # support for foreign key constraints
   gem "foreman"                                 # Procfile-based app manager
+  gem "immigrant"                               # detect foreign keys and generate migrations to create constraints
   gem "jquery-rails"                            # jQuery integration for rails
+  gem "quiet_assets"
   gem "sass-rails", "~> 4.0.3"                  # SASS support for rails
   gem "spring"                                  # rails preloader
   gem "uglifier", ">= 1.3.0"                    # javascript compressor
+  gem "yaml_db"
 end

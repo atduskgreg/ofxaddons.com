@@ -2,11 +2,12 @@ Rails.application.routes.draw do
 
   resources :releases
 
-  root 'repos#index'
+  root 'addons#index'
 
+  resources :addons,       only: [:index, :show]
   resources :categories,   only: [:index]
   resources :contributors, only: [:index]
-  resources :repos,        only: [:index, :show]
+  #resources :repos,        only: [:index, :show]
 
   get "freshest", to: "freshest#index", as: :freshest
   get "popular",  to: "popular#index",  as: :popular

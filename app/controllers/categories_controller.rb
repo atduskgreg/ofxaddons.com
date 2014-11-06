@@ -1,17 +1,9 @@
-class CategoryController < ApplicationController
-  before_action :set_repo, only: [:show, :edit, :update, :destroy]
+class CategoriesController < ApplicationController
+  before_action :set_category, only: [:show, :edit, :update, :destroy]
 
   # GET /repos
   def index
-    @repos = Repo.all
-
-    # TODO: add pagination? should consult with the crew about this
-    @categories = Category.joins(:repos)
-      .includes(:repos)
-      .where(not_addon: false)
-      .where(is_fork: false)
-      .where(deleted: false)
-      .order("categories.name ASC, repos.name ASC")
+    @categories = Category.includes(:addons).order("categories.name ASC, addons.name ASC").all
   end
 
   # GET /repos/1

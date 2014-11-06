@@ -5,7 +5,6 @@ class CreateCategorizations < ActiveRecord::Migration
       t.references :repo, index: true
       t.timestamps
     end
-    Repo.all.each { |r| Categorization.create(category_id: r.category_id, repo_id: r.id) }
   end
 
   def down

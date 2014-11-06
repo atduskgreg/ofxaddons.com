@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141102063240) do
+ActiveRecord::Schema.define(version: 20141106050449) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,6 +45,17 @@ ActiveRecord::Schema.define(version: 20141102063240) do
 
   add_index "migration_info", ["migration_name"], name: "migration_name", unique: true, using: :btree
 
+  create_table "release_types", force: true do |t|
+    t.integer  "release_id"
+    t.integer  "repo_id"
+    t.string   "type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "release_types", ["release_id"], name: "index_release_types_on_release_id", using: :btree
+  add_index "release_types", ["repo_id"], name: "index_release_types_on_repo_id", using: :btree
+
   create_table "releases", force: true do |t|
     t.string   "version"
     t.datetime "released_at"
@@ -61,13 +72,16 @@ ActiveRecord::Schema.define(version: 20141102063240) do
     t.text     "source"
     t.text     "parent"
     t.text     "github_slug"
+    t.boolean  "not_addon",                    default: false
     t.boolean  "incomplete",                   default: false
+    t.integer  "category_id"
     t.text     "readme"
     t.text     "forks"
     t.text     "most_recent_commit"
     t.text     "issues"
     t.boolean  "is_fork",                      default: false
     t.boolean  "has_forks"
+    t.boolean  "deleted"
     t.integer  "followers"
     t.text     "github_pushed_at"
     t.text     "owner_avatar"
@@ -78,23 +92,20 @@ ActiveRecord::Schema.define(version: 20141102063240) do
     t.integer  "user_id"
     t.integer  "contributor_id"
     t.boolean  "updated",                      default: false
-    t.string   "type",                         default: "RepoUnsorted", null: false
+    t.string   "type",                         default: "Unsorted", null: false
   end
 
-  create_table "supported_releases", force: true do |t|
-    t.integer  "release_id"
-    t.integer  "repo_id"
-    t.string   "type"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "supported_releases", ["release_id"], name: "index_supported_releases_on_release_id", using: :btree
-  add_index "supported_releases", ["repo_id"], name: "index_supported_releases_on_repo_id", using: :btree
+  add_index "repos", ["category_id"], name: "index_repos_category", using: :btree
 
   create_table "users", force: true do |t|
     t.string "username", limit: 50
     t.string "password", limit: 50
   end
+
+  add_foreign_key "categorizations", "categories", name: "categorizations_category_id_fk"
+  add_foreign_key "categorizations", "repos", name: "categorizations_repo_id_fk"
+
+  add_foreign_key "release_types", "releases", name: "release_types_release_id_fk"
+  add_foreign_key "release_types", "repos", name: "release_types_repo_id_fk"
 
 end

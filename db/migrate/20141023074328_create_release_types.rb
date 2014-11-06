@@ -1,6 +1,7 @@
-class CreateSupportedReleases < ActiveRecord::Migration
+class CreateReleaseTypes < ActiveRecord::Migration
+
   def up
-    create_table :supported_releases do |t|
+    create_table :release_types do |t|
       t.references :release, index: true
       t.references :repo, index: true
       t.string :type
@@ -8,7 +9,7 @@ class CreateSupportedReleases < ActiveRecord::Migration
     end
 
     # estimated release is populated before_save, so let's populate!
-    Repo.all.each {|repo| repo.save!}
+    Addon.all.each {|a| a.save!}
   end
 
   def down

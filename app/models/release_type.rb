@@ -2,6 +2,6 @@
 # releases.  At the moment the only release type is EstimatedRelease,
 # but when we have user logins we can have Confirmed/Denied or
 # something like that
-class SupportedRelease < ActiveRecord::Base
+class ReleaseType < ActiveRecord::Base
 
 end

@@ -1,0 +1,71 @@
+<% present(addon) do |r| %>
+  <div class="col-md-3 addon">
+    <div class="addon-banner">
+      <%= r.thumbnail %>
+      <div class="addon-name">
+        <%= link_to(r.name, r.github_url) %>
+      </div>
+    </div>
+
+    <% if r.warning_labels? %>
+      <p class="warning-labels">
+        <% for warning in r.warning_labels %>
+          <span class="warning <%= warning %>">
+            <%= warning.to_s.split("-").last %>
+          </span>
+        <% end %>
+      </p>
+    <% end %>
+
+    <p class="description">
+      <% if r.categories? %>
+        [<%= r.categories_list %>]
+      <% end %>
+
+      <%= r.description %></p>
+
+      <% if r.features? %>
+        <p class="features">
+          <% if r.makefile? %>
+            <span title="This addon has a config file" class="feature makefile">
+              config file
+            </span>
+          <% end %>
+          <% if r.examples? %>
+            <span title="This has examples" class="feature example">
+              <%= "#{ r.example_count } example".pluralize %>
+            </span>
+          <% end %>
+        </p>
+      <% end %>
+
+      <p class="author">
+        <a class="github" href="<%= r.github_url %>">
+          created
+        </a>
+        by
+        <a href="/users/<%= r.owner %>">
+          <% if r.owner_avatar?  %>
+            <img class="userIcon lazy" data-src="<%= r.owner_avatar %>&amp;s=16" width="16" />
+          <% else %>
+            <%= image_tag("default-gravatar-small.png", class: "userIcon") %>
+          <% end %>
+          <%= r.owner %>
+        </a>
+        <br/>
+        updated
+        <abbr class="timeago" title="<%= r.last_pushed_at('%Y-%m-%dT%H:%M:%S%z') %>">
+          <%= r.last_pushed_at("%m/%e/%y") %>
+        </abbr>
+        <%= r.estimated_release %>
+
+        <% if r.followers? %>
+          <span class="glyphicon glyphicon-star"></span>
+          <b><%= r.followers %></b>
+        <% end %>
+      </p>
+
+      <%#= render r.fresher_forks %>
+
+  </div>
+<% end %>
