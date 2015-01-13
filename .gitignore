@@ -1,4 +1,6 @@
 /.bundle
+/db/backup
+db/data.yml
 /log/*.log
 /tmp
 .env

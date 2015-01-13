@@ -102,6 +102,7 @@ ActiveRecord::Schema.define(version: 20141106050449) do
     t.string "password", limit: 50
   end
 
+  Foreigner.load
   add_foreign_key "categorizations", "categories", name: "categorizations_category_id_fk"
   add_foreign_key "categorizations", "repos", name: "categorizations_repo_id_fk"
 
