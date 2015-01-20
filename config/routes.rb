@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
   resources :releases
 
-  root 'addons#index'
+  root 'categories#index'
 
   resources :addons,       only: [:index, :show]
   resources :categories,   only: [:index, :show]
