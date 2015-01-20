@@ -4,6 +4,8 @@ ruby "2.1.3"
 gem "rails", "~>4.1.6"
 gem "passenger"                                 # web server
 gem "pg"                                        # database driver
+gem 'slim'                                      # HTML template language
+#gem 'slim', require: 'slim/logic_less'          # HTML template language
 gem "sorcery"                                   # authentication
 
 group :bin do
@@ -19,6 +21,7 @@ group :development do
   gem "coffee-rails"                            # coffeescript asset pipeline integration
   gem "colorize"                                # colorized console output
   gem "dotenv"                                  # loads environment from .env file in development mode
+  gem "font-awesome-sass"                       #
   gem "foreigner"                               # support for foreign key constraints
   gem "foreman"                                 # Procfile-based app manager
   gem "immigrant"                               # detect foreign keys and generate migrations to create constraints

@@ -8,39 +8,39 @@ class AddonsController < ApplicationController
       .order("lower(repos.name) ASC")
   end
 
-  # GET /addons/1
-  def show
-  end
+  # # GET /addons/1
+  # def show
+  # end
 
-  # GET /addons/1/edit
-  def edit
-  end
+  # # GET /addons/1/edit
+  # def edit
+  # end
 
-  # POST /addons
-  def create
-    @addon = Addon.new(addon_params)
+  # # POST /addons
+  # def create
+  #   @addon = Addon.new(addon_params)
 
-    if @addon.save
-      redirect_to @addon, notice: 'Addon was successfully created.'
-    else
-      render :new
-    end
-  end
+  #   if @addon.save
+  #     redirect_to @addon, notice: 'Addon was successfully created.'
+  #   else
+  #     render :new
+  #   end
+  # end
 
-  # PATCH/PUT /addons/1
-  def update
-    if @addon.update(addon_params)
-      redirect_to @addon, notice: 'Addon was successfully updated.'
-    else
-      render :edit
-    end
-  end
+  # # PATCH/PUT /addons/1
+  # def update
+  #   if @addon.update(addon_params)
+  #     redirect_to @addon, notice: 'Addon was successfully updated.'
+  #   else
+  #     render :edit
+  #   end
+  # end
 
-  # DELETE /addons/1
-  def destroy
-    @addon.destroy
-    redirect_to addons_url, notice: 'Addon was successfully destroyed.'
-  end
+  # # DELETE /addons/1
+  # def destroy
+  #   @addon.destroy
+  #   redirect_to addons_url, notice: 'Addon was successfully destroyed.'
+  # end
 
   private
     # Use callbacks to share common setup or constraints between actions.

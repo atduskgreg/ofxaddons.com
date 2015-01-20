@@ -6,7 +6,7 @@ class AddonPresenter < Presenter
 
   def categories_list
     cat_names = self.categories.map {|c| c.name.downcase }
-    cat_names.join(", ")
+    cat_names.uniq.join(", ")
   end
 
   def estimated_release
@@ -49,9 +49,24 @@ class AddonPresenter < Presenter
     !!object.has_makefile
   end
 
+  # TODO: fix this link once users are normalized
+  def owner
+    # h.link_to(object.owner) do
+      "#{ owner_avatar } #{ object.owner }".html_safe
+    # end
+  end
+
+  def owner_avatar
+    if owner_avatar?
+      h.image_tag(nil, class:"userIcon lazy", data:{ src:"#{ object.owner_avatar }&amp;s=16" }, width: 16)
+    else
+      h.image_tag("default-gravatar-small.png", class: "userIcon", width: 16)
+    end
+  end
+
   # TODO: delete me when owner is normalized
   def owner_avatar?
-    !owner_avatar.blank?
+    !object.owner_avatar.blank?
   end
 
   def thumbnail

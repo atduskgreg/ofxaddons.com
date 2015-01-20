@@ -1,14 +1,28 @@
-.addon-banner {
-  height: 70px;
-  overflow: hidden;
-  position: relative;
-}
-.addon-name {
-  display: inline-block;
-  position: absolute;
-  bottom: 0;
-  padding: .25em;
-  margin: 0;
-  background-color: #E6E8EA;
-  word-wrap: break-word;
+.addon {
+  padding: 15px 27px;
+
+  .addon-banner {
+    height: 70px;
+    width: 270px;
+    overflow: hidden;
+    position: relative;
+    background-color: #f9f9f9;
+  }
+
+  .addon-name {
+    display: inline-block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: .25em;
+    margin: 0;
+    font-size: 120%;
+    background-color: #f4f4f4;
+    word-wrap: break-word;
+  }
+
+  .description {
+    padding-top: 1em;
+    padding-bottom: 1em;
+  }
 }

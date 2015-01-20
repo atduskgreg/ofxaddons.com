@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   root 'addons#index'
 
   resources :addons,       only: [:index, :show]
-  resources :categories,   only: [:index]
+  resources :categories,   only: [:index, :show]
   resources :contributors, only: [:index]
   #resources :repos,        only: [:index, :show]
 

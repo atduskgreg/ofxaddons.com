@@ -1,0 +1,44 @@
+- present(addon) do |a|
+  .addon.col-md-4
+    .addon-banner
+      = a.thumbnail
+      .addon-name
+        = link_to(a.name, a.github_url)
+
+    - if a.warning_labels?
+      .warning-labels
+        - a.warning_labels.each do |warning|
+          span class=["warning", warning]
+            = warning.to_s.split("-").last
+
+    .description
+      = a.description
+
+    dl.dl-horizontal
+      dt Owner
+      dd = a.owner
+
+      - if a.followers?
+        dt Stars
+        dd
+          span.badge = a.followers
+
+      dt Updated
+      dd
+        abbr.timeago title=a.last_pushed_at('%Y-%m-%dT%H:%M:%S%z')
+          = a.last_pushed_at("%m/%e/%y")
+
+      dt Release?
+      dd = a.estimated_release
+
+      - if a.makefile?
+        dt Makefile
+        dd Yes
+
+      - if a.examples?
+        dt Examples
+        dd = a.example_count
+
+      - if a.categories?
+        dt Categories
+        dd = a.categories_list
