@@ -1,12 +1,16 @@
-source 'https://rubygems.org'
+source "https://rubygems.org"
 ruby "2.1.3"
 
 gem "rails", "~>4.1.6"
+gem "foreigner"                                 # support for foreign key constraints
 gem "passenger"                                 # web server
 gem "pg"                                        # database driver
-gem 'slim'                                      # HTML template language
-#gem 'slim', require: 'slim/logic_less'          # HTML template language
+gem "slim"                                      # HTML template language
 gem "sorcery"                                   # authentication
+
+group :production do
+  gem "rails_12factor"
+end
 
 group :assets, :development do
   gem "autoprefixer-rails"                      # CSS vendor prefix generator
@@ -28,7 +32,6 @@ group :development do
   gem "byebug"                                  # debugger
   gem "colorize"                                # colorized console output
   gem "dotenv"                                  # loads environment from .env file in development mode
-  gem "foreigner"                               # support for foreign key constraints
   gem "foreman"                                 # Procfile-based app manager
   gem "immigrant"                               # detect foreign keys and generate migrations to create constraints
   gem "quiet_assets"                            # strip out all the asset serving noise from the dev log
