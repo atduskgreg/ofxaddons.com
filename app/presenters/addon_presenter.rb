@@ -6,7 +6,7 @@ class AddonPresenter < Presenter
 
   def categories_list
     cat_names = self.categories.map {|c| c.name.downcase }
-    cat_names.uniq.join(", ")
+    cat_names.join(", ")
   end
 
   def estimated_release
@@ -27,10 +27,6 @@ class AddonPresenter < Presenter
 
   def features?
     makefile? || examples?
-  end
-
-  def followers?
-    !!object.followers && object.followers > 0
   end
 
   def fresher_forks
@@ -82,6 +78,10 @@ class AddonPresenter < Presenter
 
   def warning_labels?
     !warning_labels.blank?
+  end
+
+  def watchers?
+    !!object.watchers_count && object.watchers_count > 0
   end
 
   # TODO: refactor this? lifted straight from the sinatra app

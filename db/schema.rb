@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141106050449) do
+ActiveRecord::Schema.define(version: 20150125012054) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -82,7 +82,7 @@ ActiveRecord::Schema.define(version: 20141106050449) do
     t.boolean  "is_fork",                      default: false
     t.boolean  "has_forks"
     t.boolean  "deleted"
-    t.integer  "followers"
+    t.integer  "watchers_count"
     t.text     "github_pushed_at"
     t.text     "owner_avatar"
     t.integer  "example_count"
@@ -93,6 +93,7 @@ ActiveRecord::Schema.define(version: 20141106050449) do
     t.integer  "contributor_id"
     t.boolean  "updated",                      default: false
     t.string   "type",                         default: "Unsorted", null: false
+    t.integer  "stargazers_count",             default: 0
   end
 
   add_index "repos", ["category_id"], name: "index_repos_category", using: :btree
