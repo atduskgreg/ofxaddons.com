@@ -15,15 +15,15 @@ The central place to discover openFrameworks addons.
 
 1. Clone the repository:
 
-    `$ git clone https://github.com/atduskgreg/ofxaddons.com`
+    $ git clone https://github.com/atduskgreg/ofxaddons.com
 
 1. Change directories in to the cloned repository:
 
-    `$ cd ofxaddons.com`
+    $ cd ofxaddons.com
 
 1. Install the gems dependencies
 
-    `$ bundle install`
+    $ bundle install
 
 1. Set up the database.
 
@@ -31,23 +31,23 @@ The central place to discover openFrameworks addons.
 
     #### Start with an empty database
 
-        `$ rake db:setup
+        $ rake db:setup
 
     #### Copy the production database to your local machine
 
       **WARNING**: the database `ofxaddons` must not exist locally before you do this!
 
-        `$ heroku login`
+        $ heroku login
 
-        `$ rake db:drop`
+        $ rake db:drop
 
-        `$ heroku pg:pull DATABASE_URL ofxaddons --app ofxaddons-cedar`
+        $ heroku pg:pull DATABASE_URL ofxaddons --app ofxaddons-cedar
 
-        `$ rake db:migrate`
+        $ rake db:migrate
 
 1. Launch the server:
 
-    `$ foreman start`
+    $ foreman start
 
     You should now be able to navigate to load the web site at http://localhost:5000
 
@@ -62,7 +62,7 @@ Once you've got your API keys, there are several ways to set up your environment
 
 1. Create a `.env` file in the repository root
 
-    `$ touch .env`
+    $ touch .env
 
    WARNING: Never check in the `.env` file. It will screw up the production environment.
 
@@ -79,4 +79,4 @@ Further reading on [using foreman for config vars](https://devcenter.heroku.com/
 
 Crawling and updating is all run through a series of rake tasks defined in Rakefile. To run the master task:
 
-`$ bundle exec rake cron`
+    $ bundle exec rake cron
