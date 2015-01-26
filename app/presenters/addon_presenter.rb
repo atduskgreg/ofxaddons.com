@@ -9,9 +9,9 @@ class AddonPresenter < Presenter
     cat_names.join(", ")
   end
 
-  def estimated_release
-    if object.estimated_release
-      "(~#{object.estimated_release.release.version})"
+  def release
+    if object.release
+      "~#{object.release.version}"
     else
       nil
     end

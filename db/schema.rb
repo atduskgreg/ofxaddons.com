@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150126005032) do
+ActiveRecord::Schema.define(version: 20150126070036) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,29 +34,11 @@ ActiveRecord::Schema.define(version: 20150126005032) do
   add_index "categorizations", ["category_id"], name: "index_categorizations_on_category_id", using: :btree
   add_index "categorizations", ["repo_id"], name: "index_categorizations_on_repo_id", using: :btree
 
-  create_table "contributors", force: true do |t|
-    t.text "login"
-    t.text "name"
-    t.text "avatar_url"
-    t.text "location"
-  end
-
   create_table "migration_info", id: false, force: true do |t|
     t.string "migration_name"
   end
 
   add_index "migration_info", ["migration_name"], name: "migration_name", unique: true, using: :btree
-
-  create_table "release_types", force: true do |t|
-    t.integer  "release_id"
-    t.integer  "repo_id"
-    t.string   "type"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "release_types", ["release_id"], name: "index_release_types_on_release_id", using: :btree
-  add_index "release_types", ["repo_id"], name: "index_release_types_on_repo_id", using: :btree
 
   create_table "releases", force: true do |t|
     t.string   "version"
@@ -94,6 +76,7 @@ ActiveRecord::Schema.define(version: 20150126005032) do
     t.integer  "user_id"
     t.integer  "contributor_id"
     t.boolean  "updated",                      default: false
+    t.integer  "release_id"
     t.string   "type",                         default: "Unsorted", null: false
     t.integer  "stargazers_count",             default: 0
     t.datetime "created_at"
@@ -108,10 +91,9 @@ ActiveRecord::Schema.define(version: 20150126005032) do
   end
 
   Foreigner.load
-  add_foreign_key "categorizations", "categories", name: "categorizations_category_id_fk"
-  add_foreign_key "categorizations", "repos", name: "categorizations_repo_id_fk"
+  add_foreign_key "categorizations", "categories", name: "categorizations_category_id_fk", dependent: :delete
+  add_foreign_key "categorizations", "repos", name: "categorizations_repo_id_fk", dependent: :delete
 
-  add_foreign_key "release_types", "releases", name: "release_types_release_id_fk"
-  add_foreign_key "release_types", "repos", name: "release_types_repo_id_fk"
+  add_foreign_key "repos", "releases", name: "repos_release_id_fk", dependent: :delete
 
 end
