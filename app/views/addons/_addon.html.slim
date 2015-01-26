@@ -1,48 +1,49 @@
-- present(addon) do |a|
-  .addon.col-md-4
-    = link_to(a.github_url) do
-      .addon-banner
-        = a.thumbnail
-        .addon-name = a.name
+- cache(addon) do
+  - present(addon) do |a|
+    .addon.col-md-4
+      = link_to(a.github_url) do
+        .addon-banner
+          = a.thumbnail
+          .addon-name = a.name
 
-    - if a.warning_labels?
-      .warning-labels
-        - a.warning_labels.each do |warning|
-          span class=["warning", warning]
-            = warning.to_s.split("-").last
+      - if a.warning_labels?
+        .warning-labels
+          - a.warning_labels.each do |warning|
+            span class=["warning", warning]
+              = warning.to_s.split("-").last
 
-    .description
-      = a.description
+      .description
+        = a.description
 
-    .maintainer
-      ' Maintained by
-      = a.owner
+      .maintainer
+        ' Maintained by
+        = a.owner
 
-    .updated-at
-      ' Last updated
-      abbr.timeago title=a.last_pushed_at('%Y-%m-%dT%H:%M:%S%z')
-        = a.last_pushed_at("%m/%e/%y")
+      .updated-at
+        ' Last updated
+        abbr.timeago title=a.last_pushed_at('%Y-%m-%dT%H:%M:%S%z')
+          = a.last_pushed_at("%m/%e/%y")
 
-    .release-info
-      ' Release?
-      = a.estimated_release
+      .release-info
+        ' Release?
+        = a.estimated_release
 
-    .stargazers-count
-      = icon("star", a.stargazers_count, class: 'stargazers-count')
+      .stargazers-count
+        = icon("star", a.stargazers_count, class: 'stargazers-count')
 
-    .watchers-count
-      = icon("eye", a.watchers_count, class: 'watchers-count')
+      .watchers-count
+        = icon("eye", a.watchers_count, class: 'watchers-count')
 
-    - if a.makefile?
-      .has-makefile
-        = icon("file", "Makefile", class: 'has-makefile')
+      - if a.makefile?
+        .has-makefile
+          = icon("file", "Makefile", class: 'has-makefile')
 
-    - if a.examples?
-      .example-count
-        ' Examples
-        = a.example_count
+      - if a.examples?
+        .example-count
+          ' Examples
+          = a.example_count
 
-    - if a.categories?
-      .categories
-        ' Categories:
-        = a.categories_list
+      - if a.categories?
+        .categories
+          ' Categories:
+          = a.categories_list

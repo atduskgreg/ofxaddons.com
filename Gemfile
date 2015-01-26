@@ -9,7 +9,8 @@ gem "slim"                                      # HTML template language
 gem "sorcery"                                   # authentication
 
 group :production do
-  gem "rails_12factor"
+  gem "rails_12factor"                          # heroku-specific stack mods
+  gem "redis-rails"                             # cache store
 end
 
 group :assets, :development do
