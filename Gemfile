@@ -2,10 +2,12 @@ source "https://rubygems.org"
 ruby "2.1.3"
 
 gem "rails", "~>4.1.6"
+gem "actionpack-page_caching"                   # page caching
 gem "font-awesome-sass"                         # font icons
 gem "foreigner"                                 # support for foreign key constraints
 gem "passenger"                                 # web server
 gem "pg"                                        # database driver
+gem "rails-observers"                           # cache sweeper support
 gem "slim"                                      # HTML template language
 gem "sorcery"                                   # authentication
 

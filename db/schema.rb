@@ -11,15 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150125012054) do
+ActiveRecord::Schema.define(version: 20150126005032) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "categories", force: true do |t|
-    t.string "name",       limit: 50
-    t.text   "login"
-    t.text   "avatar_url"
+    t.string   "name",       limit: 50
+    t.text     "login"
+    t.text     "avatar_url"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "categorizations", force: true do |t|
@@ -94,6 +96,8 @@ ActiveRecord::Schema.define(version: 20150125012054) do
     t.boolean  "updated",                      default: false
     t.string   "type",                         default: "Unsorted", null: false
     t.integer  "stargazers_count",             default: 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "repos", ["category_id"], name: "index_repos_category", using: :btree

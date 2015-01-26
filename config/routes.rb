@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
   resources :releases
 
-  root 'categories#index'
+  root to: redirect('/categories')
 
   resources :addons,       only: [:index, :show]
   resources :categories,   only: [:index, :show]

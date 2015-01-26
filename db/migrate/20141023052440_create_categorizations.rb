@@ -5,6 +5,8 @@ class CreateCategorizations < ActiveRecord::Migration
       t.references :repo, index: true
       t.timestamps
     end
+    add_timestamps(:categories)
+    Category.all.each {|c| c.touch}
   end
 
   def down

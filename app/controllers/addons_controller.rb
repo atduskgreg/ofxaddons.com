@@ -1,5 +1,8 @@
 class AddonsController < ApplicationController
-  before_action :set_addon, only: [:show, :edit, :update, :destroy]
+
+  caches_page :index
+
+  # before_action :set_addon, only: [:show, :edit, :update, :destroy]
 
   # GET /addons
   def index
@@ -42,14 +45,14 @@ class AddonsController < ApplicationController
   #   redirect_to addons_url, notice: 'Addon was successfully destroyed.'
   # end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_addon
-      @addon = Addon.includes(:categories, :estimated_release => :release).find(params[:id])
-    end
+  # private
+  #   # Use callbacks to share common setup or constraints between actions.
+  #   def set_addon
+  #     @addon = Addon.includes(:categories, :estimated_release => :release).find(params[:id])
+  #   end
 
-    # Only allow a trusted parameter "white list" through.
-    def addon_params
-      params[:addon]
-    end
+  #   # Only allow a trusted parameter "white list" through.
+  #   def addon_params
+  #     params[:addon]
+  #   end
 end

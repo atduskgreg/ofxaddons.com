@@ -8,7 +8,7 @@ namespace :heroku do
 
   namespace :production do
     namespace :db do
-      desc "pull a copy of the db from production"
+      desc "make your local db look like production"
       task :pull => [:environment, "db:drop"] do
         heroku("pg:pull HEROKU_POSTGRESQL_PINK_URL ofxaddons --app ofxaddons-cedar")
       end
