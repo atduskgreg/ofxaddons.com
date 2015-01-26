@@ -11,6 +11,7 @@ gem "slim"                                      # HTML template language
 gem "sorcery"                                   # authentication
 
 group :production do
+  gem "newrelic_rpm"                            # performance monitoring
   gem "rails_12factor"                          # heroku-specific stack mods
   gem "redis-rails"                             # cache store
 end
