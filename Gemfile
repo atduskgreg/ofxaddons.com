@@ -2,6 +2,7 @@ source "https://rubygems.org"
 ruby "2.1.3"
 
 gem "rails", "~>4.1.6"
+gem "font-awesome-sass"                         # font icons
 gem "foreigner"                                 # support for foreign key constraints
 gem "passenger"                                 # web server
 gem "pg"                                        # database driver
@@ -17,7 +18,6 @@ group :assets, :development do
   gem "autoprefixer-rails"                      # CSS vendor prefix generator
   gem "bootstrap-sass"                          # SASS port of Bootstrap CSS framework
   gem "coffee-rails"                            # coffeescript asset pipeline integration
-  gem "font-awesome-sass"                       #
   gem "jquery-rails"                            # jQuery integration for rails
   gem "sass-rails"                              # SASS support for rails
   gem "uglifier", ">= 1.3.0"                    # javascript compressor
