@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150126070036) do
+ActiveRecord::Schema.define(version: 20150201185637) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,27 +49,25 @@ ActiveRecord::Schema.define(version: 20150126070036) do
 
   create_table "repos", force: true do |t|
     t.text     "name"
-    t.text     "owner"
+    t.text     "owner_login"
     t.text     "description"
-    t.datetime "last_pushed_at"
+    t.datetime "pushed_at"
     t.datetime "github_created_at"
     t.text     "source"
     t.text     "parent"
-    t.text     "github_slug"
+    t.text     "full_name"
     t.boolean  "not_addon",                    default: false
     t.boolean  "incomplete",                   default: false
     t.integer  "category_id"
-    t.text     "readme"
     t.text     "forks"
     t.text     "most_recent_commit"
     t.text     "issues"
-    t.boolean  "is_fork",                      default: false
-    t.boolean  "has_forks"
+    t.boolean  "fork",                         default: false
     t.boolean  "deleted"
-    t.integer  "watchers_count"
+    t.integer  "watchers_count",               default: 0
     t.text     "github_pushed_at"
-    t.text     "owner_avatar"
-    t.integer  "example_count"
+    t.text     "owner_avatar_url"
+    t.integer  "example_count",                default: 0
     t.boolean  "has_makefile"
     t.boolean  "has_correct_folder_structure"
     t.boolean  "has_thumbnail"
@@ -81,9 +79,11 @@ ActiveRecord::Schema.define(version: 20150126070036) do
     t.integer  "stargazers_count",             default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "forks_count",                  default: 0
   end
 
   add_index "repos", ["category_id"], name: "index_repos_category", using: :btree
+  add_index "repos", ["full_name"], name: "index_repos_full_name", using: :btree
 
   create_table "users", force: true do |t|
     t.string "username", limit: 50

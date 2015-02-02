@@ -9,8 +9,8 @@ class Addon < Repo
   private
 
   def update_release_date
-    unless last_pushed_at.nil?
-      if release = Release.where("released_at < ?", last_pushed_at)
+    unless pushed_at.nil?
+      if release = Release.where("released_at < ?", pushed_at)
           .order("released_at DESC")
           .first
         self.release = release

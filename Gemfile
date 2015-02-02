@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 ruby "2.1.3"
 
-gem "rails", "~>4.1.6"
+gem "rails", "~>4.1.9"
 gem "actionpack-page_caching"                   # page caching
 gem "font-awesome-sass"                         # font icons
 gem "foreigner"                                 # support for foreign key constraints
@@ -16,7 +16,7 @@ group :production do
   gem "redis-rails"                             # cache store
 end
 
-group :assets, :development do
+group :assets, :development, :test do
   gem "autoprefixer-rails"                      # CSS vendor prefix generator
   gem "bootstrap-sass"                          # SASS port of Bootstrap CSS framework
   gem "coffee-rails"                            # coffeescript asset pipeline integration
@@ -26,15 +26,15 @@ group :assets, :development do
 end
 
 group :bin do
+  gem "colorize"                                # colorized console output
   gem "httparty"                                # http connection library
   gem "nokogiri"                                # used for scraping readme files
 end
 
-group :development do
+group :development, :test do
   gem "awesome_print"                           # pretty print ruby objects
   gem "byebug"                                  # debugger
-  gem "colorize"                                # colorized console output
-  gem "dotenv"                                  # loads environment from .env file in development mode
+  gem "dotenv-rails"                            # loads environment from .env file in development mode
   gem "foreman"                                 # Procfile-based app manager
   gem "immigrant"                               # detect foreign keys and generate migrations to create constraints
   gem "quiet_assets"                            # strip out all the asset serving noise from the dev log

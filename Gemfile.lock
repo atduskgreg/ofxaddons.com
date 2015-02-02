@@ -53,6 +53,8 @@ GEM
     daemon_controller (1.2.0)
     debugger-linecache (1.2.0)
     dotenv (1.0.2)
+    dotenv-rails (1.0.2)
+      dotenv (= 1.0.2)
     erubis (2.7.0)
     execjs (2.2.2)
     faraday (0.9.1)
@@ -191,7 +193,7 @@ DEPENDENCIES
   byebug
   coffee-rails
   colorize
-  dotenv
+  dotenv-rails
   font-awesome-sass
   foreigner
   foreman
@@ -203,7 +205,7 @@ DEPENDENCIES
   passenger
   pg
   quiet_assets
-  rails (~> 4.1.6)
+  rails (~> 4.1.9)
   rails_12factor
   redis-rails
   sass-rails
