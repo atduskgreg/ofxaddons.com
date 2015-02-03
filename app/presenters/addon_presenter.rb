@@ -30,15 +30,15 @@ class AddonPresenter < Presenter
   end
 
   def fresher_forks
-    object.fresher_forks.sort_by(&:last_pushed_at).reverse
+    object.fresher_forks.sort_by(&:pushed_at).reverse
   end
 
   def github_url
-    "http://github.com/#{ object.github_slug }"
+    "http://github.com/#{ object.full_name }"
   end
 
   def last_pushed_at(format)
-    object.last_pushed_at.strftime(format)
+    object.pushed_at.strftime(format)
   end
 
   def makefile?
@@ -48,13 +48,13 @@ class AddonPresenter < Presenter
   # TODO: fix this link once users are normalized
   def owner
     # h.link_to(object.owner) do
-      "#{ owner_avatar } #{ object.owner }".html_safe
+      "#{ owner_avatar } #{ object.owner_login }".html_safe
     # end
   end
 
   def owner_avatar
     if owner_avatar?
-      h.image_tag(nil, class:"userIcon lazy", data:{ src:"#{ object.owner_avatar }&amp;s=16" }, width: 16)
+      h.image_tag(nil, class:"userIcon lazy", data:{ src:"#{ object.owner_avatar_url }&amp;s=16" }, width: 16)
     else
       h.image_tag("default-gravatar-small.png", class: "userIcon", width: 16)
     end
@@ -62,12 +62,12 @@ class AddonPresenter < Presenter
 
   # TODO: delete me when owner is normalized
   def owner_avatar?
-    !object.owner_avatar.blank?
+    !object.owner_avatar_url.blank?
   end
 
   def thumbnail
     if thumbnail?
-      url = "https://raw.github.com/#{github_slug}/master/ofxaddons_thumbnail.png"
+      url = "https://raw.github.com/#{full_name}/master/ofxaddons_thumbnail.png"
       h.image_tag("", class:"lazy addon-thumb", data:{ src: url }, width:"270px")
     end
   end
@@ -78,10 +78,6 @@ class AddonPresenter < Presenter
 
   def warning_labels?
     !warning_labels.blank?
-  end
-
-  def watchers?
-    !!object.watchers_count && object.watchers_count > 0
   end
 
   # TODO: refactor this? lifted straight from the sinatra app

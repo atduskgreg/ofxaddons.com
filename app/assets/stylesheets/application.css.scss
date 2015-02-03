@@ -30,6 +30,12 @@ h1, h2, h3, nav {
   display: inline-block;
 }
 
+.navbar-nav {
+  .logout {
+    display: none;
+  }
+}
+
 .sidebar .affixed {
   position: fixed;
 

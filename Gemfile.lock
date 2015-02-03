@@ -1,3 +1,11 @@
+GIT
+  remote: git://github.com/intridea/omniauth-github.git
+  revision: 21fa5e1a7295a11eae42846690b1eee88e57c23a
+  specs:
+    omniauth-github (1.1.2)
+      omniauth (~> 1.0)
+      omniauth-oauth2 (~> 1.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -30,12 +38,13 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
     arel (5.0.1.20140414130214)
-    autoprefixer-rails (4.0.2.2)
+    autoprefixer-rails (5.1.2)
       execjs
+      json
     awesome_print (1.6.1)
-    bcrypt (3.1.9)
-    bootstrap-sass (3.3.1.0)
-      sass (~> 3.2)
+    bootstrap-sass (3.3.3)
+      autoprefixer-rails (>= 5.0.0.1)
+      sass (>= 3.2.19)
     builder (3.2.2)
     byebug (3.5.1)
       columnize (~> 0.8)
@@ -66,6 +75,7 @@ GEM
     foreman (0.77.0)
       dotenv (~> 1.0.2)
       thor (~> 0.19.1)
+    hashie (3.4.0)
     hike (1.2.3)
     httparty (0.13.3)
       json (~> 1.8)
@@ -77,7 +87,7 @@ GEM
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
     json (1.8.2)
-    jwt (1.2.0)
+    jwt (1.2.1)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
     mime-types (2.4.3)
@@ -89,13 +99,20 @@ GEM
     newrelic_rpm (3.9.9.275)
     nokogiri (1.6.5)
       mini_portile (~> 0.6.0)
-    oauth (0.4.7)
-    oauth2 (0.9.4)
+    oauth2 (1.0.0)
       faraday (>= 0.8, < 0.10)
       jwt (~> 1.0)
       multi_json (~> 1.3)
       multi_xml (~> 0.5)
       rack (~> 1.2)
+    omniauth (1.2.2)
+      hashie (>= 1.2, < 4)
+      rack (~> 1.0)
+    omniauth-oauth2 (1.2.0)
+      faraday (>= 0.8, < 0.10)
+      multi_json (~> 1.3)
+      oauth2 (~> 1.0)
+      omniauth (~> 1.2)
     passenger (4.0.57)
       daemon_controller (>= 1.2.0)
       rack
@@ -144,7 +161,7 @@ GEM
       redis-store (~> 1.1.0)
     redis-store (1.1.4)
       redis (>= 2.2)
-    sass (3.4.9)
+    sass (3.4.11)
     sass-rails (5.0.1)
       railties (>= 4.0.0, < 5.0)
       sass (~> 3.1)
@@ -155,10 +172,6 @@ GEM
       temple (~> 0.7.3)
       tilt (>= 1.3.3, < 2.1)
     slop (3.6.0)
-    sorcery (0.8.6)
-      bcrypt (~> 3.1)
-      oauth (~> 0.4, >= 0.4.4)
-      oauth2 (>= 0.8.0, < 1.0.0)
     spring (1.2.0)
     sprockets (2.12.3)
       hike (~> 1.2)
@@ -187,7 +200,6 @@ PLATFORMS
 
 DEPENDENCIES
   actionpack-page_caching
-  autoprefixer-rails
   awesome_print
   bootstrap-sass
   byebug
@@ -202,6 +214,7 @@ DEPENDENCIES
   jquery-rails
   newrelic_rpm
   nokogiri
+  omniauth-github!
   passenger
   pg
   quiet_assets
@@ -210,7 +223,6 @@ DEPENDENCIES
   redis-rails
   sass-rails
   slim
-  sorcery
   spring
   uglifier (>= 1.3.0)
   yaml_db

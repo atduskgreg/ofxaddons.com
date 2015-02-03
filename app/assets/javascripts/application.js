@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.cookie
 //= require jquery.lazy
 //= require jquery.timeago
 //= require bootstrap
@@ -20,4 +21,11 @@
 $(document).ready(function() {
   $("img.lazy").lazy();
   $("abbr.timeago").timeago();
+
+  // due to page caching, we have to dynamically change the
+  // login/logout links based on js
+  if($.cookie('user_id')) {
+    $(".navbar-nav .login").hide();
+    $(".navbar-nav .logout").show();
+  }
 });

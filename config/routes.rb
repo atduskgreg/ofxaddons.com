@@ -9,9 +9,12 @@ Rails.application.routes.draw do
   resources :contributors, only: [:index]
   #resources :repos,        only: [:index, :show]
 
-  get "freshest", to: "freshest#index", as: :freshest
-  get "popular",  to: "popular#index",  as: :popular
-  get "unsorted", to: "unsorted#index", as: :unsorted
+  get "freshest",                 to: "freshest#index", as: :freshest
+  get "popular",                  to: "popular#index",  as: :popular
+  get "unsorted",                 to: "unsorted#index", as: :unsorted
+
+  get "/auth/:provider/callback", to: "sessions#create"
+  get "/logout",                  to: "sessions#destroy", as: :logout
 
 
   # The priority is based upon order of creation: first created -> highest priority.

@@ -5,10 +5,10 @@ gem "rails", "~>4.1.9"
 gem "actionpack-page_caching"                   # page caching
 gem "font-awesome-sass"                         # font icons
 gem "foreigner"                                 # support for foreign key constraints
+gem 'omniauth-github', :github => 'intridea/omniauth-github'
 gem "passenger"                                 # web server
 gem "pg"                                        # database driver
 gem "slim"                                      # HTML template language
-gem "sorcery"                                   # authentication
 
 group :production do
   gem "newrelic_rpm"                            # performance monitoring
@@ -17,7 +17,6 @@ group :production do
 end
 
 group :assets, :development, :test do
-  gem "autoprefixer-rails"                      # CSS vendor prefix generator
   gem "bootstrap-sass"                          # SASS port of Bootstrap CSS framework
   gem "coffee-rails"                            # coffeescript asset pipeline integration
   gem "jquery-rails"                            # jQuery integration for rails
