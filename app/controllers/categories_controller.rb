@@ -1,7 +1,5 @@
 class CategoriesController < ApplicationController
 
-  caches_page :index
-
   # before_action :set_category, only: [:show, :edit, :update, :destroy]
 
   # GET /repos

@@ -1,6 +1,7 @@
 - categories = @categories.map { |c| present(c) }
 
 - categories.each do |c|
+  - cache(c) do
     .row
       .col-md-12
         = c.anchor_tag

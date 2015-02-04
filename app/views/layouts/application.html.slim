@@ -45,8 +45,13 @@ html lang="en"
           /     input.form-control type="text" placeholder="Search"
 
           ul.nav.navbar-nav
-            li.login = link_to("login", "/auth/github")
-            li.logout = link_to("logout", logout_path)
+            - if @current_user
+              li.current-user = @current_user.name
+              li.logout = link_to("logout", logout_path)
+            - else
+              li.login = link_to("/auth/github") do
+                = icon("github")
+                | &nbsp;login
 
     .container
       .row

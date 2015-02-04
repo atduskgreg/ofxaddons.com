@@ -12,7 +12,15 @@ Rails.application.configure do
 
   # Full error reports are disabled and caching is turned on.
   config.consider_all_requests_local       = false
-  config.action_controller.perform_caching = (ENV["CONTROLLER_PERFORM_CACHING"] == "true") || true
+
+  config.action_controller.perform_caching = true
+
+  # Use a different cache store in production.
+  # NOTE: the RedisCloud (heroku addon) eviction policy is "volatile-lru", which means it'll
+  # only evict the least recently used keys - among keys which have
+  # an expire set. The expire time is arbitrary, it just needs to be
+  # something, preferably far in the future.
+  config.cache_store = :redis_store, ENV["REDIS_URL"], { expires_in: 7.days }
 
   # Enable Rack::Cache to put a simple HTTP cache in front of your application
   # Add `rack-cache` to your Gemfile before enabling this.
@@ -49,9 +57,6 @@ Rails.application.configure do
 
   # Use a different logger for distributed setups.
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
-
-  # Use a different cache store in production.
-  config.cache_store = :redis_store
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.action_controller.asset_host = "http://assets.example.com"

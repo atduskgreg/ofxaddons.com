@@ -1,7 +1,5 @@
 class AddonsController < ApplicationController
 
-  caches_page :index
-
   # before_action :set_addon, only: [:show, :edit, :update, :destroy]
 
   # GET /addons

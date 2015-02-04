@@ -24,8 +24,8 @@ $(document).ready(function() {
 
   // due to page caching, we have to dynamically change the
   // login/logout links based on js
-  if($.cookie('user_id')) {
-    $(".navbar-nav .login").hide();
-    $(".navbar-nav .logout").show();
-  }
+  // if($.cookie('user_id')) {
+  //   $(".navbar-nav .login").hide();
+  //   $(".navbar-nav .logout").show();
+  // }
 });

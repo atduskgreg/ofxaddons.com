@@ -2,21 +2,21 @@ source "https://rubygems.org"
 ruby "2.1.3"
 
 gem "rails", "~>4.1.9"
-gem "actionpack-page_caching"                   # page caching
 gem "font-awesome-sass"                         # font icons
 gem "foreigner"                                 # support for foreign key constraints
 gem 'omniauth-github', :github => 'intridea/omniauth-github'
 gem "passenger"                                 # web server
 gem "pg"                                        # database driver
+gem "redis-rails"                               # cache store
 gem "slim"                                      # HTML template language
 
 group :production do
   gem "newrelic_rpm"                            # performance monitoring
   gem "rails_12factor"                          # heroku-specific stack mods
-  gem "redis-rails"                             # cache store
 end
 
 group :assets, :development, :test do
+  gem "autoprefixer-rails"                      # automatic vendor-specific CSS prefixing
   gem "bootstrap-sass"                          # SASS port of Bootstrap CSS framework
   gem "coffee-rails"                            # coffeescript asset pipeline integration
   gem "jquery-rails"                            # jQuery integration for rails
