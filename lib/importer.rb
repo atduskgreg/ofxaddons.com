@@ -75,7 +75,8 @@ class Importer
         true
       end
     end
-
+    # expire the categories fragment caches
+    Categories.all.each {|c| c.touch }
     items
   end
 
@@ -95,6 +96,7 @@ class Importer
       gd = GithubData.new(repo_json: i)
       update(gd)
     end
+
     true
   end
 
