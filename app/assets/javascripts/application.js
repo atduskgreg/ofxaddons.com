@@ -15,8 +15,7 @@
 //= require jquery.cookie
 //= require jquery.lazy
 //= require jquery.timeago
-//= require bootstrap
-
+//= require bootstrap-sprockets
 
 $(document).ready(function() {
   $("img.lazy").lazy();

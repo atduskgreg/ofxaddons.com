@@ -4,9 +4,19 @@ class AddonsController < ApplicationController
 
   # GET /addons
   def index
-    @addons = Addon.joins(:categories)
+    @repos = Addon.joins(:categories)
       .includes(:categories)
-      .order("lower(repos.name) ASC")
+
+    case params[:sort]
+    when "freshest"
+      @repos = @repos.order("repos.pushed_at DESC")
+    when "popular"
+      @repos = @repos.order("repos.stargazers_count DESC")
+    end
+
+    @repos = @repos.order("lower(repos.name) ASC")
+
+    render 'repos/index'
   end
 
   # # GET /addons/1

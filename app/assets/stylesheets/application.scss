@@ -1,0 +1,74 @@
+$brand-primary: #EE3987;
+$navbar-default-bg: #fff;
+$navbar-default-link-color: $brand-primary;
+$navbar-default-link-hover-color: #fff;
+$navbar-default-link-hover-bg: $brand-primary;
+$navbar-vertical-offset: 70px;
+$dl-horizontal-offset: 100px;
+$well-bg: #fafafa;
+
+// "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
+@import "bootstrap-sprockets";
+@import "bootstrap-custom";
+@import "addons";
+@import "font-awesome-sprockets";
+@import "font-awesome";
+
+body {
+  padding-top: $navbar-vertical-offset;
+}
+
+h1, h2, h3, nav {
+  font-family: 'Questrial', "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.navbar-brand {
+  width: 12.5em;
+}
+
+.navbar-brand > img {
+  margin-right: 0.5em;
+  display: inline-block;
+}
+
+.navbar-nav {
+  .current-user {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    // display: none;
+  }
+}
+
+.sidebar .affixed {
+  position: fixed;
+
+  h4:first-child {
+    margin-top: 0;
+  }
+}
+
+
+a[name]:before {
+  display: block;
+  content: " ";
+  margin-top: -75px;
+  height: 75px;
+  visibility: hidden;
+}
+
+.sidenav {
+  li {
+    border-right: 1px solid white;
+    &:hover {
+      border-right: 1px solid $navbar-default-link-color;
+    }
+    a {
+      padding: 2px 15px 2px 0;
+      // color: $gray;
+      &:hover {
+        color: $navbar-default-link-color;
+        background-color: $body-bg;
+      }
+    }
+  }
+}

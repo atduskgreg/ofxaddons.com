@@ -20,6 +20,7 @@ namespace :heroku do
       desc "push a copy of your local db to staging"
       task :push => [:environment, "heroku:staging:db:drop"] do
         heroku("pg:push ofxaddons HEROKU_POSTGRESQL_AMBER_URL --app ofxaddons-staging")
+        heroku("restart --app ofxaddons-staging")
       end
 
       desc "drop the staging db"

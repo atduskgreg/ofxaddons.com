@@ -4,7 +4,8 @@ ruby "2.1.3"
 gem "rails", "~>4.1.9"
 gem "font-awesome-sass"                         # font icons
 gem "foreigner"                                 # support for foreign key constraints
-gem 'omniauth-github', :github => 'intridea/omniauth-github'
+gem "high_voltage"                              # serving static pages (wrapped in the layout)
+gem "omniauth-github", :github => "intridea/omniauth-github"
 gem "passenger"                                 # web server
 gem "pg"                                        # database driver
 gem "redis-rails"                               # cache store

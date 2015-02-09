@@ -29,7 +29,6 @@ class GithubData
     attrs[:pushed_at]          = repo_json["pushed_at"]                  unless repo_json["pushed_at"].blank?
     attrs[:source]             = repo_json["source"]["full_name"]        unless repo_json["source"].blank? || repo_json["source"]["full_name"].blank?
     attrs[:stargazers_count]   = repo_json["stargazers_count"]           unless repo_json["stargazers_count"].blank?
-    attrs[:watchers_count]     = repo_json["watchers_count"]             unless repo_json["watchers_count"].blank?
 
     unless repo_json["owner"].blank?
       attrs[:owner_avatar_url]   = repo_json["owner"]["avatar_url"]      unless repo_json["owner"]["avatar_url"].blank?

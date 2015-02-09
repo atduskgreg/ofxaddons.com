@@ -1,17 +1,16 @@
 Rails.application.routes.draw do
 
-  resources :releases
-
   root to: redirect('/categories')
 
   resources :addons,       only: [:index, :show]
   resources :categories,   only: [:index, :show]
-  resources :contributors, only: [:index]
-  #resources :repos,        only: [:index, :show]
+  # resources :contributors, only: [:index]
+  # resources :releases
+  # resources :repos,        only: [:index, :show]
 
-  get "freshest",                 to: "freshest#index", as: :freshest
-  get "popular",                  to: "popular#index",  as: :popular
-  get "unsorted",                 to: "unsorted#index", as: :unsorted
+  get "freshest",                 to: "addons#index", sort: "freshest", as: :freshest
+  get "popular",                  to: "addons#index", sort: "popular", as: :popular
+  get "unsorted",                 to: "unsorteds#index", as: :unsorted
 
   get "/auth/:provider/callback", to: "sessions#create"
   get "/logout",                  to: "sessions#destroy", as: :logout

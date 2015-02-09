@@ -31,14 +31,14 @@ html lang="en"
             | ofxAddons
 
         / Collect the nav links, forms, and other content for toggling
-        #navbar.collapse.navbar-collapse
+        #navbar.navbar-collapse.collapse
           ul.nav.navbar-nav
             li = link_to("categories", categories_path)
             li = link_to("popular", popular_path)
             li = link_to("freshest", freshest_path)
             li = link_to("unsorted", unsorted_path)
-            li = link_to("contributors", contributors_path)
-            li = link_to("make your own", "howto")
+            / li = link_to("contributors", contributors_path)
+            li = link_to("faq/help", page_path("howto"))
 
           / form class="navbar-form navbar-right" role="search"
           /   .form-group
@@ -46,7 +46,7 @@ html lang="en"
 
           ul.nav.navbar-nav
             - if @current_user
-              li.current-user = @current_user.name
+              li.current-user = @current_user.login
               li.logout = link_to("logout", logout_path)
             - else
               li.login = link_to("/auth/github") do

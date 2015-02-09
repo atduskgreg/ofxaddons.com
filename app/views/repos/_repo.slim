@@ -1,0 +1,47 @@
+- cache(repo) do
+  - present(repo) do |r|
+    .repo.col-md-4
+      = link_to(r.github_url) do
+        .repo-banner
+          = r.thumbnail
+          .repo-name = r.name
+
+      - if r.warning_labels?
+        .warning-labels
+          - r.warning_labels.each do |warning|
+            span class=["warning", warning]
+              = warning.to_s.split("-").last
+
+      .description
+        = r.description
+
+      .maintainer
+        ' Maintained by
+        = r.owner
+
+      .updated-at
+        ' Last updated
+        abbr.timeago title=r.last_pushed_at('%Y-%m-%dT%H:%M:%S%z')
+          = r.last_pushed_at("%m/%e/%y")
+
+      - if r.respond_to?(:release)
+        .release-info
+          ' Release?
+          = r.release
+
+      .stargazers-count
+        = icon("star", r.stargazers_count, class: 'stargazers-count')
+
+      - if r.makefile?
+        .has-makefile
+          = icon("file", "Makefile", class: 'has-makefile')
+
+      - if r.examples?
+        .example-count
+          ' Examples
+          = r.example_count
+
+      - if r.respond_to?(:categories) && r.categories?
+        .categories
+          ' Categories:
+          = r.categories_list

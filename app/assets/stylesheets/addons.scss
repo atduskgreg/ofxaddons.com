@@ -1,0 +1,29 @@
+.repo {
+  padding: 15px 27px;
+
+  .repo-banner {
+    height: 70px;
+    width: 270px;
+    overflow: hidden;
+    position: relative;
+    background-color: #f9f9f9;
+  }
+
+  .repo-name {
+    display: inline-block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: .25em;
+    margin: 0;
+    font-size: 120%;
+    background-color: #f4f4f4;
+    word-wrap: break-word;
+  }
+
+  .description {
+    padding-top: 1em;
+    padding-bottom: 1em;
+    font-style: italic;
+  }
+}

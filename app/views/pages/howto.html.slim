@@ -1,0 +1,242 @@
+ul
+  li = link_to("What are openFrameworks addons?", "#what")
+  li = link_to("How do I install an addon from this site?", "#install")
+  li = link_to("Can you explain the info included on ofxAddons?", "#git_info")
+  li = link_to("Should I turn my OF thing into an addon?", "#should_i")
+  li = link_to("How do I make an OF addon?", "#make")
+  li = link_to("Is my addon done yet?", "#is_done")
+  li = link_to("How do I add a thumbnail for this site?", "#add_thumbnail")
+  li = link_to("How do I submit my addon to this page?", "#submit")
+  li = link_to("How do you find all these addons?", "#how_find")
+
+h2 = link_to("What are openFrameworks addons?", anchor: "what")
+
+p An addon is code that extends openFrameworks in some way.  There are usually two main reasons to make an addon:
+
+ol
+  li
+    | Bring in an external library or framework and allow it to easily be
+      integrated into openFrameworks projects, eg:
+      #{ link_to("ofxKinect", "https://github.com/ofTheo/ofxKinect") }
+      for using the kinect in openFrameworks, or
+      #{ link_to("ofxMidi", "https://github.com/danomatika/ofxMidi") }
+      for sending midi commands
+
+  li
+    | Make some complicated task simple and reusable for yourself and other
+      openFrameworks programmers, eg:
+      #{ link_to("ofxQuadWarp", "https://github.com/julapy/ofxQuadWarp") }
+      by #{ link_to("julapy", "#") } or
+      #{ link_to("ofxControlPanel", "https://github.com/ofTheo/ofxControlPanel") }
+      by #{ link_to("ofTheo", "#") } for user interfaces.
+
+
+h2 = link_to("How do I install an addon I found on this site?", anchor: "install")
+
+p
+  | You can checkout a copy of the code using git. The name of each addon links
+    to its #{ link_to("github", "http://github.com") } repository. You can use
+    the <em>Download Zip</em> button #{ image_tag("howto_download.png") } or copy
+    the URL bar, open up a terminal, move to your local openFrameworks addons
+    directory and clone it:
+
+pre
+  | $ cd of_preRelease/addons/
+    $ git clone https://github.com/obviousjim/ofxSomeAddon
+
+
+p
+  | Once you've got the code using either of these methods you should be able to
+    open up the project files in the examples folders of the addon (note that some
+    addons may be not have an example) and build->go to see them work.
+
+p
+  | Addons can be included in new openFrameworks projects through the
+    #{ link_to("Project Generator", "http://www.openframeworks.cc/tutorials/introduction/002_projectGenerator.html") }
+    or you can just copy the example folder into a new apps/ folder and modify it
+    from there.
+
+p
+  | If the addon doesn't build right away, it may require or be dependent on other
+    addons or libraries. Those should be described by the addon developer in their
+    README file.  If there are no project files or the addon is structured in a
+    way that makes openFrameworks show up missing when you open them, please email
+    the addon developer pointing them to this page so they can change the
+    structure to make it easier for people to use.
+
+p
+  | Being included on the site is no guarantee that the code works or is useful.
+    We couldn't possibly test and run them all ourselves, so it's between you and
+    the developer to sort out issues if they don't work.
+
+
+h2 = link_to("Can you explain the information included on ofxAddons?", anchor: "git_info")
+
+p
+  | The title of each addon links to its repository on
+    #{ link_to("github.com", "http://github.com") }.  Below each is a description
+    (extracted from github) followed by the creator and information about how
+    long ago the code was updated, the latest version of openFrameworks that was
+    released at the time of the last update (note that it is likely but not
+    guaranteed to work with that version) and the number of github stars. If
+    the addon includes an example and makefile, it is indicated. In addition, all
+    forks of the repository that either have been updated more recently than the
+    original or have more stars than the original are listed. Each contributor
+    has an individual page that lists the addons they have developed. The data
+    on the page is updated once per day.
+
+
+h2 = link_to("Should I turn my openFrameworks thing into an addon?", anchor: "should_i")
+
+p
+  | The best addons make something that was hard easy. They allow you to do
+    complicated things with really little code.  If you have just conquered a big
+    library, algorithm, or invented a new process you should consider making it
+    an addon.  If you're still wondering, maybe these questions will help:
+
+ol
+  li
+    | Does your addon do something that you think other people would like to do too?
+  li
+    | Make sure your addon doesn't already exist by looking at
+      #{ link_to("ofxaddons.com", "/") }.
+  li
+    | If a similar thing does exist but you think you did it better, consider forking
+      the existing addon into your github account and modifying it.
+
+
+h2 = link_to("How do I make an openFrameworks addon?", anchor: "make")
+
+The folder structure for an addon looks like this:
+
+pre
+  | of_preRelease/
+      addons/
+        ofxMyAddon/
+          src/
+            ofxMyAddon.h
+            ofxMyAddon.cpp
+            ...
+          libs/
+            libwhatever/
+              src/
+                lib_implementation.h
+                lib_implementation.cpp
+                ...
+              includes/
+                libwhatever.h
+                ...
+              lib/
+                osx/
+                  static_libwhatever.a
+                linux/
+                  static_libwhatever.a
+                ... //other platforms
+          example-anExample/
+            src/
+              main.cpp
+              testApp.h
+              testApp.cpp
+              ... //other source
+            MyAddonExample.xcodeproj
+            ... //other project files for other platforms
+          bin/
+            data/
+              necessaryAsset.txt
+
+
+p
+  | Everything should go into of_preRelease/addons/.  The name of the repository
+    should be ofxMyAddon. The point being when someone clones your git
+    repository into their addons/ folder your examples will run without having
+    to shuffle any files around.
+
+h4 Wait can you explain that more?
+
+ul
+  li
+    | The folder under of_preRelease/addons should be the same name as the
+      addon. This is also the git repository name.
+    pre
+      | of_preRelease/addons/ofxMyAddon/
+  li
+    | Beneath it there should be at least two sub folders for the source and
+      examples:
+    pre
+      | ofxMyAddon/src
+        ofxMyAddon/example
+  li
+    | If you have multiple examples for your addon, make sure they are prefixed
+      with example-xxxx:
+    pre
+      | ofxMyAddon/example-simpleExample
+        ofxMyAddon/example-moreComplicatedExample
+
+  li
+    | If the addon is for interfacing with external libraries include the source
+      or any static libs for these in a libs folder
+    pre
+      | ofxMyAddons/libs
+
+  li
+    | The src folder should contain your addon source
+    pre
+      | ofxMyAddon/src/ofxMyAddon.h
+        ofxMyAddon/src/ofxMyAddon.cpp
+        ...
+  li
+    | The example folder should contain the example source and project files
+      (the same style that you would normally find in apps/examples/someExample
+    pre
+      | ofxMyAddon/example/MyAddonExample.xcodeproj
+        ... //other project files for other platforms
+        ofxMyAddon/example/src/main.cpp
+        ofxMyAddon/example/src/testApp.h
+        ofxMyAddon/example/src/testApp.cpp
+        ...
+        ofxMyAddon/example/bin/data
+
+h2 = link_to("Is my addon done yet?", anchor: "is_done")
+
+ul
+  li
+    | Do you describe what your project does in your description and README?
+  li
+    | Do you list what operating systems you are supporting?
+  li
+    | Do you have example projects?
+  li
+    | Do your examples compile against the latest openFrameworks distribution
+      downloaded from the of website?
+  li
+    | Did you give credit and links to whoever wrote the original code your
+      addon includes?
+  li
+    | Are you clear about how your addon is licensed? Be straightforward if you
+      don't want people to use it commercially. Also make sure that your
+      dependent libraries have licenses that you are respecting.
+
+h2 = link_to("How do I submit my addon to this page?", anchor: "submit")
+
+p
+  | You don't have to! Uploading it to github is enough, as long as you have the
+    'ofx' prefix in your repository name then we'll find it. Feel free to send
+    us a note if you want to tell us about it and let us know what category it
+    belongs in.
+
+h2 = link_to("How do I add a thumbnail for this page?", anchor: "add_thumbnail")
+
+p
+  ' Include an image file (270x70) in the root of your repository named:
+  b ofxaddons_thumbnail.png
+
+
+h2 = link_to("How do you find all these addons?", anchor: "how_find")
+
+p
+  | We wrote scripts to discover addons on
+    #{ link_to("github.com", "http://github.com") }. The scripts look at the
+    repository name and description for things like 'openFrameworks' and 'ofx'.
+    We have manual admin tools to discard the results that aren't
+    openFrameworks related, empty, or blatantly incomplete. The ones we keep
+    are tagged with categories after doing a bit of research about them.

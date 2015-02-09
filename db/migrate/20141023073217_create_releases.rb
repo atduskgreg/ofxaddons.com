@@ -26,8 +26,5 @@ class CreateReleases < ActiveRecord::Migration
 
     add_column :repos, :release_id, :integer
 
-    # estimated release is populated before_save, so let's populate!
-    Addon.all.each {|a| a.save!}
-
   end
 end

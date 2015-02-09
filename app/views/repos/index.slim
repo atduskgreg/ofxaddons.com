@@ -1,0 +1,3 @@
+- @repos.each_slice(3) do |repos|
+  .row
+    = render(partial: "repos/repo", collection: repos)
