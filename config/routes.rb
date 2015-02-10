@@ -8,13 +8,16 @@ Rails.application.routes.draw do
   # resources :releases
   # resources :repos,        only: [:index, :show]
 
-  get "freshest",                 to: "addons#index", sort: "freshest", as: :freshest
-  get "popular",                  to: "addons#index", sort: "popular", as: :popular
-  get "unsorted",                 to: "unsorteds#index", as: :unsorted
+  get "freshest",                 to: "addons#index",    sort: "freshest", as: :freshest
+  get "popular",                  to: "addons#index",    sort: "popular",  as: :popular
+  get "unsorted",                 to: "unsorteds#index",                   as: :unsorted
 
   get "/auth/:provider/callback", to: "sessions#create"
-  get "/logout",                  to: "sessions#destroy", as: :logout
+  get "/logout",                  to: "sessions#destroy",                  as: :logout
 
+  namespace :admin do
+    resources :repos, only: [:index]
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

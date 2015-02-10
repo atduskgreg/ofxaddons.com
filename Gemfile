@@ -9,6 +9,7 @@ gem "omniauth-github", :github => "intridea/omniauth-github"
 gem "passenger"                                 # web server
 gem "pg"                                        # database driver
 gem "redis-rails"                               # cache store
+gem "simple_form"                               # form builder
 gem "slim"                                      # HTML template language
 
 group :production do

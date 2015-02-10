@@ -10,9 +10,11 @@ $well-bg: #fafafa;
 // "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
 @import "bootstrap-sprockets";
 @import "bootstrap-custom";
-@import "addons";
 @import "font-awesome-sprockets";
 @import "font-awesome";
+
+@import "addons";
+@import "admin/repos";
 
 body {
   padding-top: $navbar-vertical-offset;

@@ -1,0 +1,5 @@
+.repo-container
+  = render(partial: "/repos/repo", object: repo)
+
+  = simple_form_for(repo) do |f|
+    = f.input(:type, as: :select, collection: Repo::REPO_TYPES.map(&:titleize))

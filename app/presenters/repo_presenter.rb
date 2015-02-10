@@ -37,9 +37,9 @@ class RepoPresenter < Presenter
 
   def owner_avatar
     if owner_avatar?
-      h.image_tag(nil, class:"userIcon lazy", data:{ src:"#{ object.owner_avatar_url }&amp;s=16" }, width: 16)
+      h.image_tag(nil, class:"userIcon lazy", data:{ src:"#{ object.owner_avatar_url }&amp;s=16" }, width: "16px", height: "16px")
     else
-      h.image_tag("default-gravatar-small.png", class: "userIcon", width: 16)
+      h.image_tag("default-gravatar-small.png", class: "userIcon", width: "16px", height: "16px")
     end
   end
 
@@ -50,8 +50,8 @@ class RepoPresenter < Presenter
 
   def thumbnail
     if thumbnail?
-      url = "https://raw.github.com/#{full_name}/master/ofxaddons_thumbnail.png"
-      h.image_tag("", class:"lazy repo-thumb", data:{ src: url }, width:"270px")
+      url = "https://raw.githubusercontent.com/#{full_name}/master/ofxaddons_thumbnail.png"
+      h.image_tag("", class:"lazy repo-thumb", data:{ src: url }, width:"270px", height:"70px")
     end
   end
 
