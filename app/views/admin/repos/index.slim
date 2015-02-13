@@ -1,1 +1,49 @@
-= render(partial: "admin/repos/repo", collection: @repos)
+table.table.table-bordered.table-condensed.table-hover.repos
+  thead
+    tr
+      th.repo-type
+        div
+          span Type
+      th.repo-name
+        div
+          span Name
+      th.maintainer
+        div
+          span Maintainer
+      th.pushed-at
+        div
+          span Last Updated
+      th.stargazers-count
+        div
+          span Stars
+      th.example-count
+        div
+          span Examples
+      th.makefile
+        div
+          span Makefile
+      th.description
+        div
+          span Description
+      th.actions
+        div
+          span Set Type
+  tbody
+    = render(partial: "admin/repos/repo", collection: @repos)
+
+#categorize_modal.modal.fade
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button type="button" class="close" data-dismiss="modal" aria-label="Close"
+          span aria-hidden="true"
+            | &times;
+        h4 class="modal-title"
+          | Categories
+      .modal-body
+        p some categories
+      .modal-footer
+        button type="button" class="btn btn-default" data-dismiss="modal"
+          | Close
+        button type="button" class="btn btn-primary"
+          | Save

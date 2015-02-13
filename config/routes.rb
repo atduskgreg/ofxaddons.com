@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   get "/logout",                  to: "sessions#destroy",                  as: :logout
 
   namespace :admin do
-    resources :repos, only: [:index]
+    resources :repos, only: [:index, :update]
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

@@ -5,6 +5,8 @@
         .repo-banner
           = r.thumbnail
           .repo-name = r.name
+          .repo-type.label.label-info.invisible
+            = r.type.titleize
 
       - if r.warning_labels?
         .warning-labels

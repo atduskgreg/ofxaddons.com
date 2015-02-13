@@ -1,3 +1,7 @@
+//
+//  Sass variables
+//
+
 $brand-primary: #EE3987;
 $navbar-default-bg: #fff;
 $navbar-default-link-color: $brand-primary;
@@ -7,14 +11,21 @@ $navbar-vertical-offset: 70px;
 $dl-horizontal-offset: 100px;
 $well-bg: #fafafa;
 
-// "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
+
+//
+// CSS libraries
+//
+
+// NOTE: "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
 @import "bootstrap-sprockets";
 @import "bootstrap-custom";
 @import "font-awesome-sprockets";
 @import "font-awesome";
 
-@import "addons";
-@import "admin/repos";
+
+//
+// Site-wide styles
+//
 
 body {
   padding-top: $navbar-vertical-offset;
@@ -70,6 +81,105 @@ a[name]:before {
       &:hover {
         color: $navbar-default-link-color;
         background-color: $body-bg;
+      }
+    }
+  }
+}
+
+//
+// Repos
+//
+
+.repo {
+  padding: 15px 27px;
+
+  .repo-banner {
+    height: 70px;
+    width: 270px;
+    overflow: hidden;
+    position: relative;
+    background-color: #f9f9f9;
+  }
+
+  .repo-name {
+    display: inline-block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: .25em;
+    margin: 0;
+    font-size: 120%;
+    background-color: #f4f4f4;
+    word-wrap: break-word;
+  }
+
+  .description {
+    padding-top: 1em;
+    padding-bottom: 1em;
+    font-style: italic;
+  }
+}
+
+#admin_repos_index {
+  table.repos {
+    table-layout: fixed;
+    thead,
+    thead tr,
+    thead th {
+      border-top: 1px solid white;
+      border-left: 1px solid white;
+      border-right: 1px solid white;
+    }
+
+    th {
+      white-space: nowrap;
+      height: 100px;
+      position: relative;
+
+      & > div {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        transform: translate(-13px, -30px) rotate(315deg);
+        width: 120px;
+        & > span {
+          display: block;
+          padding: 0 25px;
+          border-top: 1px solid #ccc;
+          line-height: 1em;
+          font-size: small;
+        }
+      }
+    }
+
+    td, th {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      &.repo-type {
+        width: 5.75em;
+      }
+
+      &.repo-name,
+      &.updated-at,
+      &.maintainer {
+        width: 10em;
+      }
+
+      &.stargazers-count,
+      &.example-count,
+      &.makefile {
+        width: 1.5em;
+        white-space: nowrap;
+      }
+
+      &.description {
+        min-width: 400px;
+      }
+
+      &.actions {
+        width: 17.5em;
       }
     }
   }
