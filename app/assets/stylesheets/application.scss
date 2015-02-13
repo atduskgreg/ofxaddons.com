@@ -151,12 +151,12 @@ a[name]:before {
         }
       }
     }
-
-    td, th {
+    td {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-
+    }
+    td, th {
       &.repo-type {
         width: 5.75em;
       }
