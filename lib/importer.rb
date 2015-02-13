@@ -2,6 +2,10 @@ require "fileutils"
 require "github_data"
 require "json"
 
+# TODO: generate some stats:
+#       - # repos added
+#       - # addons updated
+#       - # incomplete repos updated
 # TODO: move all the paths and glob patterns to constants
 
 class Importer
@@ -76,7 +80,7 @@ class Importer
       end
     end
     # expire the categories fragment caches
-    Categories.all.each {|c| c.touch }
+    Category.all.each {|c| c.touch }
     items
   end
 
