@@ -1,12 +1,18 @@
 class Addon < Repo
 
-  has_many   :categorizations, inverse_of: :addon, foreign_key: :repo_id
-  has_many   :categories, -> { uniq }, through: :categorizations
-  belongs_to :release, inverse_of: :addons
-
+  # NOTE: category-related associations are in the base class
+  belongs_to  :release, inverse_of: :addons
   before_save :update_release_date
 
+  validate :has_at_least_one_category
+
   private
+
+  def has_at_least_one_category
+    if type == "Addon" && categories.count == 0
+      errors.add(:categories, "can't be empty")
+    end
+  end
 
   def update_release_date
     unless pushed_at.nil?

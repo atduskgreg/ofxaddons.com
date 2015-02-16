@@ -133,18 +133,18 @@ a[name]:before {
 
     th {
       white-space: nowrap;
-      height: 100px;
+      height: 86px;
       position: relative;
 
       & > div {
         position: absolute;
         bottom: 0;
         left: 0;
-        transform: translate(-13px, -30px) rotate(315deg);
-        width: 120px;
+        transform: translate(-12px, -24px) rotate(315deg);
+        width: 104px;
         & > span {
           display: block;
-          padding: 0 25px;
+          padding: 0 0 0 16px;
           border-top: 1px solid #ccc;
           line-height: 1em;
           font-size: small;
@@ -162,7 +162,7 @@ a[name]:before {
       }
 
       &.repo-name,
-      &.updated-at,
+      &.pushed-at,
       &.maintainer {
         width: 10em;
       }

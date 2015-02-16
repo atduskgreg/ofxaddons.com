@@ -1,15 +1,15 @@
 - present(repo) do |r|
-  tr
+  tr id="tr_repo_id_#{r.id}"
     td.repo-type
       .label.label-info.invisible
         = r.type.titleize
-    td.repo-name
+    td.repo-name data-container="body" data-toggle="tooltip" title="#{r.name}"
       = link_to(r.name, r.github_url)
-    td.maintainer
+    td.maintainer data-container="body" data-toggle="tooltip" title="#{r.owner_login}"
       = r.owner
-    td.updated-at
-      abbr.timeago title=r.last_pushed_at('%Y-%m-%dT%H:%M:%S%z')
-        = r.last_pushed_at("%m/%e/%y")
+    td.pushed-at
+      abbr.timeago title=r.pushed_at('%Y-%m-%dT%H:%M:%S%z')
+        = r.pushed_at("%m/%e/%y")
     td.stargazers-count
       = r.stargazers_count
     td.example-count
@@ -20,6 +20,8 @@
     td.description data-container="body" data-toggle="tooltip" title="#{r.description}"
         = r.description
     td.actions
-      = link_to("addon", admin_repo_path(repo, type: :addon), remote: true, method: :patch, class: 'js-categorize btn btn-xs btn-default')
+      / this link gets intercepted in application.coffee and it's patch info is injected into the modal for submission
+      = link_to("addon", admin_repo_path(repo, type: :addon), data: { repo_id: r.id }, class: 'js-categorize btn btn-xs btn-default')
+
       - [["delete", :deleted], ["incomplete", :incomplete], ["non addon", :non_addon]].each do |label, type|
-        = link_to(label, admin_repo_path(repo, type: type), remote: true, method: :patch, class: 'btn btn-xs btn-default')
+        = link_to(label, admin_repo_path(repo, repo:{ type: type }), remote: true, method: :patch, class: 'btn btn-xs btn-default')

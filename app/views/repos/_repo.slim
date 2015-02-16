@@ -23,8 +23,8 @@
 
       .updated-at
         ' Last updated
-        abbr.timeago title=r.last_pushed_at('%Y-%m-%dT%H:%M:%S%z')
-          = r.last_pushed_at("%m/%e/%y")
+        abbr.timeago title=r.pushed_at('%Y-%m-%dT%H:%M:%S%z')
+          = r.pushed_at("%m/%e/%y")
 
       - if r.respond_to?(:release)
         .release-info

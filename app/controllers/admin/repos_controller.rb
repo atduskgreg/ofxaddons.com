@@ -17,14 +17,24 @@ class Admin::ReposController < Admin::ApplicationController
              Unsorted
            end
 
-    @repos = type.order('repos.stargazers_count, repos.example_count, repos.pushed_at DESC, lower(repos.name) ASC')
+    @repos = type.order('repos.stargazers_count DESC, repos.example_count DESC, repos.pushed_at DESC, lower(repos.name) ASC')
+
+    # collections array of categories for generating the categories modal form
+    @categories = Category.order("lower(categories.name) ASC").all.map {|c| [c.name, c.id]}
+
+    # HACK: if I put Addon.new() here then the form submit method is
+    #       forced to POST by the rails internals. We'll replace the
+    #       guts of this object before we post back to the server.
+    @placeholder_repo = Repo.new
   end
 
   def update
     raise "ajax only!" unless request.xhr?
 
     repo = Repo.find(repo_id)
-    if repo.update_column(:type, repo_type)
+    repo.type = repo_type
+    repo.category_ids = repo_category_ids
+    if repo.save
       render(json: {
                status: 200,
                controller: params[:controller],
@@ -48,12 +58,20 @@ class Admin::ReposController < Admin::ApplicationController
 
   private
 
+  def repo_category_ids
+    repo_params[:category_ids]
+  end
+
   def repo_id
     params.require(:id)
   end
 
+  def repo_params
+    params.require(:repo)
+  end
+
   def repo_type
-    params.require(:type).camelize
+    repo_params[:type].camelize
   end
 
   # dynamically define instace variables for counts of each repo type

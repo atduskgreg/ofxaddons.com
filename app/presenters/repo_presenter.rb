@@ -20,7 +20,7 @@ class RepoPresenter < Presenter
     "http://github.com/#{ object.full_name }"
   end
 
-  def last_pushed_at(format)
+  def pushed_at(format)
     object.pushed_at.strftime(format)
   end
 
