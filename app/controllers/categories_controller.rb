@@ -6,7 +6,7 @@ class CategoriesController < ApplicationController
   def index
     @categories = Category.joins(:addons)
       .includes(:addons)
-      .order("lower(repos.name) ASC")
+      .order("lower(categories.name) ASC, lower(repos.name) ASC")
       .all
   end
 
