@@ -43,7 +43,7 @@
           ' Examples
           = r.example_count
 
-      - if r.respond_to?(:categories) && r.categories?
+      - if r.respond_to?(:categories?) && r.categories?
         .categories
           ' Categories:
           = r.categories_list

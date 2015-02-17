@@ -4,7 +4,7 @@ class UnsortedsController < ApplicationController
 
   # GET /repos
   def index
-    @repos = Unsorted.order("repos.stargazers_count DESC, repos.example_count DESC, repos.pushed_at DESC")
+    @repos = Unsorted.order('repos.stargazers_count DESC, repos.example_count DESC, repos.pushed_at DESC, lower(repos.name) ASC')
 
     render 'repos/index'
   end
