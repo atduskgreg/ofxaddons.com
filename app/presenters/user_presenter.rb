@@ -28,9 +28,8 @@ class UserPresenter < Presenter
   end
 
   def to_s
-    h.link_to(h.contributor_path(object)) do
-      "#{ avatar } #{ login }".html_safe
-    end
+    text = "#{ avatar } #{ login }".html_safe
+    h.link_to(text, h.contributor_path(object))
   end
 
 end
