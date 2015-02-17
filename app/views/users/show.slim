@@ -1,4 +1,6 @@
 - present(@user) do |u|
-  h1 = u
+  h1 = u.login
 
-  p Some repo info to go here...
+  - @addons.each_slice(3) do |repos|
+    .row
+      = render(partial: "repos/repo", collection: repos)

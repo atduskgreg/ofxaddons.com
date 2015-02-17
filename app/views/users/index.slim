@@ -12,6 +12,9 @@ table.table
       - present(user) do |u|
         tr
           td.user
-            = u
+            = link_to(contributor_path(user)) do
+              = u.avatar
+              | &nbsp;
+              = u.login
           td.repo-count
             = u.repo_count
