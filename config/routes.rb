@@ -4,10 +4,9 @@ Rails.application.routes.draw do
 
   resources :addons,       only: [:index, :show]
   resources :categories,   only: [:index, :show]
-  # resources :contributors, only: [:index]
-  # resources :releases
-  # resources :repos,        only: [:index, :show]
+  resources :contributors, controller: 'users', only: [:index]
 
+  get "contributors/:login",      to: "users#show",                        as: :contributor
   get "freshest",                 to: "addons#index",    sort: "freshest", as: :freshest
   get "popular",                  to: "addons#index",    sort: "popular",  as: :popular
   get "unsorted",                 to: "unsorteds#index",                   as: :unsorted

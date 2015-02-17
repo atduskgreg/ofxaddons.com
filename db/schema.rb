@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150209080926) do
+ActiveRecord::Schema.define(version: 20150217002127) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,6 +91,7 @@ ActiveRecord::Schema.define(version: 20150209080926) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "login"
+    t.string   "avatar_url"
   end
 
   add_index "users", ["provider", "login"], name: "index_users_on_provider_and_login", unique: true, using: :btree
@@ -101,5 +102,6 @@ ActiveRecord::Schema.define(version: 20150209080926) do
   add_foreign_key "categorizations", "repos", name: "categorizations_repo_id_fk", dependent: :delete
 
   add_foreign_key "repos", "releases", name: "repos_release_id_fk", dependent: :delete
+  add_foreign_key "repos", "users", name: "repos_user_id_fk", dependent: :delete
 
 end

@@ -1,0 +1,17 @@
+h1 Contributors
+.count
+  ' Total: #{ @users.to_a.size }
+
+table.table
+  thead
+    tr
+      th Name
+      th # Addons
+  tbody
+    - @users.each do |user|
+      - present(user) do |u|
+        tr
+          td.user
+            = u
+          td.repo-count
+            = u.repo_count
