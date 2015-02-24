@@ -18,6 +18,17 @@ Rails.application.routes.draw do
     resources :repos, only: [:index, :update]
   end
 
+  # legacy JSON API
+  constraints(format: 'json') do
+    get "/api/v1/search", to: "apis#search1"
+    get "/api/v1/users/:username", to: "apis#user1"
+    get "/api/v1/users/:username/repos", to: "apis#user_repos1"
+    get "/api/v1/users/:username/repos/:repo_name", to: "apis#user_repo1"
+    get "/api/v1/repos", to: "apis#repos1"
+    get "/api/v1/repos/:repo_name", to: "apis#repo1"
+    get "/api/v1/all", to: redirect("/api/v1/repos")
+  end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

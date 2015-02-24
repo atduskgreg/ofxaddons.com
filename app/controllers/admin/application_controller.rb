@@ -5,9 +5,7 @@ class Admin::ApplicationController < ApplicationController
   before_filter :ensure_admin
 
   def ensure_admin
-    unless @current_user
-      redirect_to(root_path)
-    end
+    redirect_to(root_path) unless @current_user && @current_user.admin?
   end
 
 end

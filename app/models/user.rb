@@ -9,6 +9,8 @@ class User < ActiveRecord::Base
       .group("users.id")
   }
 
+  attr_protected :admin
+
   def self.create_with_omniauth(provider, uid, login, name)
     create! do |user|
       user.provider = provider
@@ -44,6 +46,10 @@ class User < ActiveRecord::Base
     else
       User.create_with_omniauth(provider, uid, login, name)
     end
+  end
+
+  def admin?
+    admin
   end
 
   def to_param

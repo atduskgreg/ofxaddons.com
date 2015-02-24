@@ -8,6 +8,7 @@ gem "high_voltage"                              # serving static pages (wrapped 
 gem "omniauth-github", :github => "intridea/omniauth-github"
 gem "passenger"                                 # web server
 gem "pg"                                        # database driver
+gem "protected_attributes"                      # mass-assignment security in models
 gem "redis-rails"                               # cache store
 gem "simple_form"                               # form builder
 gem "slim"                                      # HTML template language
