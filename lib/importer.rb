@@ -6,6 +6,9 @@ require "json"
 #       - # repos added
 #       - # addons updated
 #       - # incomplete repos updated
+# TODO: email report
+# TODO: import forks
+# TODO: import users
 # TODO: move all the paths and glob patterns to constants
 
 class Importer

@@ -20,7 +20,7 @@ class Repo < ActiveRecord::Base
       our_labels = ["ofx-incomplete", "ofx-osx", "ofx-win", "ofx-linux"]
       relevant_labels = []
       if issues
-        issues.select{|issue| issue["state"] == "open"  }.each do |issue|
+        JSON.parse(issues).select{|issue| issue["state"] == "open"  }.each do |issue|
           our_labels.each do |l|
             if Regexp.new(l) =~ issue["title"]
               relevant_labels << l
