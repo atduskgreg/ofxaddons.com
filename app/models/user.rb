@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
       .group("users.id")
   }
 
-  attr_protected :admin
+  #attr_protected :admin
 
   def self.create_with_omniauth(provider, uid, login, name)
     create! do |user|
