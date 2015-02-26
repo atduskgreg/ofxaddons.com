@@ -33,8 +33,9 @@ Rails.application.routes.draw do
   # redirects
   #
 
+  get "/changes",                 to: redirect("/freshest")
+  get "/howto",                   to: redirect("/pages/howto")
   get "/users/:login",            to: redirect("/contributors/%{name}")
-
 
 
   # The priority is based upon order of creation: first created -> highest priority.
