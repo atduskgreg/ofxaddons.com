@@ -33,9 +33,11 @@ Rails.application.routes.draw do
   # redirects
   #
 
+  get "/category",                to: redirect("/categories")
+  get "/category/:id",            to: redirect("/categories")
   get "/changes",                 to: redirect("/freshest")
   get "/howto",                   to: redirect("/pages/howto")
-  get "/users/:login",            to: redirect("/contributors/%{name}")
+  get "/users/:login",            to: redirect("/contributors/%{login}")
 
 
   # The priority is based upon order of creation: first created -> highest priority.
