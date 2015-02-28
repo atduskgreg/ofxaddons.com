@@ -62,17 +62,18 @@ html lang="en"
             = yield(:sidebar)
 
         .col-md-10
+          = flash_messages
           .well
             | ofxAddons is directory of extensions and libraries for the #{ link_to("openFrameworks", "http://openframeworks.cc") } creative coding toolkit. Compiled fresh from #{ link_to("Github", "http://github.com") } daily.
           = yield
 
     = yield(:script)
 
-    - if ENV["GOOGLE_ANALYTICS_ID"]
+    - unless ENV["GOOGLE_ANALYTICS_ID"].blank?
       javascript:
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', '#{ GOOGLE_ANALYTICS_ID }', 'auto');
+        ga('create', '#{ ENV["GOOGLE_ANALYTICS_ID"] }', 'auto');
         ga('send', 'pageview');
