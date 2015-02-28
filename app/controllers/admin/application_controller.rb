@@ -1,7 +1,5 @@
 class Admin::ApplicationController < ApplicationController
 
-  layout "admin"
-
   before_filter :ensure_admin
 
   def ensure_admin
