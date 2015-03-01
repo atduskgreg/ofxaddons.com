@@ -2,9 +2,9 @@ class UserPresenter < Presenter
 
   def avatar
     if avatar?
-      h.image_tag(nil, class:"userIcon lazy", data:{ src:"#{ object.avatar_url }&amp;s=16" }, width: "16px", height: "16px")
+      h.image_tag(nil, class:"userIcon lazy", data:{ src:"#{ object.avatar_url }&amp;s=16" }, width: "16px", height: "16px").html_safe
     else
-      h.image_tag("default-gravatar-small.png", class: "userIcon", width: "16px", height: "16px")
+      h.image_tag("default-gravatar-small.png", class: "userIcon", width: "16px", height: "16px").html_safe
     end
   end
 
@@ -25,7 +25,7 @@ class UserPresenter < Presenter
   def to_s
     h.link_to(h.contributor_path(object)) do
       "#{ avatar } #{ login }".html_safe
-    end
+    end.html_safe
   end
 
 end
