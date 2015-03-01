@@ -8,4 +8,4 @@ namespace :assets do
   end
 end
 
-Rake::Task["assets:precompile"].enhance ["assets:load_assets_gems"]
+Rake::Task["assets:environment"].enhance ["assets:load_assets_gems"]
