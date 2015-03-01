@@ -4,16 +4,8 @@
   - cache(c) do
     .row
       .col-md-12
-        = c.anchor_tag
         h2.page-header
-          = c.anchor_link
+          = c
     - c.addons.each_slice(3) do |addons|
       .row
         = render(partial: "repos/repo", collection: addons)
-
-- content_for(:sidebar) do
-  h4 Categories
-  ul.nav.sidenav.sidenav-categories
-    - categories.each do |c|
-      li
-        = c.anchor_link

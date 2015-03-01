@@ -17,9 +17,11 @@
       .description
         = r.description
 
-      .maintainer
-        ' Maintained by
-        = r.owner
+      - unless r.user.blank?
+        .maintainer
+          ' Maintained by
+          - present(r.user) do |u|
+            = u
 
       .updated-at
         ' Last updated

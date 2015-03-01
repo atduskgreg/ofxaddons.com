@@ -1,0 +1,7 @@
+- content_for(:sidebar) do
+  = render(partial: "categories/sidebar", locals: { categories: @sidebar_categories })
+
+- content_for(:content) do
+  = yield
+
+= render template: "layouts/application"

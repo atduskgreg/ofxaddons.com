@@ -22,4 +22,10 @@ class UserPresenter < Presenter
     end
   end
 
+  def to_s
+    h.link_to(h.contributor_path(object)) do
+      "#{ avatar } #{ login }".html_safe
+    end
+  end
+
 end

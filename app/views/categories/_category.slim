@@ -1,0 +1,9 @@
+- cache(category, category.addons) do
+  - present(category) do |c|
+    .row
+      .col-md-12
+        h2.page-header
+          = c
+    - c.addons.each_slice(3) do |addons|
+      .row
+        = render(partial: "repos/repo", collection: addons)

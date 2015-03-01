@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
 
   has_many :repos, inverse_of: :user
 
+  # TODO: improve this with a counter_cache?
   scope :with_addons_count, -> {
     select("users.*, count(users.id) as repo_count")
       .joins(:repos)

@@ -28,26 +28,6 @@ class RepoPresenter < Presenter
     !!object.has_makefile
   end
 
-  # TODO: fix this link once users are normalized
-  def owner
-    # h.link_to(object.owner) do
-      "#{ owner_avatar } #{ object.owner_login }".html_safe
-    # end
-  end
-
-  def owner_avatar
-    if owner_avatar?
-      h.image_tag(nil, class:"userIcon lazy", data:{ src:"#{ object.owner_avatar_url }&amp;s=16" }, width: "16px", height: "16px")
-    else
-      h.image_tag("default-gravatar-small.png", class: "userIcon", width: "16px", height: "16px")
-    end
-  end
-
-  # TODO: delete me when owner is normalized
-  def owner_avatar?
-    !object.owner_avatar_url.blank?
-  end
-
   def thumbnail
     if thumbnail?
       url = "https://raw.githubusercontent.com/#{full_name}/master/ofxaddons_thumbnail.png"

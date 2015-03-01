@@ -26,5 +26,4 @@ class ApplicationController < ActionController::Base
     #data = { controller: controller, action: action }
   end
 
-
 end

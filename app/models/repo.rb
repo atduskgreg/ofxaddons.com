@@ -2,7 +2,12 @@ class Repo < ActiveRecord::Base
 
   REPO_TYPES = %w(addon deleted empty incomplete non_addon unsorted repo)
 
-  has_many :categories, -> { uniq }, through: :categorizations
+  has_many :categories, -> { uniq }, through: :categorizations do
+    def cache_key
+      [count(:updated_at),maximum(:updated_at)].map(&:to_i).join('-')
+    end
+  end
+
   has_many :categorizations
   belongs_to :user, inverse_of: :repos
 

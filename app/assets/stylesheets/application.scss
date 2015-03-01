@@ -77,11 +77,16 @@ a[name]:before {
     }
     a {
       padding: 2px 15px 2px 0;
-      // color: $gray;
+      display: inline-block;
       &:hover {
         color: $navbar-default-link-color;
         background-color: $body-bg;
       }
+    }
+    .counts {
+      display: inline-block;
+      float: right;
+      padding-right: 4px;
     }
   }
 }

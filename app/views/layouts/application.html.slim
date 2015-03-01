@@ -65,7 +65,7 @@ html lang="en"
           = flash_messages
           .well
             | ofxAddons is directory of extensions and libraries for the #{ link_to("openFrameworks", "http://openframeworks.cc") } creative coding toolkit. Compiled fresh from #{ link_to("Github", "http://github.com") } daily.
-          = yield
+          = content_for?(:content) ? yield(:content) : yield
 
     = yield(:script)
 

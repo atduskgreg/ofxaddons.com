@@ -1,7 +1,7 @@
 class Addon < Repo
 
   # NOTE: category-related associations are in the base class
-  belongs_to  :release, inverse_of: :addons
+  belongs_to  :release, inverse_of: :addons, touch: true
   before_save :update_release_date
 
   validate :has_at_least_one_category

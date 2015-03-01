@@ -1,6 +1,9 @@
 class CategoriesController < ApplicationController
 
-  # before_action :set_category, only: [:show, :edit, :update, :destroy]
+  layout "categories"
+
+  before_action :set_category, only: [:show]
+  before_filter :set_sidebar
 
   # GET /repos
   def index
@@ -10,9 +13,9 @@ class CategoriesController < ApplicationController
       .all
   end
 
-  # # GET /repos/1
-  # def show
-  # end
+  # GET /repos/1
+  def show
+  end
 
   # # GET /repos/1/edit
   # def edit
@@ -44,14 +47,16 @@ class CategoriesController < ApplicationController
   #   redirect_to repos_url, notice: 'Repo was successfully destroyed.'
   # end
 
-  # private
-  #   # Use callbacks to share common setup or constraints between actions.
-  #   def set_repo
-  #     @repo = Repo.includes(:categories, :estimated_release => :release).find(params[:id])
-  #   end
+  private
 
-  #   # Only allow a trusted parameter "white list" through.
-  #   def repo_params
-  #     params[:repo]
-  #   end
+  def set_category
+    @category = Category.joins(:addons)
+      .includes(:addons)
+      .find(params[:id])
+  end
+
+  def set_sidebar
+    @sidebar_categories = Category.having_addons
+  end
+
 end
