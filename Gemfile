@@ -9,7 +9,6 @@ gem "lograge"                                   # denser application logs
 gem "omniauth-github", :github => "intridea/omniauth-github"
 gem "passenger"                                 # web server
 gem "pg"                                        # database driver
-gem "quiet_assets"                              # strip out all the asset serving noise from logs
 gem "redis-rails"                               # cache store
 gem "simple_form"                               # form builder
 gem "slim"                                      # HTML template language
@@ -40,6 +39,7 @@ group :development, :test do
   gem "dotenv-rails"                            # loads environment from .env file in development mode
   gem "foreman"                                 # Procfile-based app manager
   gem "immigrant"                               # detect foreign keys and generate migrations to create constraints
+  gem "quiet_assets"                              # strip out all the asset serving noise from logs
   gem "spring"                                  # rails preloader
   gem "yaml_db"                                 # db data dump to YAML
 end
