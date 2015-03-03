@@ -16,6 +16,9 @@ class AddonsController < ApplicationController
 
     @repos = @repos.order("lower(repos.name) ASC")
 
+    expires_in 6.hours, public: true
+    fresh_when last_modified: @repos.maximum(:updated_at)
+
     render 'repos/index'
   end
 

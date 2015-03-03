@@ -11,10 +11,15 @@ class CategoriesController < ApplicationController
       .includes(:addons)
       .order("lower(categories.name) ASC, lower(repos.name) ASC")
       .all
+
+    expires_in 6.hours, public: true
+    fresh_when last_modified: @categories.maximum(:updated_at)
   end
 
   # GET /repos/1
   def show
+    expires_in 6.hours, public: true
+    fresh_when etag: @category
   end
 
   # # GET /repos/1/edit

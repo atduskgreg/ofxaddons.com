@@ -6,6 +6,9 @@ class UnsortedsController < ApplicationController
   def index
     @repos = Unsorted.order('repos.stargazers_count DESC, repos.example_count DESC, repos.pushed_at DESC, lower(repos.name) ASC')
 
+    expires_in 6.hours, public: true
+    fresh_when last_modified: @repos.maximum(:updated_at)
+
     render 'repos/index'
   end
 

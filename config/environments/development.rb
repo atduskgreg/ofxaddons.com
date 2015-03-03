@@ -12,14 +12,7 @@ Rails.application.configure do
   # Show full error reports and enable/disable caching.
   config.consider_all_requests_local       = true
 
-  if ENV["CONTROLLER_PERFORM_CACHING"] == "true"
-    config.action_controller.perform_caching = true
-    if ENV["REDIS_URL"]
-      config.cache_store = :redis_store, ENV["REDIS_URL"], { expires_in: 1.hour }
-    end
-  else
-    config.action_controller.perform_caching = false
-  end
+  config.action_controller.perform_caching = false
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
