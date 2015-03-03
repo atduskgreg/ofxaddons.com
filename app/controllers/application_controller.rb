@@ -19,6 +19,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def not_found!
+    raise ActionController::RoutingError.new("Not Found")
+  end
+
   def set_body_attrs
     controller, action = params[:controller], params[:action]
     controller = controller.gsub("/", "_")

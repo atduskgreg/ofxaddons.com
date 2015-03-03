@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find_provider_login("github", login_param)
+    @user = User.find_provider_login("github", login_param) || not_found!
     @addons = Addon.where(user_id: @user.id).order("lower(repos.name) ASC")
   end
 
