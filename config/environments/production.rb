@@ -15,9 +15,7 @@ Rails.application.configure do
   # Full error reports are disabled and caching is turned on.
   config.consider_all_requests_local       = false
 
-  if ENV["CONTROLLER_PERFORM_CACHING"] != "true"
-    config.action_controller.perform_caching = false
-  else
+  if ENV["CONTROLLER_PERFORM_CACHING"].blank? || (ENV["CONTROLLER_PERFORM_CACHING"] == "true")
     config.action_controller.perform_caching = true
     if ENV["REDIS_URL"]
       # NOTE: the RedisCloud (heroku addon) eviction policy is
@@ -28,6 +26,8 @@ Rails.application.configure do
       # while.
       config.cache_store = :redis_store, ENV["REDIS_URL"] + "/0/cache", { expires_in: 7.days }
     end
+  else
+    config.action_controller.perform_caching = false
   end
 
   # Enable Rack::Cache to put a simple HTTP cache in front of your application
