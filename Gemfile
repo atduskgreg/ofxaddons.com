@@ -6,7 +6,7 @@ gem "font-awesome-sass"                         # font icons
 gem "foreigner"                                 # support for foreign key constraints
 gem "high_voltage"                              # serving static pages (wrapped in the layout)
 gem "lograge"                                   # denser application logs
-gem "omniauth-github", :github => "intridea/omniauth-github"
+gem "omniauth-github", github: "intridea/omniauth-github"
 gem "passenger"                                 # web server
 gem "pg"                                        # database driver
 gem "redis-rails"                               # cache store
@@ -15,6 +15,7 @@ gem "slim"                                      # HTML template language
 
 group :production do
   gem "newrelic_rpm"                            # performance monitoring
+  gem "rack-cache", require: "rack/cache"       # reverse-proxy http cache
   gem "rails_12factor"                          # heroku-specific stack mods
 end
 
