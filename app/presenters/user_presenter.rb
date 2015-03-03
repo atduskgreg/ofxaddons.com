@@ -28,11 +28,7 @@ class UserPresenter < Presenter
 
   def to_s
     h.link_to(h.contributor_path(object)) do
-      html = "".html_safe
-      html << avatar
-      html << " ".html_safe
-      html << login
-      html
+      h.safe_join([avatar, login], " ")
     end
   end
 
