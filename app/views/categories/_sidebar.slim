@@ -3,6 +3,6 @@ ul.nav.sidenav.sidenav-categories
   - categories.each do |category|
     - present(category) do |c|
       li
-        = c
+        = link_to(h(category.name), category_path(category))
         .counts
           = c.categorizations_count

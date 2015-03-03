@@ -5,8 +5,11 @@ class AddonPresenter < RepoPresenter
   end
 
   def categories_list
-    cat_names = self.categories.map {|c| c.name.downcase }
-    cat_names.join(", ")
+    cats = []
+    self.categories.each do |c|
+      cats << h.link_to(c.name, h.category_path(c))
+    end
+    h.safe_join(cats, ", ")
   end
 
   def release

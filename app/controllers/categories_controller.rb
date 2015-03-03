@@ -50,8 +50,10 @@ class CategoriesController < ApplicationController
   private
 
   def set_category
-    @category = Category.joins(:addons)
+    @category = Category
+      .joins(:addons)
       .includes(:addons)
+      .order("lower(repos.name) ASC")
       .find(params[:id])
   end
 

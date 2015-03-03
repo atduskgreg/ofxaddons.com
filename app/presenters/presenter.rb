@@ -5,7 +5,7 @@ class Presenter < SimpleDelegator
     super(object)
   end
 
-private
+  private
 
   def h
     @template

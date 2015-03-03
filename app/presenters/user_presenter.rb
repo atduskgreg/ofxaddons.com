@@ -2,15 +2,19 @@ class UserPresenter < Presenter
 
   def avatar
     if avatar?
-      h.image_tag(nil, class:"userIcon lazy", data:{ src:"#{ object.avatar_url }&amp;s=16" }, width: "16px", height: "16px").html_safe
+      h.image_tag(nil, class:"userIcon lazy", data:{ src:"#{ object.avatar_url }&amp;s=16" }, width: "16px", height: "16px")
     else
-      h.image_tag("default-gravatar-small.png", class: "userIcon", width: "16px", height: "16px").html_safe
+      h.image_tag("default-gravatar-small.png", class: "userIcon", width: "16px", height: "16px")
     end
   end
 
   # TODO: delete me when owner is normalized
   def avatar?
     !object.avatar_url.blank?
+  end
+
+  def login
+    object.login
   end
 
   def repo_count
@@ -24,8 +28,12 @@ class UserPresenter < Presenter
 
   def to_s
     h.link_to(h.contributor_path(object)) do
-      "#{ avatar } #{ login }".html_safe
-    end.html_safe
+      html = "".html_safe
+      html << avatar
+      html << " ".html_safe
+      html << login
+      html
+    end
   end
 
 end

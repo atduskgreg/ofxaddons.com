@@ -9,7 +9,7 @@ class CategoryPresenter < Presenter
   # end
 
   def to_s
-    h.link_to(object.name, h.category_path(object)).html_safe
+    h.link_to(name, h.category_path(object))
   end
 
 end
