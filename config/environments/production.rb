@@ -37,7 +37,8 @@ Rails.application.configure do
   config.static_cache_control = "public, max-age=7200"
 
   # Disable Rails's static asset server (Apache or nginx will already do this).
-  config.serve_static_assets = false
+  # note: turning this on so rack::cache will handle http caching for our dynamic pages
+  config.serve_static_assets = true
 
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier
