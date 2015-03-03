@@ -1,8 +1,9 @@
 - cache([category, category.addons]) do
-  .row
-    .col-md-12
-      h2.page-header
-        = link_to(h(category.name), category_path(category))
-  - category.addons.each_slice(3) do |addons|
+  - present(category) do |c|
     .row
-      = render(partial: "repos/repo", collection: addons)
+      .col-md-12
+        h2.page-header
+          = c.to_s
+    - category.addons.each_slice(3) do |addons|
+      .row
+        = render(partial: "repos/repo", collection: addons)

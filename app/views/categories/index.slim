@@ -1,11 +1,1 @@
-- categories = @categories.map { |c| present(c) }
-
-- categories.each do |c|
-  - cache(c) do
-    .row
-      .col-md-12
-        h2.page-header
-          = c
-    - c.addons.each_slice(3) do |addons|
-      .row
-        = render(partial: "repos/repo", collection: addons)
+= render(partial: "categories/category", collection: @categories)
