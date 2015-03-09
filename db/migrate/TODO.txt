@@ -1,7 +1,0 @@
-remove_column :repos, :category_id
-remove_column :repos, :deleted
-remove_column :repos, :incomplete
-remove_column :repos, :not_addon
-remove_column :repos, :user_id
-remove_column :repos, :contributor_id
-remove_column :repos, :updated

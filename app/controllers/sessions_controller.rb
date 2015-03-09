@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
 
     if user.admin?
       session[:user_id] = user.id
-      cookies[:user_id] = user.id
+      cookies[:login] = user.login
       redirect_to root_url, :success => "Signed in!"
     else
       user = nil
@@ -16,7 +16,7 @@ class SessionsController < ApplicationController
 
   def destroy
     session[:user_id] = nil
-    cookies.delete(:user_id)
+    cookies.delete(:login)
     redirect_to root_url, :success => "Signed out!"
   end
 

@@ -5,8 +5,9 @@
         = r.type.titleize
     td.repo-name data-container="body" data-toggle="tooltip" title="#{r.name}"
       = link_to(r.name, r.github_url)
-    td.maintainer data-container="body" data-toggle="tooltip" title="#{r.owner_login}"
-      = r.owner
+    - present(r.user) do |u|
+      td.maintainer data-container="body" data-toggle="tooltip" title="#{u.login}"
+        = u.to_s
     td.pushed-at
       abbr.timeago title=r.pushed_at('%Y-%m-%dT%H:%M:%S%z')
         = r.pushed_at("%m/%e/%y")

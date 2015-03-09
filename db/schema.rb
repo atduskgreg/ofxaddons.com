@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150301045610) do
+ActiveRecord::Schema.define(version: 20150308231315) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,30 +50,19 @@ ActiveRecord::Schema.define(version: 20150301045610) do
 
   create_table "repos", force: true do |t|
     t.text     "name"
-    t.text     "owner_login"
     t.text     "description"
     t.datetime "pushed_at"
-    t.datetime "github_created_at"
     t.text     "source"
     t.text     "parent"
     t.text     "full_name"
-    t.boolean  "not_addon",                    default: false
-    t.boolean  "incomplete",                   default: false
-    t.integer  "category_id"
-    t.text     "forks"
     t.text     "most_recent_commit"
     t.text     "issues"
     t.boolean  "fork",                         default: false
-    t.boolean  "deleted"
-    t.text     "github_pushed_at"
-    t.text     "owner_avatar_url"
     t.integer  "example_count",                default: 0
     t.boolean  "has_makefile"
     t.boolean  "has_correct_folder_structure"
     t.boolean  "has_thumbnail"
     t.integer  "user_id"
-    t.integer  "contributor_id"
-    t.boolean  "updated",                      default: false
     t.integer  "release_id"
     t.string   "type",                         default: "Unsorted", null: false
     t.integer  "stargazers_count",             default: 0
@@ -82,7 +71,6 @@ ActiveRecord::Schema.define(version: 20150301045610) do
     t.integer  "forks_count",                  default: 0
   end
 
-  add_index "repos", ["category_id"], name: "index_repos_category", using: :btree
   add_index "repos", ["full_name"], name: "index_repos_full_name", using: :btree
 
   create_table "users", force: true do |t|

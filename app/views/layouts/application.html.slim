@@ -39,21 +39,18 @@ html lang="en"
             li = link_to("unsorted", unsorted_path)
             li = link_to("contributors", contributors_path)
             li = link_to("faq/help", page_path("howto"))
-            - if @current_user && @current_user.admin?
-              li.admin = link_to("admin", admin_repos_path)
+            li.admin.hidden = link_to("admin", admin_repos_path)
 
           / form class="navbar-form navbar-right" role="search"
           /   .form-group
           /     input.form-control type="text" placeholder="Search"
 
           ul.nav.navbar-nav
-            - if @current_user
-              li.current-user = @current_user.login
-              li.logout = link_to("logout", logout_path)
-            - else
-              li.login = link_to("/auth/github") do
-                = icon("github")
-                | &nbsp;login
+            li.current-user.hidden
+            li.logout.hidden = link_to("logout", logout_path)
+            li.login = link_to("/auth/github") do
+              = icon("github")
+              | &nbsp;login
 
     .container
       .row

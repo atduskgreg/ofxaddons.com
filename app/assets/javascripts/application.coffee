@@ -18,17 +18,16 @@
 #= require bootstrap-sprockets
 
 $ ->
+  # due to page caching, we have to dynamically change the
+  # login/logout links based on js
+  if ($.cookie('login'))
+    $("li.current-user").text($.cookie('login')).removeClass("hidden")
+    $("li.admin, li.logout").removeClass("hidden")
+    $("li.login").addClass("hidden")
+
   $("img.lazy").lazy()
   $("abbr.timeago").timeago()
   $('[data-toggle="tooltip"]').tooltip()
-
-  # due to page caching, we have to dynamically change the
-  # login/logout links based on js
-  # if($.cookie('user_id')) {
-  #   $(".navbar-nav .login").hide();
-  #   $(".navbar-nav .logout").show();
-  # }
-
 
   #
   # Admin unsorted repos

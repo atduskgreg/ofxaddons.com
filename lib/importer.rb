@@ -9,7 +9,9 @@ require "json"
 # TODO: email report
 # TODO: import forks
 # TODO: import users
+# TODO: update issues?
 # TODO: move all the paths and glob patterns to constants
+# TODO: normalize parent/source
 
 class Importer
 
@@ -87,7 +89,7 @@ class Importer
     items
   end
 
-  def run(no_cache: false)
+  def run(no_cache: true)
     if no_cache
       clear_cache
       search
@@ -117,7 +119,18 @@ class Importer
   def update(github_data)
     full_name = github_data.full_name
     r = Repo.where(full_name: full_name).first_or_initialize
-    r.assign_attributes(github_data.attributes)
+    repo_attrs = github_data.repo_attributes
+    r.assign_attributes(repo_attrs)
+
+    user_attrs = github_data.user_attributes
+
+    if user_attrs[:uid]
+      # TODO: switch to uid for lookup once we have uid's for everyone
+      user = User.where(provider: "github", login: user_attrs[:login]).first_or_initialize
+      # user = User.where(provider: "github", uid: user_attrs[:uid]).first_or_initialize
+      user.assign_attributes(user_attrs)
+      r.user = user
+    end
 
     if r.pushed_at.nil?
       r.type = "Empty"

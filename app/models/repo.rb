@@ -13,7 +13,6 @@ class Repo < ActiveRecord::Base
 
   validate :type, inclusion: { in: REPO_TYPES.map(&:camelize) }
 
-
   # find currently open issues on the repo whose title
   # matches one of our tags. Wish we could do this with labels
   # but it looks like only repo owners can apply labels to issues

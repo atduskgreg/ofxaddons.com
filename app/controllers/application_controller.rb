@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
       @current_user ||= User.find(session[:user_id]) if session[:user_id]
     rescue
       session[:user_id] = nil
-      cookies.delete(:user_id)
+      cookies.delete(:login)
       @current_user = nil
     end
   end

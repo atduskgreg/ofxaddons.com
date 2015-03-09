@@ -16,7 +16,7 @@ class GithubData
     @contents_json = contents_json
   end
 
-  def attributes
+  def repo_attributes
     attrs = {}
     attrs[:created_at]         = DateTime.parse(repo_json["created_at"]) unless repo_json["created_at"].blank?
     attrs[:description]        = repo_json["description"]                unless repo_json["description"].blank?
@@ -29,11 +29,6 @@ class GithubData
     attrs[:pushed_at]          = repo_json["pushed_at"]                  unless repo_json["pushed_at"].blank?
     attrs[:source]             = repo_json["source"]["full_name"]        unless repo_json["source"].blank? || repo_json["source"]["full_name"].blank?
     attrs[:stargazers_count]   = repo_json["stargazers_count"]           unless repo_json["stargazers_count"].blank?
-
-    unless repo_json["owner"].blank?
-      attrs[:owner_avatar_url]   = repo_json["owner"]["avatar_url"]      unless repo_json["owner"]["avatar_url"].blank?
-      attrs[:owner_login]        = repo_json["owner"]["login"]           unless repo_json["owner"]["login"].blank?
-    end
 
     attrs[:example_count] = 0
 
@@ -58,6 +53,14 @@ class GithubData
     # Not sure this is worth the extra fetch
     # attrs[:most_recent_commit] = @repo_commits_json.first
 
+    attrs
+  end
+
+  def user_attributes
+    attrs = {}
+    attrs[:uid]        = repo_json["owner"]["id"].to_s    unless repo_json["owner"]["id"].blank?
+    attrs[:avatar_url] = repo_json["owner"]["avatar_url"] unless repo_json["owner"]["avatar_url"].blank?
+    attrs[:login]      = repo_json["owner"]["login"]      unless repo_json["owner"]["login"].blank?
     attrs
   end
 
