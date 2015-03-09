@@ -13,6 +13,7 @@ class Admin::ReposController < Admin::ApplicationController
            when "incomplete"
              Incomplete
            when "non_addon"
+             NonAddon
            else
              Unsorted
            end
@@ -33,8 +34,16 @@ class Admin::ReposController < Admin::ApplicationController
 
     repo = Repo.includes(:categories).find(repo_id)
     repo.type = repo_type
-    unaffected_category_ids = repo.category_ids & repo_category_ids
-    affected_category_ids = (repo.category_ids + repo_category_ids - unaffected_category_ids).uniq
+
+    # calculate which categories need their fragment caches expired
+    affected_category_ids   = []
+    unaffected_category_ids = []
+
+    if repo.type == "Addon"
+      unaffected_category_ids = repo.category_ids & repo_category_ids
+      affected_category_ids = (repo.category_ids + repo_category_ids - unaffected_category_ids).uniq
+    end
+
     repo.category_ids = repo_category_ids
 
     if repo.save
@@ -67,7 +76,13 @@ class Admin::ReposController < Admin::ApplicationController
   private
 
   def repo_category_ids
-    @repo_category_ids ||= repo_params[:category_ids].map(&:to_i) - [0]
+    @repo_category_ids ||= begin
+      if repo_params[:category_ids]
+        repo_params[:category_ids].map(&:to_i) - [0]
+      else
+        []
+      end
+    end
   end
 
   def repo_id
@@ -78,6 +93,7 @@ class Admin::ReposController < Admin::ApplicationController
     params.require(:repo)
   end
 
+  # TODO: probably we should validate the type...
   def repo_type
     repo_params[:type].camelize
   end

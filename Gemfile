@@ -30,13 +30,13 @@ group :assets, :development, :test do
 end
 
 group :bin do
+  gem "awesome_print"                           # pretty print ruby objects
   gem "colorize"                                # colorized console output
   gem "httparty"                                # http connection library
   gem "nokogiri"                                # used for scraping readme files
 end
 
 group :development, :test do
-  gem "awesome_print"                           # pretty print ruby objects
   gem "byebug"                                  # debugger
   gem "dotenv-rails"                            # loads environment from .env file in development mode
   gem "foreman"                                 # Procfile-based app manager
