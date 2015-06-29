@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150308231315) do
+ActiveRecord::Schema.define(version: 20150629193926) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -85,14 +85,13 @@ ActiveRecord::Schema.define(version: 20150308231315) do
     t.boolean  "admin",      default: false
   end
 
-  add_index "users", ["provider", "login"], name: "index_users_on_provider_and_login", unique: true, using: :btree
   add_index "users", ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true, using: :btree
 
   Foreigner.load
-  add_foreign_key "categorizations", "categories", name: "categorizations_category_id_fk"
-  add_foreign_key "categorizations", "repos", name: "categorizations_repo_id_fk"
+  add_foreign_key "categorizations", "categories", name: "categorizations_category_id_fk", dependent: :delete
+  add_foreign_key "categorizations", "repos", name: "categorizations_repo_id_fk", dependent: :delete
 
-  add_foreign_key "repos", "releases", name: "repos_release_id_fk"
-  add_foreign_key "repos", "users", name: "repos_user_id_fk"
+  add_foreign_key "repos", "releases", name: "repos_release_id_fk", dependent: :delete
+  add_foreign_key "repos", "users", name: "repos_user_id_fk", dependent: :delete
 
 end

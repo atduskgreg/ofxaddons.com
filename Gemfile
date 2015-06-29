@@ -1,7 +1,7 @@
 source "https://rubygems.org"
-ruby "2.1.3"
+ruby "2.1.6"
 
-gem "rails", "~>4.1.9"
+gem "rails", "~>4.1.12"
 gem "font-awesome-sass"                         # font icons
 gem "foreigner"                                 # support for foreign key constraints
 gem "high_voltage"                              # serving static pages (wrapped in the layout)

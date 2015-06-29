@@ -45,6 +45,17 @@ The central place to discover openFrameworks addons.
 
         $ rake db:migrate
 
+1. Create a dotenv file:
+
+    WARNING: Never check in the `.env` file. It will screw up the production environment.
+
+    $ touch .env
+
+    Open up .env and add the following lines:
+
+    PORT=5000
+    WEB_CONCURRENCY=1
+
 1. Launch the server:
 
     $ foreman start
