@@ -50,9 +50,25 @@ class GithubApi
 
       begin
         options  = options.merge("page" => next_page)
-        response = search_repositories(term: term, options: options)
 
-        # TODO: add some rate limit checking/throttling here (https://developer.github.com/v3/#rate-limiting)
+        try_again = true
+        response = begin
+          r = search_repositories(term: term, options: options)
+          if r.success?
+            try_again = false
+          elsif r.headers["x-ratelimit-remaining"].try(:to_i) == 0
+            Rails.logger.debug "Hit rate limit".red
+            reset = r.headers["x-ratelimit-reset"].to_i
+            reset_time = Time.at(reset)
+            seconds = reset_time - Time.now
+            Rails.logger.debug "Sleeping for #{seconds} seconds"
+            sleep(seconds)
+          else
+            Rails.logger.debug r.headers.inspect
+            try_again = false
+          end
+          r
+        end while(try_again)
 
         yield response, next_page
 
