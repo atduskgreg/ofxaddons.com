@@ -53,8 +53,8 @@ The central place to discover openFrameworks addons.
 
     Open up .env and add the following lines:
 
-    PORT=5000
-    WEB_CONCURRENCY=1
+        PORT=5000
+        WEB_CONCURRENCY=1
 
 1. Launch the server:
 
