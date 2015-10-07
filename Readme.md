@@ -88,6 +88,8 @@ Further reading on [using foreman for config vars](https://devcenter.heroku.com/
 
 #### Running a Crawl
 
-Crawling and updating is all run through a series of rake tasks defined in Rakefile. To run the master task:
+Crawling and updating is run through the script runner:
 
-    $ bundle exec rake cron
+    $ rails r 'Importer.new.run(no_cache: true)'
+
+If you pass no_cache: false, the importer will use a cached responses from the github API (if available). This helps speed up development since you skip all the HTTP request overhead and just read the responses off of the local disk.
