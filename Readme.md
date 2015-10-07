@@ -29,6 +29,10 @@ The central place to discover openFrameworks addons.
 
     You have two basic options: start with an empty database, or grab a backup from heroku.
 
+    #### Make sure postgres is running
+
+        $ launchctl load `brew ls postgresql | grep plist` # if installed via homebrew
+
     #### Start with an empty database
 
         $ rake db:setup
