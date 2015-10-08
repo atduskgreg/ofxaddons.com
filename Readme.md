@@ -35,6 +35,8 @@ The central place to discover openFrameworks addons.
 
     #### Copy the production database to your local machine
 
+      This option is only available if you have access to the Heroku production server.
+
       **WARNING**: the database `ofxaddons` must not exist locally before you do this!
 
         $ heroku login
