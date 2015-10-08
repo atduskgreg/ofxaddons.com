@@ -72,7 +72,7 @@ class ApisController < ApplicationController
   def to_v1_repo_hash(repo)
     {
       :name => repo.name,
-      :owner => repo.owner_login,
+      :owner => repo.user.login,
       :description =>  repo.description,
       :github_created_at => repo.created_at,
       :category => (!repo.categories.empty? ? repo.categories.first.name : ""),
