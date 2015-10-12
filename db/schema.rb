@@ -11,14 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150629193926) do
+ActiveRecord::Schema.define(version: 20151012054750) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "categories", force: true do |t|
-    t.string   "name",                  limit: 50
-    t.text     "login"
+    t.string   "name",                  limit: 50, null: false
     t.text     "avatar_url"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -26,8 +25,8 @@ ActiveRecord::Schema.define(version: 20150629193926) do
   end
 
   create_table "categorizations", force: true do |t|
-    t.integer  "category_id"
-    t.integer  "repo_id"
+    t.integer  "category_id", null: false
+    t.integer  "repo_id",     null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -42,8 +41,8 @@ ActiveRecord::Schema.define(version: 20150629193926) do
   add_index "migration_info", ["migration_name"], name: "migration_name", unique: true, using: :btree
 
   create_table "releases", force: true do |t|
-    t.string   "version"
-    t.datetime "released_at"
+    t.string   "version",     null: false
+    t.datetime "released_at", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -74,17 +73,19 @@ ActiveRecord::Schema.define(version: 20150629193926) do
   add_index "repos", ["full_name"], name: "index_repos_full_name", using: :btree
 
   create_table "users", force: true do |t|
-    t.string   "provider"
+    t.string   "provider",                   null: false
     t.string   "uid"
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "login"
+    t.string   "login",                      null: false
     t.string   "avatar_url"
     t.string   "location"
     t.boolean  "admin",      default: false
   end
 
+  add_index "users", ["provider", "avatar_url"], name: "index_users_on_provider_and_avatar_url", unique: true, using: :btree
+  add_index "users", ["provider", "login"], name: "index_users_on_provider_and_login", unique: true, using: :btree
   add_index "users", ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true, using: :btree
 
   Foreigner.load

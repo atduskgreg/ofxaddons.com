@@ -45,26 +45,39 @@ class GithubApi
       get(url, HTTP_OPTIONS)
     end
 
+    # will yield a response object and a page number for each page of search results
     def search_repositories_pager(term:, options: {}, &blk)
       next_page = (options["page"]) ? options["page"] : 1
 
       begin
         options  = options.merge("page" => next_page)
 
+        # We can only make about 30 requests per minute before we bump into the rate limit
+        # https://developer.github.com/v3/#rate-limiting
         try_again = true
         response = begin
           r = search_repositories(term: term, options: options)
           if r.success?
+            # we got a valid response - break out of the retry loop
             try_again = false
+
           elsif r.headers["x-ratelimit-remaining"].try(:to_i) == 0
-            Rails.logger.debug "Hit rate limit".red
+            Rails.logger.info "Hit Github API rate limit".red
+
+            # figure out how long we need to wait to start making requests again
+            # Github tells us this in the response headers
             reset = r.headers["x-ratelimit-reset"].to_i
             reset_time = Time.at(reset)
             seconds = reset_time - Time.now
-            Rails.logger.debug "Sleeping for #{seconds} seconds"
-            sleep(seconds)
+
+            # in some cases, due to execution time, seconds can go negative
+            if seconds > 0
+              Rails.logger.debug "Sleeping for #{seconds} seconds"
+              sleep(seconds)
+            end
           else
-            Rails.logger.debug r.headers.inspect
+            # we got a bad response... move along
+            Rails.logger.error r.headers.inspect
             try_again = false
           end
           r

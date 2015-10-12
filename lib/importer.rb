@@ -123,11 +123,10 @@ class Importer
     r.assign_attributes(repo_attrs)
 
     user_attrs = github_data.user_attributes
+    user_attrs[:provider] = provider = "github"
 
     if user_attrs[:uid]
-      # TODO: switch to uid for lookup once we have uid's for everyone
-      # user = User.where(provider: "github", login: user_attrs[:login]).first_or_initialize
-      user = User.where(provider: "github", uid: user_attrs[:uid]).first_or_initialize
+      user = User.where(provider: provider, uid: user_attrs[:uid]).first || User.where(provider: provider, login: user_attrs[:login]).first || User.new
       user.assign_attributes(user_attrs)
       r.user = user
     end
