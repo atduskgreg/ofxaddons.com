@@ -1,11 +1,11 @@
 source "https://rubygems.org"
 ruby "2.1.6"
 
-gem "rails", "~>4.1.12"
+gem "rails", "~>4.2.4"
 gem "font-awesome-sass"                         # font icons
-gem "foreigner"                                 # support for foreign key constraints
 gem "high_voltage"                              # serving static pages (wrapped in the layout)
 gem "lograge"                                   # denser application logs
+gem "octokit"                                   # Github API wrapper
 gem "omniauth-github", github: "intridea/omniauth-github"
 gem "passenger"                                 # web server
 gem "pg"                                        # database driver
@@ -43,5 +43,6 @@ group :development, :test do
   gem "immigrant"                               # detect foreign keys and generate migrations to create constraints
   gem "quiet_assets"                              # strip out all the asset serving noise from logs
   gem "spring"                                  # rails preloader
+  gem "web-console", '~> 2.0'
   gem "yaml_db"                                 # db data dump to YAML
 end

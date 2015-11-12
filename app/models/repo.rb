@@ -11,7 +11,7 @@ class Repo < ActiveRecord::Base
   has_many :categorizations
   belongs_to :user, inverse_of: :repos
 
-  validate :type, inclusion: { in: REPO_TYPES.map(&:camelize) }
+  validates :type, inclusion: { in: REPO_TYPES.map(&:camelize) }
 
   # find currently open issues on the repo whose title
   # matches one of our tags. Wish we could do this with labels

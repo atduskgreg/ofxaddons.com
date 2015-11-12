@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 20151012054750) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "categories", force: true do |t|
+  create_table "categories", force: :cascade do |t|
     t.string   "name",                  limit: 50, null: false
     t.text     "avatar_url"
     t.datetime "created_at"
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20151012054750) do
     t.integer  "categorizations_count"
   end
 
-  create_table "categorizations", force: true do |t|
+  create_table "categorizations", force: :cascade do |t|
     t.integer  "category_id", null: false
     t.integer  "repo_id",     null: false
     t.datetime "created_at"
@@ -34,20 +34,20 @@ ActiveRecord::Schema.define(version: 20151012054750) do
   add_index "categorizations", ["category_id"], name: "index_categorizations_on_category_id", using: :btree
   add_index "categorizations", ["repo_id"], name: "index_categorizations_on_repo_id", using: :btree
 
-  create_table "migration_info", id: false, force: true do |t|
-    t.string "migration_name"
+  create_table "migration_info", id: false, force: :cascade do |t|
+    t.string "migration_name", limit: 255
   end
 
   add_index "migration_info", ["migration_name"], name: "migration_name", unique: true, using: :btree
 
-  create_table "releases", force: true do |t|
-    t.string   "version",     null: false
-    t.datetime "released_at", null: false
+  create_table "releases", force: :cascade do |t|
+    t.string   "version",     limit: 255, null: false
+    t.datetime "released_at",             null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "repos", force: true do |t|
+  create_table "repos", force: :cascade do |t|
     t.text     "name"
     t.text     "description"
     t.datetime "pushed_at"
@@ -56,43 +56,40 @@ ActiveRecord::Schema.define(version: 20151012054750) do
     t.text     "full_name"
     t.text     "most_recent_commit"
     t.text     "issues"
-    t.boolean  "fork",                         default: false
-    t.integer  "example_count",                default: 0
+    t.boolean  "fork",                                     default: false
+    t.integer  "example_count",                            default: 0
     t.boolean  "has_makefile"
     t.boolean  "has_correct_folder_structure"
     t.boolean  "has_thumbnail"
     t.integer  "user_id"
     t.integer  "release_id"
-    t.string   "type",                         default: "Unsorted", null: false
-    t.integer  "stargazers_count",             default: 0
+    t.string   "type",                         limit: 255, default: "Unsorted", null: false
+    t.integer  "stargazers_count",                         default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "forks_count",                  default: 0
+    t.integer  "forks_count",                              default: 0
   end
 
   add_index "repos", ["full_name"], name: "index_repos_full_name", using: :btree
 
-  create_table "users", force: true do |t|
-    t.string   "provider",                   null: false
-    t.string   "uid"
-    t.string   "name"
+  create_table "users", force: :cascade do |t|
+    t.string   "provider",   limit: 255,                 null: false
+    t.string   "uid",        limit: 255
+    t.string   "name",       limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "login",                      null: false
-    t.string   "avatar_url"
-    t.string   "location"
-    t.boolean  "admin",      default: false
+    t.string   "login",      limit: 255,                 null: false
+    t.string   "avatar_url", limit: 255
+    t.string   "location",   limit: 255
+    t.boolean  "admin",                  default: false
   end
 
   add_index "users", ["provider", "avatar_url"], name: "index_users_on_provider_and_avatar_url", unique: true, using: :btree
   add_index "users", ["provider", "login"], name: "index_users_on_provider_and_login", unique: true, using: :btree
   add_index "users", ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true, using: :btree
 
-  Foreigner.load
-  add_foreign_key "categorizations", "categories", name: "categorizations_category_id_fk", dependent: :delete
-  add_foreign_key "categorizations", "repos", name: "categorizations_repo_id_fk", dependent: :delete
-
-  add_foreign_key "repos", "releases", name: "repos_release_id_fk", dependent: :delete
-  add_foreign_key "repos", "users", name: "repos_user_id_fk", dependent: :delete
-
+  add_foreign_key "categorizations", "categories", name: "categorizations_category_id_fk", on_delete: :cascade
+  add_foreign_key "categorizations", "repos", name: "categorizations_repo_id_fk", on_delete: :cascade
+  add_foreign_key "repos", "releases", name: "repos_release_id_fk", on_delete: :cascade
+  add_foreign_key "repos", "users", name: "repos_user_id_fk", on_delete: :cascade
 end
