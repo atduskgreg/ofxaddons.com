@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+require_relative "../config/environment"
+
+#
+# parse args
+#
+
+options = Trollop.options do
+  opt :cache,   "use http caching for github calls (default is off for production, on for development"
+  opt :noop,    "do a full dry run without updating the database"
+  opt :stdout,  "log to stdout (default: Rails logger)"
+  opt :verbose, "run loudly"
+end
+
+#Trollop.die "must specify [CSV FILE]" if ARGV.blank?
+#options[:file] = ARGV.shift
+options[:logger] = Logger.new(STDOUT) if options[:stdout]
+Importer.new(options)

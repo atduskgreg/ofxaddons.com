@@ -2,6 +2,7 @@ source "https://rubygems.org"
 ruby "2.1.6"
 
 gem "rails", "~>4.2.4"
+gem "faraday-http-cache"                        # caching for octokit
 gem "font-awesome-sass"                         # font icons
 gem "high_voltage"                              # serving static pages (wrapped in the layout)
 gem "lograge"                                   # denser application logs
@@ -33,7 +34,7 @@ group :bin do
   gem "awesome_print"                           # pretty print ruby objects
   gem "colorize"                                # colorized console output
   gem "httparty"                                # http connection library
-  gem "nokogiri"                                # used for scraping readme files
+  gem "trollop"                                 # options parser for scripts
 end
 
 group :development, :test do
