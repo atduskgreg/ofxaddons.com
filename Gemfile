@@ -1,11 +1,10 @@
 source "https://rubygems.org"
-ruby "2.1.6"
+ruby "2.2.1"
 
 gem "rails", "~>4.2.4"
 gem "font-awesome-sass"                         # font icons
 gem "high_voltage"                              # serving static pages (wrapped in the layout)
 gem "lograge"                                   # denser application logs
-gem "octokit"                                   # Github API wrapper
 gem "omniauth-github", github: "intridea/omniauth-github"
 gem "passenger"                                 # web server
 gem "pg"                                        # database driver
