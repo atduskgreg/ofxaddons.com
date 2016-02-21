@@ -94,6 +94,8 @@ Crawling and updating is run through the script runner:
 
     $ rails r 'Importer.run'
 
+The importer currently logs into the rails log for whatever env you're running (e.g. log/devlopment.log)
+
 ##### Caching
 
 By default the importer uses caching in the development environment. This helps speed up development when you're working on the importer since you skip all the HTTP request overhead and just read the responses off of the local disk. You can blow away the caches with `rake tmp:cache:clear`. Or you can manually delete individual caches files in `tmp/caches/importer`.
