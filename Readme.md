@@ -15,15 +15,15 @@ The central place to discover openFrameworks addons.
 
 1. Clone the repository:
 
-    $ git clone https://github.com/atduskgreg/ofxaddons.com
+        $ git clone https://github.com/atduskgreg/ofxaddons.com
 
 1. Change directories in to the cloned repository:
 
-    $ cd ofxaddons.com
+        $ cd ofxaddons.com
 
 1. Install the gems dependencies
 
-    $ bundle install
+        $ bundle install
 
 1. Set up the database.
 
@@ -51,16 +51,16 @@ The central place to discover openFrameworks addons.
 
     WARNING: Never check in the `.env` file. It will screw up the production environment.
 
-    $ touch .env
+        $ touch .env
 
     Open up .env and add the following lines:
 
-    PORT=5000
-    WEB_CONCURRENCY=1
+        PORT=5000
+        WEB_CONCURRENCY=1
 
 1. Launch the server:
 
-    $ foreman start
+        $ foreman start
 
     You should now be able to navigate to load the web site at http://localhost:5000
 
@@ -75,14 +75,14 @@ Once you've got your API keys, there are several ways to set up your environment
 
 1. Create a `.env` file in the repository root
 
-    $ touch .env
+        $ touch .env
 
    WARNING: Never check in the `.env` file. It will screw up the production environment.
 
 1. Add your API key and secret to the file:
 
-    GITHUB_CLIENT_ID=xxxxxxxxxxxxxxxxxxxx
-    GITHUB_CLIENT_SECRET=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        GITHUB_CLIENT_ID=xxxxxxxxxxxxxxxxxxxx
+        GITHUB_CLIENT_SECRET=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 1. Restart Foreman
 
@@ -92,6 +92,14 @@ Further reading on [using foreman for config vars](https://devcenter.heroku.com/
 
 Crawling and updating is run through the script runner:
 
-    $ rails r 'Importer.new.run(no_cache: true)'
+    $ rails r 'Importer.run'
 
-If you pass no_cache: false, the importer will use a cached responses from the github API (if available). This helps speed up development since you skip all the HTTP request overhead and just read the responses off of the local disk.
+##### Caching
+
+By default the importer uses caching in the development environment. This helps speed up development when you're working on the importer since you skip all the HTTP request overhead and just read the responses off of the local disk. You can blow away the caches with `rake tmp:cache:clear`. Or you can manually delete individual caches files in `tmp/caches/importer`.
+
+You can force caching behaiour by passing an options hash to run:
+
+    $ rails r 'Importer.run(cache: false)'
+
+If you pass `cache: true`, the importer will use cached responses from the github API (if available).
