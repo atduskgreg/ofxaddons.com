@@ -9,7 +9,7 @@ ul
   li = link_to("How do I submit my addon to this page?", "#submit")
   li = link_to("How do you find all these addons?", "#how_find")
 
-h2 = link_to("What are openFrameworks addons?", anchor: "what")
+h2 = content_tag(:a, "What are openFrameworks addons?", name: "what")
 
 p An addon is code that extends openFrameworks in some way.  There are usually two main reasons to make an addon:
 
@@ -31,7 +31,7 @@ ol
       by #{ link_to("ofTheo", "#") } for user interfaces.
 
 
-h2 = link_to("How do I install an addon I found on this site?", anchor: "install")
+h2 = content_tag(:a, "How do I install an addon I found on this site?", name: "install")
 
 p
   | You can checkout a copy of the code using git. The name of each addon links
@@ -70,7 +70,7 @@ p
     the developer to sort out issues if they don't work.
 
 
-h2 = link_to("Can you explain the information included on ofxAddons?", anchor: "git_info")
+h2 = content_tag(:a, "Can you explain the information included on ofxAddons?", name: "git_info")
 
 p
   | The title of each addon links to its repository on
@@ -86,7 +86,7 @@ p
     on the page is updated once per day.
 
 
-h2 = link_to("Should I turn my openFrameworks thing into an addon?", anchor: "should_i")
+h2 = content_tag(:a, "Should I turn my openFrameworks thing into an addon?", name: "should_i")
 
 p
   | The best addons make something that was hard easy. They allow you to do
@@ -105,7 +105,7 @@ ol
       the existing addon into your github account and modifying it.
 
 
-h2 = link_to("How do I make an openFrameworks addon?", anchor: "make")
+h2 = content_tag(:a, "How do I make an openFrameworks addon?", name: "make")
 
 The folder structure for an addon looks like this:
 
@@ -196,7 +196,7 @@ ul
         ...
         ofxMyAddon/example/bin/data
 
-h2 = link_to("Is my addon done yet?", anchor: "is_done")
+h2 = content_tag(:a, "Is my addon done yet?", name: "is_done")
 
 ul
   li
@@ -216,7 +216,7 @@ ul
       don't want people to use it commercially. Also make sure that your
       dependent libraries have licenses that you are respecting.
 
-h2 = link_to("How do I submit my addon to this page?", anchor: "submit")
+h2 = content_tag(:a, "How do I submit my addon to this page?", name: "submit")
 
 p
   | You don't have to! Uploading it to github is enough, as long as you have the
@@ -224,14 +224,14 @@ p
     us a note if you want to tell us about it and let us know what category it
     belongs in.
 
-h2 = link_to("How do I add a thumbnail for this page?", anchor: "add_thumbnail")
+h2 = content_tag(:a, "How do I add a thumbnail for this page?", name: "add_thumbnail")
 
 p
   ' Include an image file (270x70) in the root of your repository named:
   b ofxaddons_thumbnail.png
 
 
-h2 = link_to("How do you find all these addons?", anchor: "how_find")
+h2 = content_tag(:a, "How do you find all these addons?", name: "how_find")
 
 p
   | We wrote scripts to discover addons on
