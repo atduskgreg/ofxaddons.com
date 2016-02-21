@@ -6,7 +6,7 @@ The central place to discover openFrameworks addons.
 
 ### Prerequisites
 
-1. Ruby 2.1.3 or greater
+1. Ruby 2.2.1
 1. [Bundler](bundler.io)
 1. PostgreSQL 9.x (recommend using [homebrew](http://brew.sh/) or [mac ports](http://www.macports.org/) to install)
 1. [Heroku Toolbelt](https://toolbelt.heroku.com/)
@@ -37,15 +37,11 @@ The central place to discover openFrameworks addons.
 
       This option is only available if you have access to the Heroku production server.
 
-      **WARNING**: the database `ofxaddons` must not exist locally before you do this!
+      **WARNING**: the database `ofxaddons` will be overwritten!
 
         $ heroku login
 
-        $ rake db:drop
-
-        $ heroku pg:pull DATABASE_URL ofxaddons --app ofxaddons-cedar
-
-        $ rake db:migrate
+        $ rake heroku:production:db:pull
 
 1. Create a dotenv file:
 
