@@ -1,22 +1,21 @@
 source "https://rubygems.org"
-ruby "2.2.1"
+ruby "2.2.4"
 
 gem "rails", "~>4.2.4"
 gem "font-awesome-sass"                         # font icons
 gem "high_voltage"                              # serving static pages (wrapped in the layout)
 gem "lograge"                                   # denser application logs
 gem "omniauth-github", github: "intridea/omniauth-github"
-gem "passenger"                                 # web server
 gem "pg"                                        # database driver
 gem "redis-rails"                               # cache store
 gem "simple_form"                               # form builder
 gem "slim"                                      # HTML template language
 
 group :production do
-  gem "newrelic_rpm"                            # performance monitoring
+  # gem "newrelic_rpm"                            # performance monitoring
   gem "rack-cache", require: "rack/cache"       # reverse-proxy http cache
   #gem "redis-rack-cache"
-  gem "rails_12factor"                          # heroku-specific stack mods
+  # gem "rails_12factor"                          # heroku-specific stack mods
 end
 
 group :assets, :development, :test do
@@ -37,6 +36,10 @@ end
 
 group :development, :test do
   gem "byebug"                                  # debugger
+  gem "capistrano"
+  gem "capistrano-bundler"
+  gem "capistrano-passenger"
+  gem "capistrano-rails"
   gem "dotenv-rails"                            # loads environment from .env file in development mode
   gem "foreman"                                 # Procfile-based app manager
   gem "immigrant"                               # detect foreign keys and generate migrations to create constraints
