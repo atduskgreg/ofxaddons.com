@@ -1,9 +1,9 @@
 # config valid only for current version of Capistrano
 lock '3.4.0'
 
-server '104.130.78.26', port: 22, roles: [:web, :app, :db], primary: true
+server 'deploy@104.130.78.26', port: 22, roles: [:web, :app, :db], primary: true
 
-set :repo_url,      'git@example.com:atduskgreg/ofxaddons.com.git'
+set :repo_url,      'https://github.com/atduskgreg/ofxaddons.com.git'
 set :application,   'ofxaddons.com'
 set :user,          'deploy'
 
@@ -11,7 +11,7 @@ set :pty,            true
 set :use_sudo,       false
 set :stage,          :production
 set :deploy_via,     :remote_cache
-set :deploy_to,      "/home/#{fetch(:user)}/apps/#{fetch(:application)}"
+set :deploy_to,      "/home/#{fetch(:user)}/#{fetch(:application)}"
 
 namespace :deploy do
   desc "Make sure local git is in sync with remote."
@@ -28,15 +28,8 @@ namespace :deploy do
   desc 'Initial Deploy'
   task :initial do
     on roles(:app) do
-      before 'deploy:restart', 'puma:start'
+      before 'deploy:restart'
       invoke 'deploy'
-    end
-  end
-
-  desc 'Restart application'
-  task :restart do
-    on roles(:app), in: :sequence, wait: 5 do
-      invoke 'puma:restart'
     end
   end
 

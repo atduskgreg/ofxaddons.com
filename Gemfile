@@ -16,6 +16,7 @@ group :production do
   gem "rack-cache", require: "rack/cache"       # reverse-proxy http cache
   #gem "redis-rack-cache"
   # gem "rails_12factor"                          # heroku-specific stack mods
+  gem "unicorn"                                 # Rack HTTP server
 end
 
 group :assets, :development, :test do
@@ -38,7 +39,7 @@ group :development, :test do
   gem "byebug"                                  # debugger
   gem "capistrano"
   gem "capistrano-bundler"
-  gem "capistrano-passenger"
+  gem "capistrano-unicorn-nginx"
   gem "capistrano-rails"
   gem "dotenv-rails"                            # loads environment from .env file in development mode
   gem "foreman"                                 # Procfile-based app manager

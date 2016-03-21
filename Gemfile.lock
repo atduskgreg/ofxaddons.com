@@ -63,11 +63,12 @@ GEM
     capistrano-bundler (1.1.4)
       capistrano (~> 3.1)
       sshkit (~> 1.2)
-    capistrano-passenger (0.2.0)
-      capistrano (~> 3.0)
     capistrano-rails (1.1.6)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
+    capistrano-unicorn-nginx (3.4.0)
+      capistrano (>= 3.1)
+      sshkit (>= 1.2.0)
     coffee-rails (4.1.1)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.1.x)
@@ -239,8 +240,8 @@ DEPENDENCIES
   byebug
   capistrano
   capistrano-bundler
-  capistrano-passenger
   capistrano-rails
+  capistrano-unicorn-nginx
   coffee-rails
   colorize
   dotenv-rails

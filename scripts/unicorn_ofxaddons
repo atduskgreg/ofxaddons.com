@@ -17,7 +17,7 @@ USAGE="Usage: $0 <start|stop|restart|upgrade|rotate|force-stop>"
 # app settings
 USER="deploy"
 APP_NAME="ofxaddons.com"
-APP_ROOT="/home/$USER/apps/$APP_NAME"
+APP_ROOT="/home/$USER/$APP_NAME/current"
 ENV="production"
 
 # environment settings
@@ -39,31 +39,31 @@ oldsig () {
 
 case $1 in
     start)
-	sig 0 && echo >&2 "Already running" && exit 0
+    sig 0 && echo >&2 "Already running" && exit 0
         echo "Starting $APP_NAME"
-	su - $USER -c "$CMD"
-	;;
+    su - $USER -c "$CMD"
+    ;;
     stop)
-	echo "Stopping $APP_NAME"
-	sig QUIT && exit 0
-	echo >&2 "Not running"
-	;;
+    echo "Stopping $APP_NAME"
+    sig QUIT && exit 0
+    echo >&2 "Not running"
+    ;;
     force-stop)
-	echo "Force stopping $APP_NAME"
-	sig TERM && exit 0
-	echo >&2 "Not running"
-	;;
+    echo "Force stopping $APP_NAME"
+    sig TERM && exit 0
+    echo >&2 "Not running"
+    ;;
     restart|reload|upgrade)
-	sig USR2 && echo "reloaded $APP_NAME" && exit 0
-	echo >&2 "Couldn't reload, starting '$CMD' instead"
-	$CMD
-	;;
+    sig USR2 && echo "reloaded $APP_NAME" && exit 0
+    echo >&2 "Couldn't reload, starting '$CMD' instead"
+    $CMD
+    ;;
     rotate)
-	sig USR1 && echo rotated logs OK && exit 0
-	echo >&2 "Couldn't rotate logs" && exit 1
-	;;
+    sig USR1 && echo rotated logs OK && exit 0
+    echo >&2 "Couldn't rotate logs" && exit 1
+    ;;
     *)
-	echo >&2 $USAGE
-	exit 1
-	;;
+    echo >&2 $USAGE
+    exit 1
+    ;;
 esac
