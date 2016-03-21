@@ -13,7 +13,7 @@ gem "slim"                                      # HTML template language
 
 group :production do
   # gem "newrelic_rpm"                            # performance monitoring
-  gem "rack-cache", require: "rack/cache"       # reverse-proxy http cache
+  # gem "rack-cache", require: "rack/cache"       # reverse-proxy http cache
   #gem "redis-rack-cache"
   # gem "rails_12factor"                          # heroku-specific stack mods
   gem "unicorn"                                 # Rack HTTP server
