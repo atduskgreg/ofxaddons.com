@@ -15,5 +15,3 @@ test:
 production:
   <<: *default
   database: ofxaddons
-  username: ofxaddons
-  password: <%= ENV['APPNAME_DATABASE_PASSWORD'] %>

@@ -13,7 +13,7 @@ set :stage,          :production
 set :deploy_via,     :remote_cache
 set :deploy_to,      "/home/#{fetch(:user)}/#{fetch(:application)}"
 
-set :linked_files,   %w{config/database.yml}
+set :linked_files,   %w{config/database.yml, config/secrets.yml}
 
 namespace :deploy do
   desc "Make sure local git is in sync with remote."
