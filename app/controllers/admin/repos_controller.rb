@@ -18,7 +18,7 @@ class Admin::ReposController < Admin::ApplicationController
              Unsorted
            end
 
-    @repos = type.order('repos.stargazers_count DESC, repos.example_count DESC, repos.pushed_at DESC, lower(repos.name) ASC')
+    @repos = type.order('repos.pushed_at DESC, repos.stargazers_count DESC, repos.example_count DESC, lower(repos.name) ASC')
 
     # collections array of categories for generating the categories modal form
     @categories = Category.order("lower(categories.name) ASC").all.map {|c| [c.name, c.id]}
