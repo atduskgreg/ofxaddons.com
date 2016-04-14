@@ -10,6 +10,7 @@ gem "pg"                                        # database driver
 gem "redis-rails"                               # cache store
 gem "simple_form"                               # form builder
 gem "slim"                                      # HTML template language
+gem "whenever"                                  # cron job support
 
 group :production do
   # gem "newrelic_rpm"                            # performance monitoring

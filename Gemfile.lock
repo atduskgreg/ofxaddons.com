@@ -69,6 +69,7 @@ GEM
     capistrano-unicorn-nginx (3.4.0)
       capistrano (>= 3.1)
       sshkit (>= 1.2.0)
+    chronic (0.10.2)
     coffee-rails (4.1.1)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.1.x)
@@ -230,6 +231,8 @@ GEM
       binding_of_caller (>= 0.7.2)
       railties (>= 4.0)
       sprockets-rails (>= 2.0, < 4.0)
+    whenever (0.9.4)
+      chronic (>= 0.6.3)
     yaml_db (0.3.0)
       rails (>= 3.0, < 4.3)
       rake (>= 0.8.7)
@@ -269,6 +272,7 @@ DEPENDENCIES
   uglifier (>= 1.3.0)
   unicorn
   web-console (~> 2.0)
+  whenever
   yaml_db
 
 BUNDLED WITH

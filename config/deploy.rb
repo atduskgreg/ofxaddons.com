@@ -16,6 +16,8 @@ set :deploy_to,      "/home/#{fetch(:user)}/#{fetch(:application)}"
 set :linked_files, fetch(:linked_files, []).push('config/database.yml')
 set :linked_files, fetch(:linked_files, []).push('config/secrets.yml')
 
+set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
+
 namespace :deploy do
   desc "Make sure local git is in sync with remote."
   task :check_revision do
