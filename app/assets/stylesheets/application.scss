@@ -53,7 +53,11 @@ h1, h2, h3, nav {
 }
 
 .sidebar .affixed {
-  position: fixed;
+  margin-bottom: 15px;
+
+  @media (min-width: 992px) {
+    position: fixed;
+  }
 
   h4:first-child {
     margin-top: 0;
