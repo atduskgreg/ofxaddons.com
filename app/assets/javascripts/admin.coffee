@@ -9,28 +9,35 @@ $ ->
   # Admin unsorted repos
   #
 
-  $(".js-data-table").DataTable({
-    "pageLength": 50
-  })
-
   # prompt for addons categorization
-  $(".js-categorize").click (e) ->
-    $form    = $("form#new_repo")
-    url_base = $form.data("url-base")
-    repo_id  = $(e.currentTarget).data("repo-id")
+  bindCategorizationModal = ->
+    $(".js-categorize").click (e) ->
+      $form    = $("form#new_repo")
+      url_base = $form.data("url-base")
+      repo_id  = $(e.currentTarget).data("repo-id")
 
-    # fix up the form properties so they look like you'd expect for editing a repo
-    $form.prop("action", "#{ url_base }/#{ repo_id }")
-    $form.removeClass("new_repo")
-    $form.addClass("edit_repo")
-    $("#repo_type").val("Addon")
+      # fix up the form properties so they look like you'd expect for editing a repo
+      $form.prop("action", "#{ url_base }/#{ repo_id }")
+      $form.removeClass("new_repo")
+      $form.addClass("edit_repo")
+      $("#repo_type").val("Addon")
 
-    # uncheck everything
-    $form.find(".check_boxes").prop("checked", false)
+      # uncheck everything
+      $form.find(".check_boxes").prop("checked", false)
 
-    $("#repo_id").val(repo_id)
-    $("#categorize_modal").modal("show")
-    false
+      $("#repo_id").val(repo_id)
+      $("#categorize_modal").modal("show")
+      false
+
+  bindCategorizationModal()
+
+  $(".js-data-table")
+    # configure sortable/searchable tables
+    .DataTable ->
+      "pageLength": 50
+    # re-bind the click events for categorization buttons when the table is redrawn
+    .on 'draw.dt', ->
+      bindCategorizationModal()
 
   #
   # handle AJAX responses
