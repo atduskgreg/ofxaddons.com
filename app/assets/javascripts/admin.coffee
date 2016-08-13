@@ -33,7 +33,10 @@ $ ->
 
   $(".js-data-table")
     # configure sortable/searchable tables
-    .DataTable({ "pageLength": 50 })
+    .DataTable({
+      "pageLength": 50,
+      "order": []
+    })
 
     # re-bind the click events for categorization buttons when the table is redrawn
     .on 'draw.dt', ->
