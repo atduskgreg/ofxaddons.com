@@ -1,6 +1,7 @@
 class Repo < ActiveRecord::Base
 
-  REPO_TYPES = %w(addon deleted empty incomplete non_addon unsorted repo)
+  REPO_TYPES = %w(addon deleted empty incomplete non_addon repo unsorted)
+  SORT_ATTRS = %w(description example_count full_name has_makefile name pushed_at stargazers_count)
 
   has_many :categories, -> { uniq }, through: :categorizations do
     def cache_key

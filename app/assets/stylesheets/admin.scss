@@ -1,0 +1,17 @@
+@import "application";
+@import "dataTables.bootstrap";
+
+#admin_repos_index {
+  table.repos {
+    td {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    td, th {
+      &.actions {
+        width: 11.5em;
+      }
+    }
+  }
+}

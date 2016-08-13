@@ -1,4 +1,4 @@
-table.table.table-bordered.table-condensed.table-hover.repos
+table.table.table-bordered.table-striped.repos.js-data-table
   thead
     tr
       th.repo-type
@@ -22,9 +22,9 @@ table.table.table-bordered.table-condensed.table-hover.repos
       th.makefile
         div
           span Makefile
-      th.description
-        div
-          span Description
+      / th.description
+      /   div
+      /     span Description
       th.actions
         div
           span Set Type
@@ -51,3 +51,4 @@ table.table.table-bordered.table-condensed.table-hover.repos
           button type="button" class="btn btn-default" data-dismiss="modal"
             | Close
           = f.button(:submit, "Save")
+

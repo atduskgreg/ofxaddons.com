@@ -7,10 +7,9 @@ html lang="en"
     title
       = content_for(:title) || "ofxaddons.com"
     link href="http://fonts.googleapis.com/css?family=Questrial" rel="stylesheet" type="text/css"
-    = stylesheet_link_tag('application', media: 'all')
-    = javascript_include_tag('application')
+    = stylesheet_link_tag('admin', media: 'all')
+    = javascript_include_tag('admin')
     = csrf_meta_tags
-    = yield(:head)
     
     / HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries
     / WARNING: Respond.js doesn't work if you view the page via file://
@@ -53,16 +52,10 @@ html lang="en"
               = icon("github")
               | &nbsp;login
 
-    .container
+    .container-fluid
       .row
-        .sidebar.col-md-2
-          .affixed
-            = yield(:sidebar)
-
-        .col-md-10
+        .col-md-12
           = flash_messages
-          .well
-            | ofxAddons is directory of extensions and libraries for the #{ link_to("openFrameworks", "http://openframeworks.cc") } creative coding toolkit. Compiled fresh from #{ link_to("Github", "http://github.com") } daily.
           = content_for?(:content) ? yield(:content) : yield
 
     = yield(:script)

@@ -129,67 +129,67 @@ a[name]:before {
   }
 }
 
-#admin_repos_index {
-  table.repos {
-    table-layout: fixed;
-    thead,
-    thead tr,
-    thead th {
-      border-top: 1px solid white;
-      border-left: 1px solid white;
-      border-right: 1px solid white;
-    }
+// #admin_repos_index {
+//   table.repos {
+//     table-layout: fixed;
+//     thead,
+//     thead tr,
+//     thead th {
+//       border-top: 1px solid white;
+//       border-left: 1px solid white;
+//       border-right: 1px solid white;
+//     }
 
-    th {
-      white-space: nowrap;
-      height: 86px;
-      position: relative;
+//     th {
+//       white-space: nowrap;
+//       height: 86px;
+//       position: relative;
 
-      & > div {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        transform: translate(-12px, -24px) rotate(315deg);
-        width: 104px;
-        & > span {
-          display: block;
-          padding: 0 0 0 16px;
-          border-top: 1px solid #ccc;
-          line-height: 1em;
-          font-size: small;
-        }
-      }
-    }
-    td {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    td, th {
-      &.repo-type {
-        width: 5.75em;
-      }
+//       & > div {
+//         position: absolute;
+//         bottom: 0;
+//         left: 0;
+//         transform: translate(-12px, -24px) rotate(315deg);
+//         width: 104px;
+//         & > span {
+//           display: block;
+//           padding: 0 0 0 16px;
+//           border-top: 1px solid #ccc;
+//           line-height: 1em;
+//           font-size: small;
+//         }
+//       }
+//     }
+//     td {
+//       white-space: nowrap;
+//       overflow: hidden;
+//       text-overflow: ellipsis;
+//     }
+//     td, th {
+//       &.repo-type {
+//         width: 5.75em;
+//       }
 
-      &.repo-name,
-      &.pushed-at,
-      &.maintainer {
-        width: 10em;
-      }
+//       &.repo-name,
+//       &.pushed-at,
+//       &.maintainer {
+//         width: 10em;
+//       }
 
-      &.stargazers-count,
-      &.example-count,
-      &.makefile {
-        width: 1.5em;
-        white-space: nowrap;
-      }
+//       &.stargazers-count,
+//       &.example-count,
+//       &.makefile {
+//         width: 1.5em;
+//         white-space: nowrap;
+//       }
 
-      &.description {
-        min-width: 400px;
-      }
+//       &.description {
+//         min-width: 400px;
+//       }
 
-      &.actions {
-        width: 17.5em;
-      }
-    }
-  }
-}
+//       &.actions {
+//         width: 17.5em;
+//       }
+//     }
+//   }
+// }

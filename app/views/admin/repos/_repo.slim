@@ -11,18 +11,18 @@
           = u.to_s
     - else
       td.maintainer data-container="body" data-toggle="tooltip" title=""
-    td.pushed-at
+    td.pushed-at data-order=r.pushed_at('%s')
       abbr.timeago title=r.pushed_at('%Y-%m-%dT%H:%M:%S%z')
         = r.pushed_at("%m/%e/%y")
     td.stargazers-count
       = r.stargazers_count
     td.example-count
       = r.example_count
-    td.makefile
+    td.makefile data-search=r.has_makefile
       - if r.makefile?
         = icon("file")
-    td.description data-container="body" data-toggle="tooltip" title="#{r.description}"
-        = r.description
+    / td.description data-container="body" data-toggle="tooltip" title="#{r.description}"
+    /     = r.description
     td.actions
       / this link gets intercepted in application.coffee and it's patch info is injected into the modal for submission
       = link_to("addon", admin_repo_path(repo, type: :addon), data: { repo_id: r.id }, class: 'js-categorize btn btn-xs btn-default')
