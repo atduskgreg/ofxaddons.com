@@ -1,8 +1,7 @@
 - present(repo) do |r|
   tr id="tr_repo_id_#{r.id}"
-    td.repo-type
-      .label.label-info.invisible
-        = r.type.titleize
+    td.repo-type data-type=r.type.downcase
+      = r.type.titleize
     td.repo-name data-container="body" data-toggle="tooltip" title="#{r.name}"
       = link_to(r.name, r.github_url)
     - if r.user

@@ -15,10 +15,10 @@ class Admin::ReposController < Admin::ApplicationController
            when "non_addon"
              NonAddon
            else
-             Unsorted
+             [Unsorted, Incomplete]
            end
 
-    @repos = type.order('repos.pushed_at DESC')
+    @repos = Repo.where(type: type).order('repos.pushed_at DESC')
 
     # collections array of categories for generating the categories modal form
     @categories = Category.order("lower(categories.name) ASC").all.map {|c| [c.name, c.id]}

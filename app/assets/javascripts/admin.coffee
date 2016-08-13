@@ -38,6 +38,7 @@ $ ->
     # re-bind the click events for categorization buttons when the table is redrawn
     .on 'draw.dt', ->
       bindCategorizationModal()
+      colorCodeTypes()
 
   #
   # handle AJAX responses
@@ -49,6 +50,18 @@ $ ->
       errors += error + "\n"
     alert(errors)
 
+  colorCodeTypes = ->
+    $("td.repo-type").each ->
+      e = $(@)
+      e.css("color", "white")
+      switch e.data("type")
+        when "addon"      then e.css("background-color", "#5cb85c")
+        when "deleted"    then e.css("background-color", "#d9534f")
+        when "incomplete" then e.css("background-color", "#f0ad4e")
+        when "nonaddon"   then e.css("background-color", "#d9534f")
+        else e.css("background-color", "#777")
+
+  colorCodeTypes()
 
   $("a[data-remote], form[data-remote]").on "ajax:success", (e, data, status, xhr) ->
     # handle things on the admin repos page
@@ -58,7 +71,8 @@ $ ->
           if data.action == "update"
             repo_id = data.repo.id
             $("#tr_repo_id_#{ repo_id }")
-              .find(".repo-type .label")
+              .find(".repo-type")
               .text(data.repo.type_title)
-              .removeClass("invisible")
+              .data("type", data.repo.type.toLowerCase())
             $("#categorize_modal").modal("hide")
+            colorCodeTypes()
