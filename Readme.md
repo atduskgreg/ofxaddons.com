@@ -6,10 +6,9 @@ The central place to discover openFrameworks addons.
 
 ### Prerequisites
 
-1. Ruby 2.2.1
+1. Ruby 2.3.3
 1. [Bundler](bundler.io)
 1. PostgreSQL 9.x (recommend using [homebrew](http://brew.sh/) or [mac ports](http://www.macports.org/) to install)
-1. [Heroku Toolbelt](https://toolbelt.heroku.com/)
 
 ### Setup
 
@@ -27,21 +26,11 @@ The central place to discover openFrameworks addons.
 
 1. Set up the database.
 
-    You have two basic options: start with an empty database, or grab a backup from heroku.
+    You have two basic options: start with an empty database, or grab a backup.
 
     #### Start with an empty database
 
         $ rake db:setup
-
-    #### Copy the production database to your local machine
-
-      This option is only available if you have access to the Heroku production server.
-
-      **WARNING**: the database `ofxaddons` will be overwritten!
-
-        $ heroku login
-
-        $ rake heroku:production:db:pull
 
 1. Create a dotenv file:
 
@@ -56,9 +45,9 @@ The central place to discover openFrameworks addons.
 
 1. Launch the server:
 
-        $ foreman start
+        $ bundle exec unicorn
 
-    You should now be able to navigate to load the web site at http://localhost:5000
+    You should now be able to navigate to load the web site at http://localhost:3000
 
 ### Crawling
 

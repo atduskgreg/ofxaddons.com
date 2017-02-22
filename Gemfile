@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 ruby "2.3.3"
 
-gem "rails", "~>4.2.7"
+gem "rails", "~>4.2.8"
 gem "font-awesome-sass"                         # font icons
 gem "high_voltage"                              # serving static pages (wrapped in the layout)
 gem "lograge"                                   # denser application logs
@@ -10,11 +10,9 @@ gem "pg"                                        # database driver
 gem "redis-rails"                               # cache store
 gem "simple_form"                               # form builder
 gem "slim"                                      # HTML template language
+gem "unicorn"                                   # Rack HTTP server
 gem "whenever"                                  # cron job support
 
-group :production do
-  gem "unicorn"                                 # Rack HTTP server
-end
 
 group :assets, :development, :test do
   gem "autoprefixer-rails"                      # automatic vendor-specific CSS prefixing
