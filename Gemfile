@@ -1,7 +1,7 @@
 source "https://rubygems.org"
-ruby "2.2.4"
+ruby "2.3.3"
 
-gem "rails", "~>4.2.4"
+gem "rails", "~>4.2.7"
 gem "font-awesome-sass"                         # font icons
 gem "high_voltage"                              # serving static pages (wrapped in the layout)
 gem "lograge"                                   # denser application logs
@@ -13,10 +13,6 @@ gem "slim"                                      # HTML template language
 gem "whenever"                                  # cron job support
 
 group :production do
-  # gem "newrelic_rpm"                            # performance monitoring
-  # gem "rack-cache", require: "rack/cache"       # reverse-proxy http cache
-  #gem "redis-rack-cache"
-  # gem "rails_12factor"                          # heroku-specific stack mods
   gem "unicorn"                                 # Rack HTTP server
 end
 
@@ -43,9 +39,8 @@ group :development, :test do
   gem "capistrano-unicorn-nginx"
   gem "capistrano-rails"
   gem "dotenv-rails"                            # loads environment from .env file in development mode
-  gem "foreman"                                 # Procfile-based app manager
   gem "immigrant"                               # detect foreign keys and generate migrations to create constraints
-  gem "quiet_assets"                              # strip out all the asset serving noise from logs
+  gem "quiet_assets"                            # strip out all the asset serving noise from logs
   gem "spring"                                  # rails preloader
   gem "web-console", '~> 2.0'
   gem "yaml_db"                                 # db data dump to YAML
