@@ -261,7 +261,7 @@ DEPENDENCIES
   lograge
   nokogiri
   omniauth-github!
-  pg
+  pg (~> 0.15)
   quiet_assets
   rails (~> 4.2.4)
   redis-rails
@@ -276,4 +276,4 @@ DEPENDENCIES
   yaml_db
 
 BUNDLED WITH
-   1.11.2
+   1.16.1

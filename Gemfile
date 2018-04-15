@@ -1,12 +1,13 @@
 source "https://rubygems.org"
-ruby "2.2.4"
+
+ruby ">=2.2.4"
 
 gem "rails", "~>4.2.4"
 gem "font-awesome-sass"                         # font icons
 gem "high_voltage"                              # serving static pages (wrapped in the layout)
 gem "lograge"                                   # denser application logs
 gem "omniauth-github", github: "intridea/omniauth-github"
-gem "pg"                                        # database driver
+gem "pg", "~>0.15"                              # database driver
 gem "redis-rails"                               # cache store
 gem "simple_form"                               # form builder
 gem "slim"                                      # HTML template language
