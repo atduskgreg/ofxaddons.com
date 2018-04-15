@@ -88,9 +88,11 @@ Further reading on [using foreman for config vars](https://devcenter.heroku.com/
 
 Crawling and updating is run through the script runner:
 
-    $ rails r 'Importer.run'
+    $ ./bin/rails r 'Importer.new.run'
 
-The importer currently logs into the rails log for whatever env you're running (e.g. log/devlopment.log)
+The importer currently logs into the rails log for whatever env you're running, which you can watch with:
+
+    $ tail -f log/development.log
 
 ##### Caching
 
