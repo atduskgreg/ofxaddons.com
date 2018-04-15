@@ -5,6 +5,7 @@ ul
   li = link_to("Should I turn my OF thing into an addon?", "#should_i")
   li = link_to("How do I make an OF addon?", "#make")
   li = link_to("Is my addon done yet?", "#is_done")
+  li = link_to("How can I add continuous integration test to my addon?", "#ci")
   li = link_to("How do I add a thumbnail for this site?", "#add_thumbnail")
   li = link_to("How do I submit my addon to this page?", "#submit")
   li = link_to("How do you find all these addons?", "#how_find")
@@ -215,6 +216,48 @@ ul
     | Are you clear about how your addon is licensed? Be straightforward if you
       don't want people to use it commercially. Also make sure that your
       dependent libraries have licenses that you are respecting.
+
+h2 = content_tag(:a, "How can I add continuous integration test to my addon?", name: "ci")
+
+p Adding continuous integration testing (aka CI) to your addon allow people to know if the addon is working with the last stable version and with the last master branch of opneFrameworks.
+p To ad CI, you need to:
+
+ul
+  li
+    | create an account on to #{ link_to("travis", "https://travis-ci.org")} and to #{ link_to("appveyor", "https://ci.appveyor.com")} using your github account and enable the tests for this repository there.
+  li
+    | add the file #{ link_to(".travis.yml", "https://github.com/openframeworks/ofxAddonTemplate/blob/master/.travis.yml")} and #{ link_to(".appveyor.yml", "https://github.com/openframeworks/ofxAddonTemplate/blob/master/.appveyor.yml")}
+
+p From there on any commit will test that addon for every supported platform against both master and stable branches of OF.
+p Once your addon tests are working you can add a badge to your readme files so people using your addon can see the build status.
+
+p For travis you can just copy and paste the following markdown, changing "ofxAruco" with the name of your addon and changing the URL with that one of your addon:
+
+pre
+  | [![Build status](https://travis-ci.org/arturoc/ofxAruco.svg?branch=master)](https://travis-ci.org/arturoc/ofxAruco)
+
+p which will look like: #{ image_tag("travis-badge.png") }
+
+p For appveyor you can find the badge code at https://ci.appveyor.com/project/your-username/name-of-your-addon/settings/badges
+
+p If your addon as another addons as dependency, for example, ofxCV, you need to add this dependency to the .travis.yml file, in the install section
+
+pre 
+  | install: 
+      - cd ~
+      - git clone --depth=1 --branch=$OF_BRANCH https://github.com/openframeworks/openFrameworks
+      - cd openFrameworks
+      - scripts/ci/addons/install.sh
+      - git clone --branch=master https://github.com/kylemcdonald/ofxCv addons/ofxCv
+
+p And you also need to edit the .appveyor with a slightly different syntax
+
+pre
+  | install:
+    - cd ..
+    - git clone --depth=1 --branch=master https://github.com/openframeworks/openFrameworks
+    - git clone --depth=1 --branch=master https://github.com/kylemcdonald/ofxCv openframeworks/addons/ofxCv
+    - call openFrameworks\scripts\ci\addons\install.cmd
 
 h2 = content_tag(:a, "How do I submit my addon to this page?", name: "submit")
 
