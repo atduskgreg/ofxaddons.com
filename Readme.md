@@ -58,7 +58,7 @@ API keys are strictly optional. If you don't use them, the app will run fine, bu
 
 Once you've got your API keys, there are several ways to set up your environment, but here's one way using Foreman.
 
-1. Create a `.env` file in the repository root
+1. If needed, create a `.env` file in the repository root
 
         $ touch .env
 
@@ -79,7 +79,9 @@ Crawling and updating is run through the script runner:
 
     $ rails r 'Importer.run'
 
-The importer currently logs into the rails log for whatever env you're running (e.g. log/devlopment.log)
+The importer currently logs into the rails log for whatever env you're running (e.g. log/devlopment.log). A simple way to monitor is to tail the log file:
+
+    $ tail -f log/development.log
 
 ##### Caching
 

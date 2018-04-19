@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 ruby "2.3.3"
 
-gem "rails", "~>4.2.8"
+gem "rails", "~>4.2.10"
 gem "font-awesome-sass"                         # font icons
 gem "high_voltage"                              # serving static pages (wrapped in the layout)
 gem "lograge"                                   # denser application logs
