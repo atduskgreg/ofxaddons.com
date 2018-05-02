@@ -6,7 +6,7 @@ The central place to discover openFrameworks addons.
 
 ### Prerequisites
 
-1. Ruby 2.3.3
+1. Ruby 2.4.4
 1. [Bundler](bundler.io)
 1. PostgreSQL 9.x (recommend using [homebrew](http://brew.sh/) or [mac ports](http://www.macports.org/) to install)
 
@@ -77,7 +77,7 @@ Further reading on [using foreman for config vars](https://devcenter.heroku.com/
 
 Crawling and updating is run through the script runner:
 
-    $ rails r 'Importer.run'
+    $ rails r 'Importer.new.run'
 
 The importer currently logs into the rails log for whatever env you're running (e.g. log/devlopment.log). A simple way to monitor is to tail the log file:
 
@@ -89,6 +89,6 @@ By default the importer uses caching in the development environment. This helps 
 
 You can force caching behaiour by passing an options hash to run:
 
-    $ rails r 'Importer.run(cache: false)'
+    $ rails r 'Importer.new.run(cache: false)'
 
 If you pass `cache: true`, the importer will use cached responses from the github API (if available).

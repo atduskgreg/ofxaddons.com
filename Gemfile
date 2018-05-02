@@ -1,18 +1,16 @@
 source "https://rubygems.org"
-ruby "2.3.3"
+ruby "2.4.4"
 
 gem "rails", "~>4.2.10"
 gem "font-awesome-sass"                         # font icons
 gem "high_voltage"                              # serving static pages (wrapped in the layout)
 gem "lograge"                                   # denser application logs
 gem "omniauth-github", github: "intridea/omniauth-github"
-gem "pg"                                        # database driver
+gem "pg", "~>0.15"                              # database driver
 gem "redis-rails"                               # cache store
 gem "simple_form"                               # form builder
 gem "slim"                                      # HTML template language
-gem "unicorn"                                   # Rack HTTP server
 gem "whenever"                                  # cron job support
-
 
 group :assets, :development, :test do
   gem "autoprefixer-rails"                      # automatic vendor-specific CSS prefixing
@@ -34,8 +32,9 @@ group :development, :test do
   gem "byebug"                                  # debugger
   gem "capistrano"
   gem "capistrano-bundler"
-  gem "capistrano-unicorn-nginx"
+  gem "capistrano-passenger"
   gem "capistrano-rails"
+  gem "capistrano-rbenv"
   gem "dotenv-rails"                            # loads environment from .env file in development mode
   gem "immigrant"                               # detect foreign keys and generate migrations to create constraints
   gem "quiet_assets"                            # strip out all the asset serving noise from logs
