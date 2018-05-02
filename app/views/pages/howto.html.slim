@@ -220,7 +220,7 @@ ul
 h2 = content_tag(:a, "How can I add continuous integration test to my addon?", name: "ci")
 
 p Adding continuous integration testing (aka CI) to your addon allow people to know if the addon is working with the last stable version and with the last master branch of opneFrameworks.
-p To ad CI, you need to:
+p To add CI, you need to:
 
 ul
   li
@@ -240,7 +240,7 @@ p which will look like: #{ image_tag("travis-badge.png") }
 
 p For appveyor you can find the badge code at https://ci.appveyor.com/project/your-username/name-of-your-addon/settings/badges
 
-p If your addon as another addon as dependency, for example, ofxCV, you need to add this dependency to the .travis.yml file, in the install section
+p If your addon has another addon as dependency, for example, ofxCV, you need to add this dependency to the .travis.yml file, in the install section
 
 pre 
   | install: 
@@ -250,7 +250,7 @@ pre
       - scripts/ci/addons/install.sh
       - git clone --branch=master https://github.com/kylemcdonald/ofxCv addons/ofxCv
 
-p And you also need to edit the .appveyor with a slightly different syntax
+p You also need to edit the .appveyor with a slightly different syntax
 
 pre
   | install:
