@@ -48,7 +48,7 @@ GEM
     arel (6.0.4)
     autoprefixer-rails (6.5.3.1)
       execjs
-    awesome_print (1.7.0)
+    awesome_print (1.8.0)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     bootstrap-sass (3.3.7)
