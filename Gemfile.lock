@@ -81,7 +81,7 @@ GEM
       execjs
     coffee-script-source (1.11.1)
     colorize (0.8.1)
-    concurrent-ruby (1.0.5)
+    concurrent-ruby (1.1.5)
     crass (1.0.6)
     debug_inspector (0.0.2)
     dotenv (2.1.1)
@@ -214,7 +214,7 @@ GEM
       tilt (>= 1.3.3, < 2.1)
     spring (2.0.0)
       activesupport (>= 4.2)
-    sprockets (3.7.1)
+    sprockets (3.7.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
     sprockets-rails (3.2.1)
