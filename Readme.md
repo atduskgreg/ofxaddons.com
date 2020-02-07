@@ -7,7 +7,7 @@ The central place to discover openFrameworks addons.
 ### Prerequisites
 
 1. Ruby 2.4.4
-1. [Bundler](bundler.io)
+1. [Bundler](bundler.io) < 2.0
 1. PostgreSQL 9.x (recommend using [homebrew](http://brew.sh/) or [mac ports](http://www.macports.org/) to install)
 
 ### Setup
