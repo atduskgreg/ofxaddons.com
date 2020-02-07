@@ -28,17 +28,12 @@
         abbr.timeago title=r.pushed_at('%Y-%m-%dT%H:%M:%S%z')
           = r.pushed_at("%m/%e/%y")
 
-      - if r.respond_to?(:release)
-        .release-info
-          ' Release?
-          = r.release
-
       .stargazers-count
-        = icon("star", r.stargazers_count, class: 'stargazers-count')
+        = icon("fas", "star", r.stargazers_count, class: 'stargazers-count')
 
       - if r.makefile?
         .has-makefile
-          = icon("file", "Makefile", class: 'has-makefile')
+          = icon("fas", "file", "Makefile", class: 'has-makefile')
 
       - if r.examples?
         .example-count
