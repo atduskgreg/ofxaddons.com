@@ -25,7 +25,7 @@ group :bin do
   gem "awesome_print"                                               # pretty print ruby objects
   gem "colorize"                                                    # colorized console output
   gem "httparty", "~>0.14.0"                                        # http connection library
-  gem "nokogiri", "~>1.10.0"                                        # used for scraping readme files
+  gem "nokogiri", "~>1.10.8"                                       # used for scraping readme files
 end
 
 group :development, :test do
