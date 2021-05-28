@@ -5,7 +5,9 @@ gem "rails", "~>4.2.10"
 gem "font-awesome-sass"                                             # font icons
 gem "high_voltage", "~>3.0"                                         # serving static pages (wrapped in the layout)
 gem "lograge", "~>0.4"                                              # denser application logs
-gem "omniauth-github", "~>1.3", github: "intridea/omniauth-github"  # github login
+gem 'omniauth-github', "~>1.3",                                     # github login
+    git: 'https://github.com/omniauth/omniauth-github',
+    tag: 'v1.3.0'
 gem "pg", "~>0.21"                                                  # database driver
 gem "redis-rails", "~>5.0"                                          # cache store
 gem "simple_form", "~>3.3"                                          # form builder
